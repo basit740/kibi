@@ -1,0 +1,32 @@
+{
+	"name": "quickbooks-widget-server",
+	"version": "1.0.0",
+	"description": "The server implementation of quickbooks-widget with nodejs, expressjs and mongodb.",
+	"main": "server.js",
+	"scripts": {
+		"dev": "nodemon server.js",
+		"start": "node server.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/basit740/quickbooks-widget.git"
+	},
+	"keywords": [
+		"quickbooks",
+		"integrations",
+		"mern stack app"
+	],
+	"author": "Basit Ali",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/basit740/quickbooks-widget/issues"
+	},
+	"homepage": "https://github.com/basit740/quickbooks-widget#readme",
+	"dependencies": {
+		"colors": "^1.4.0",
+		"cors": "^2.8.5",
+		"dotenv": "^16.0.3",
+		"express": "^4.18.2",
+		"mongoose": "^7.1.1"
+	}
+}
