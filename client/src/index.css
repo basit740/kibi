@@ -1,13 +1,53 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* FONTS */
+
+:root {
+	/* --primary-color: #219ebc; */
+	--primary-color: #023047;
+	--secondary-color: #219ebc;
+	--text-color: #ddd;
+	--text-color-black--100: #292d32;
+	--text-color-black-70: #6a6c70;
+	--text-color-black-90: #3f4247;
+	--text-color-black-60: #7f8184;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@font-face {
+	font-family: 'Gotham';
+	src: url('./assets/fonts/Gotham-Light.otf') format('truetype');
+	/* Add additional src lines if you have multiple font file formats */
+}
+
+@font-face {
+	font-family: 'Gotham';
+	src: url('./assets/fonts/Gotham-Bold.otf') format('truetype');
+	/* Add additional src lines if you have multiple font file formats */
+}
+
+@font-face {
+	font-family: 'Gotham';
+	src: url('./assets/fonts/Gotham-Book.otf') format('truetype');
+	/* Add additional src lines if you have multiple font file formats */
+}
+
+@font-face {
+	font-family: 'Gotham';
+	src: url('./assets/fonts/Gotham-Medium.otf') format('truetype');
+	/* Add additional src lines if you have multiple font file formats */
+}
+
+html {
+	font-size: 62.5%;
+}
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box !important;
+	font-family: inherit !important;
+}
+
+body {
+	/* font-family: 'Gotham', serif !important; */
+
+	font-style: normal;
+	font-family: 'Poppins' serif;
 }

@@ -1,11 +1,12 @@
-import './App.css';
+import { Routes, Route } from 'react-router-dom';
+
+import LandingPage from './LandingPage/Index';
 
 function App() {
 	return (
-		<>
-			<h1>Quickbooks Widget</h1>
-			<p>quickbooks widget to help to your quickbooks ledger</p>
-		</>
+		<Routes>
+			<Route path='/' element={<LandingPage />}></Route>
+		</Routes>
 	);
 }
 

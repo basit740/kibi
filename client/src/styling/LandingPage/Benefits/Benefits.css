@@ -1,0 +1,38 @@
+.section-benefits {
+	background: rgba(0, 206, 255, 0.1);
+	padding: 7rem 0;
+	font-family: 'Poppins' !important;
+}
+
+.section-benefits__content {
+	max-width: 1032px;
+	margin: 0 auto;
+}
+.benefits__title {
+	text-align: center;
+	color: var(--primary-color);
+	font-family: 'Gotham' !important;
+	font-weight: bold;
+	font-size: 40px;
+	line-height: 150%;
+	margin-bottom: 1.6rem;
+}
+.benefits__description {
+	text-align: center;
+	font-size: 1.6rem;
+	line-height: 160%;
+	max-width: 645px;
+	margin: 0 auto;
+	color: var(--text-color-black-70);
+	margin-bottom: 3rem;
+}
+.benefits__container {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+}
+.benefits__list {
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	gap: 3.2rem;
+}
