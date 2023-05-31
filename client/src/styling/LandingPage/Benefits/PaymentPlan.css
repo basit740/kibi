@@ -22,6 +22,7 @@
 }
 .payment-plan__includes {
 	list-style: none;
+	padding-left: 0;
 }
 
 .payment-plan__includes-title {
@@ -29,10 +30,11 @@
 	color: var(--text-color-black-100);
 	font-weight: 700;
 	line-height: 160%;
+	margin-bottom: 1.5rem;
 }
 .payment-plan__includes-list {
 	list-style: none;
-	margin-left: 2rem;
+	/* margin-left: 2rem; */
 	display: flex;
 	flex-direction: column;
 	gap: 1.27rem;
@@ -43,6 +45,20 @@
 	font-size: 1.5rem;
 	line-height: 140%;
 	color: var(--text-color-black-90);
+
+	background-repeat: no-repeat;
+	background-position: 0 50%; /* Adjust position as needed */
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+}
+
+.payment-plan__indluded:before {
+	content: '';
+	display: inline-block;
+	width: 2.3rem; /* Adjust width as needed */
+	height: 2.3rem; /* Adjust height as needed */
+	background-image: url('../../../assets/icons/checkmark.png'); /* Path to your custom PNG image */
 }
 .payment__plan-amount-info {
 	margin-bottom: 4.6rem;
@@ -75,6 +91,7 @@
 	margin-bottom: 1.8rem;
 }
 .payment-plan__cta:hover {
+	background-color: var(--primary-color);
 }
 .payment-plan__payment-help {
 	text-align: center;

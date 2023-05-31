@@ -6,9 +6,22 @@
 	--secondary-color: #219ebc;
 	--text-color: #ddd;
 	--text-color-black--100: #292d32;
-	--text-color-black-70: #6a6c70;
 	--text-color-black-90: #3f4247;
+	--text-color-black-80: #54575b;
+	--text-color-black-70: #6a6c70;
 	--text-color-black-60: #7f8184;
+	--text-color-black-50: #939598;
+	--text-color-black-40: #a9abad;
+	--text-color-black-30: #bfc0c2;
+	--text-color-black-20: #d4d5d6;
+	--text-color-black-10: #eaeaeb;
+	--text-color-black-5: #f4f4f4;
+
+	/* #LEANEER COLORS */
+	--leaner-color-1: #1d55b6;
+	--leaner-color-2: #168bd0;
+	--leaner-color-2: #cceef7;
+	--leaner-color-3: #e6fbff;
 }
 
 @font-face {

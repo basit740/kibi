@@ -1,5 +1,8 @@
 .benefit {
 }
+.benefit:before {
+}
+
 .benefit__icon {
 	margin-bottom: 24px;
 }
