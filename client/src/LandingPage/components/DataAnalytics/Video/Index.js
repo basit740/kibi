@@ -18,7 +18,8 @@ const Index = () => {
 				ref={videoRef}
 				className='video'
 				src='/videos/accounting.mp4'
-				controls={isPlaying}
+				loop
+				// controls={isPlaying}
 			/>
 			{!isPlaying && (
 				<button className='play-button' onClick={handlePlay}>

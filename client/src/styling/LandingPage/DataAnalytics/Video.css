@@ -3,9 +3,10 @@
 
 	overflow: hidden;
 	margin: 0 auto;
-	border-radius: 10px;
+	/* border-radius: 10px; */
 	position: relative;
 	margin-bottom: 300px;
+	border: none;
 }
 
 .video {
@@ -13,6 +14,7 @@
 	/* height: 100%; */
 
 	border-radius: 10px !important;
+	border: none;
 }
 
 .play-button {
