@@ -1,5 +1,5 @@
 .hero-image {
-	width: 1016px;
+	max-width: 1016px;
 	margin: 0 auto;
 	position: absolute;
 	left: 50%;

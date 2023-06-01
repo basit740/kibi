@@ -1,10 +1,12 @@
 .header {
 	height: 100vh;
-	background: linear-gradient(to top right, #1b45b4, rgba(5, 138, 240, 0.7));
+
 	clip-path: polygon(0 0, 100% 0, 100% 74%, 50% 65%, 0% 74%);
 	z-index: -100;
 	overflow: hidden;
 	/* position: relative; */
+	background: linear-gradient(83.79deg, #1b45b4 3.25%, #219ebc 96.85%);
+	/* background: linear-gradient(90deg, #1b45b4 10%, #219ebc 96.85%); */
 }
 .main-nav {
 	max-width: 1080px;
