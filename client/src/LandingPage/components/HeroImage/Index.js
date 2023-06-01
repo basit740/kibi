@@ -3,7 +3,7 @@ import '../../../styling/LandingPage/HeroImage.css';
 const Index = () => {
 	return (
 		<div className='hero-image'>
-			<img src='images/accounting.jpeg' alt='' />
+			<img src='images/hero3.jpeg' alt='' />
 		</div>
 	);
 };
