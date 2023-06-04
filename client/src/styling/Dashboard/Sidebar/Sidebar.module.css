@@ -1,0 +1,15 @@
+.sidebar {
+	width: 288px;
+
+	height: 100vh;
+
+	background-color: #fff;
+
+	transition: all 0.3s ease-in-out;
+
+	/* position: absolute; */
+
+	/* Sidebar styles */
+	width: 240px; /* Adjust the width as needed */
+	transition: width 0.3s ease; /* Add transition for smooth animation */
+}
