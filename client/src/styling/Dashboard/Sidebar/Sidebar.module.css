@@ -1,15 +1,48 @@
 .sidebar {
-	width: 288px;
-
 	height: 100vh;
-
+	padding: 20px;
 	background-color: #fff;
-
 	transition: all 0.3s ease-in-out;
+	width: 295px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
 
-	/* position: absolute; */
+.sidebar__head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.sidebar__logo {
+	width: 62px;
+	height: 24px;
+	object-fit: cover;
+}
 
-	/* Sidebar styles */
-	width: 240px; /* Adjust the width as needed */
-	transition: width 0.3s ease; /* Add transition for smooth animation */
+.sidebar__button {
+	background: url('../../../../public/icons/indent-decrease.png');
+	border: none;
+	cursor: pointer;
+	width: 24px;
+	height: 24px;
+	transition: all 0.4s;
+}
+
+.decrease {
+	/* display: none; */
+	width: 50px;
+}
+
+/* STYLING FOR DECREASE MODE */
+
+.decrease.sidebar {
+	padding: 20px 10px;
+}
+
+.decrease .sidebar__logo {
+	display: none;
+}
+.decrease .sidebar__button {
+	transform: rotate(180deg);
 }

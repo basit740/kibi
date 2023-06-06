@@ -72,6 +72,10 @@ body {
 
 /* UTILITY CLASSES */
 
+/* MENU DECREASE STATE */
+.decrease {
+}
+
 /* RESPONSIVE DESIGN GENERALS RULES */
 
 @media (max-width: 768px) {
@@ -84,24 +88,4 @@ body {
 	html {
 		font-size: 38%;
 	}
-}
-
-/* TESTting only */
-
-.layout {
-	display: flex;
-	height: 100vh;
-}
-
-.sidebar {
-	/* Sidebar styles */
-	width: 240px; /* Adjust the width as needed */
-	transition: width 0.3s ease; /* Add transition for smooth animation */
-}
-
-.dashboard-main {
-	/* Main content styles */
-	flex-grow: 1;
-	/* Set flex-grow to 1 to allow the content to occupy remaining width */
-	transition: margin-left 0.3s ease; /* Add transition for smooth animation */
 }

@@ -18,5 +18,7 @@
 	cursor: pointer;
 	font-size: 13px;
 	font-weight: 300;
-	width: 46.4rem;
+	width: 40.4rem;
+	/* min-width: 26rem; */
+	/* width: 30rem; */
 }
