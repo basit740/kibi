@@ -1,10 +1,11 @@
 import React from 'react';
 
+import Container from 'dashboard/components/Container';
 const Index = () => {
 	return (
-		<section className='page_amortization_waterfall'>
+		<Container>
 			<h2>Amortization Waterfall</h2>
-		</section>
+		</Container>
 	);
 };
 

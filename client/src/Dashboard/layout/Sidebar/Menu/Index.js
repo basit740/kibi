@@ -8,7 +8,7 @@ import IconAmortizationWaterfall from './icons/AmortizationWaterfall';
 const menuItems = [
 	{
 		title: 'Company Settings',
-		to: '/dashboard/',
+		to: '/dashboard/company-settings',
 		icon: <IconCompanySettings />,
 	},
 	{

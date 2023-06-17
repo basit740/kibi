@@ -1,10 +1,10 @@
 import React from 'react';
-
+import Container from 'dashboard/components/Container';
 const Index = () => {
 	return (
-		<section className='page_prepaids_review'>
+		<Container>
 			<h2>Prepaids Review</h2>
-		</section>
+		</Container>
 	);
 };
 

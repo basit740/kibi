@@ -1,6 +1,6 @@
 .navbar {
 	padding: 1.6rem 2.4rem;
-	background-color: #e9f6f9;
+	background-color: var(--bg-color-1);
 
 	display: flex;
 	align-items: center;
@@ -9,6 +9,10 @@
 	color: var(--text-color-black--90);
 	font-family: 'Poppins' !important;
 	/* box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.005); */
+}
+.navbar__title_link {
+	color: var(--text-color-black--100);
+	text-decoration: none;
 }
 .navbar__title {
 	font-size: 2rem;
@@ -31,6 +35,7 @@
 	font-size: 13px;
 	font-weight: 300;
 	color: var(--text-color-black--80);
+	transition: all 0.3s ease-in-out;
 }
 .quicbooks-sync__button {
 	font-size: 12px;
@@ -62,6 +67,7 @@ svg {
 	animation-timing-function: linear;
 	animation-iteration-count: infinite;
 }
+
 .quicbooks-sync__button:active {
 }
 .navbar__user-img {

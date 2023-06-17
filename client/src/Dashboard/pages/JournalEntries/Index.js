@@ -1,10 +1,10 @@
 import React from 'react';
-
+import Container from 'dashboard/components/Container';
 const Index = () => {
 	return (
-		<section className='page_journal_entries'>
+		<Container>
 			<h2>Journal Entries</h2>
-		</section>
+		</Container>
 	);
 };
 

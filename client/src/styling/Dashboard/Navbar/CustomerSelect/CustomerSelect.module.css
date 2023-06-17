@@ -21,4 +21,6 @@
 	width: 40.4rem;
 	/* min-width: 26rem; */
 	/* width: 30rem; */
+	border: none;
+	border-radius: 10px;
 }

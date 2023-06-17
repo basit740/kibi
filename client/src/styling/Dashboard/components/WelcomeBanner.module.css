@@ -1,0 +1,36 @@
+.welcome_banner {
+	padding: 4.4rem 2rem;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	background-color: var(--bg-color-2);
+	border-radius: 8px;
+	margin-bottom: 4.8rem;
+}
+
+.welcome_banner__text_box {
+}
+.welcome_banner__title {
+	font-family: 'Gotham' !important;
+	font-weight: 700;
+	font-size: 4rem;
+	line-height: 100%;
+	letter-spacing: -2px;
+	color: var(--text-color-black-100);
+	margin-bottom: 1.9rem;
+}
+.welcome_banner__description {
+	/* font-family: 'Poppins' !important */
+	font-weight: 400;
+	font-size: 1.8rem;
+	line-height: 100%;
+	color: var(--text-color-black-90);
+}
+
+.welcome_banner__description span span {
+	color: var(--info-color-1);
+	font-weight: 600;
+}
+.welcome_banner__img_box {
+}

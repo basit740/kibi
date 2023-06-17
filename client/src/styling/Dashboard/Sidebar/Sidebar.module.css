@@ -46,3 +46,7 @@
 .decrease .sidebar__button {
 	transform: rotate(180deg);
 }
+
+.sidebar a {
+	text-decoration: none;
+}

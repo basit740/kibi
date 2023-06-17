@@ -5,7 +5,6 @@ import { NavLink } from 'react-router-dom';
 import styles from '../../../../../styling/Dashboard/Sidebar/MenuItemBottom.module.css';
 
 const MenuItemBottom = ({ title, icon, to, decrease }) => {
-	console.log(decrease);
 	return (
 		<NavLink
 			to={to}

@@ -28,10 +28,11 @@
 }
 
 .menu-item-bottom:hover svg path {
-	fill: var(--text-color-black-100);
+	/* fill: var(--text-color-black-100); */
+	/* fill: #fff; */
 }
 .menu-item-bottom:active svg path {
-	fill: var(--text-color-black-100);
+	/* fill: var(--text-color-black-100); */
 }
 .decrease {
 	/* something */

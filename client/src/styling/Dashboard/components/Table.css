@@ -1,0 +1,43 @@
+.table {
+}
+.table__title {
+	font-family: 'Gotham' !important;
+
+	font-weight: 700;
+	font-size: 1.6rem;
+	line-height: 100%;
+	margin-bottom: 1.6rem;
+}
+.table__content {
+	box-shadow: 0px 5px 5px 5px rgba(0, 0, 0, 0.01);
+	border-radius: 10px;
+	overflow: hidden;
+	overflow-x: auto;
+}
+.table__head {
+}
+.table__heading {
+	padding: 1.7rem 2rem;
+	background-color: var(--primary-color);
+	color: #fff;
+	font-weight: 700;
+	font-size: 1.4rem;
+	font-family: 'Gotham' !important;
+}
+
+.table__body {
+}
+.table__body .table__row:nth-child(odd) div {
+	background-color: var(--bg-color-0);
+}
+.table__row {
+	/* display: grid; */
+	/* cursor: pointer; */
+}
+.table__cell {
+	padding: 2rem;
+	background-color: #fff;
+	font-weight: 500;
+	font-size: 1.5rem;
+	cursor: pointer;
+}

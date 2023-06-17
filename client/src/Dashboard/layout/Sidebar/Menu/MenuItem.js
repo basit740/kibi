@@ -14,12 +14,6 @@ const NavItem = ({ title, icon, to, decrease }) => {
 
 	return (
 		<NavLink
-			// style={({ isActive }) => {
-			// 	return {
-			// 		backgroundColor: isActive ? '#219ebc' : '',
-			// 		color: isActive ? '#fff' : '#219ebc',
-			// 	};
-			// }}
 			onClick={() => setIsActive(!isActive)}
 			to={to}
 			// className={`${styles['menu-item']} ${decrease ? styles.decrease : ''}`}
@@ -34,7 +28,7 @@ const NavItem = ({ title, icon, to, decrease }) => {
 			<img
 				src='/icons/menu-item-dropdown.png'
 				className={styles['menu-item__dropdown']}
-				alt=''
+				alt='dropdown-icon'
 			/>
 		</NavLink>
 	);
