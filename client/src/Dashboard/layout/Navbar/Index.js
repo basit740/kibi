@@ -7,7 +7,7 @@ import styles from '../../../styling/Dashboard/Navbar/Navbar.module.css';
 import CustomeerSelect from './CustomerSelect/Index';
 
 // icons
-import SyncNow from './svg/SyncNow';
+import IconSyncNow from './svg/SyncNow';
 
 const Index = () => {
 	return (
@@ -31,7 +31,7 @@ const Index = () => {
 					Today, 8:52 PM
 				</label>
 				<button className={styles['quicbooks-sync__button']}>
-					<SyncNow /> Sync Now
+					<IconSyncNow /> Sync Now
 				</button>
 			</div>
 
