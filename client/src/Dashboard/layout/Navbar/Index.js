@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 // styles
-import styles from '../../../styling/Dashboard/Navbar/Navbar.module.css';
+import styles from 'styling/Dashboard/Navbar/Navbar.module.css';
 
 // components
 import CustomeerSelect from './CustomerSelect/Index';
@@ -10,6 +10,18 @@ import CustomeerSelect from './CustomerSelect/Index';
 import IconSyncNow from './svg/SyncNow';
 
 const Index = () => {
+	const [syncing, setSyncing] = useState(false);
+
+	const handleSyncNow = () => {
+		setSyncing(true);
+		const ms = 1000 * (Math.floor(Math.random() * 5) + 1);
+		setTimeout(function () {
+			console.log(`After ${ms / 1000} seconds`);
+			setSyncing(false);
+		}, ms);
+
+		// setSyncing(false);
+	};
 	return (
 		<nav className={styles.navbar}>
 			<h5 className={styles['navbar__title']}>Dashboard</h5>
@@ -30,7 +42,12 @@ const Index = () => {
 				>
 					Today, 8:52 PM
 				</label>
-				<button className={styles['quicbooks-sync__button']}>
+				<button
+					className={`${styles['quicbooks-sync__button']} ${
+						syncing ? styles.syncing : ''
+					} ripple`}
+					onClick={handleSyncNow}
+				>
 					<IconSyncNow /> Sync Now
 				</button>
 			</div>
