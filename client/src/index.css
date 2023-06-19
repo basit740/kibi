@@ -29,6 +29,9 @@
 
 	--bg-color-2: rgba(33, 158, 188, 0.2);
 
+	--bg-custom-cbx: #e9e9ea;
+	--bg-custom-cbx-checked: #34c759;
+
 	/*info colors */
 	--info-color-1: #ff5e4c;
 }
