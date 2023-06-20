@@ -41,3 +41,13 @@
 	font-size: 1.5rem;
 	cursor: pointer;
 }
+
+/* SCROLLABLE TABLE */
+.table__content--scrollable {
+	overflow-x: auto;
+}
+.table__content--scrollable .table__column,
+.table__cell {
+	min-width: 26.7rem;
+	width: 100%;
+}

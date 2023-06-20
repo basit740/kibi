@@ -5,12 +5,16 @@ import TableCell from './TableCell';
 
 // css
 import '../../../styling/Dashboard/components/Table.css';
-const Table = ({ tableData, title }) => {
+const Table = ({ tableData, title, scrollable }) => {
 	const { columns, rows } = tableData;
 	return (
 		<div className='table'>
 			<h3 className='table__title'>{title}</h3>
-			<div className='table__content'>
+			<div
+				className={`table__content ${
+					scrollable ? 'table__content--scrollable' : ''
+				}`}
+			>
 				<div className='table__head'>
 					<TableRow headingsLength={columns.length}>
 						{columns.map((column, columnIndex) => {

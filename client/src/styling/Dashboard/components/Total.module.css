@@ -1,0 +1,22 @@
+.total {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.total__title {
+	color: var(--secondary-color);
+	font-weight: bold;
+	font-family: 'Gotham' !important;
+	font-weight: 500;
+	font-size: 1.5rem;
+}
+
+.total__amount {
+	font-style: normal;
+	font-weight: 700;
+	font-size: 2rem;
+	line-height: 30px;
+	color: var(--text-color-black-100);
+}
+

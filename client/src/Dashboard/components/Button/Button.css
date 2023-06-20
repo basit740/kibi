@@ -1,0 +1,18 @@
+.kibi_button {
+	padding: 1.9rem 2rem;
+	border-radius: 8px;
+	cursor: pointer;
+	font-weight: 500;
+	font-size: 1.4rem;
+	letter-spacing: -0.011em;
+	color: var(--secondary-color);
+	background-color: transparent;
+	border: none;
+}
+
+.kibi_button--outlined {
+	border: 1px solid var(--bg-color-2);
+}
+.kibi_button--fill {
+	background: var(--bg-color-2);
+}

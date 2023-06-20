@@ -2,7 +2,7 @@ import React from 'react';
 import Container from 'dashboard/components/Container';
 
 import WelcomeBanner from 'dashboard/components/WelcomeBanner';
-import Table from 'dashboard/components/Table/Table';
+import Table from 'dashboard/components/Table';
 const items = 92;
 const bannerContent = {
 	title: 'Welcome to Robert Fox!',

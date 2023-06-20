@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Container from 'dashboard/components/Container';
 
-import Table from 'dashboard/components/Table/Table';
+import Table from 'dashboard/components/Table';
 import CustomCbx from 'dashboard/components/CustomCbx';
 import { Link } from 'react-router-dom';
 

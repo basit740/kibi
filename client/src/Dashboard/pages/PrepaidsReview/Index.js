@@ -1,29 +1,178 @@
 import React from 'react';
 import Container from 'dashboard/components/Container';
 import Card from 'dashboard/components/UI/Card';
+import PeriodsEndDate from 'dashboard/components/PeriodsEndDate';
+import Total from 'dashboard/components/Total';
+import Table from 'dashboard/components/Table';
+import Button from 'dashboard/components/Button';
+
+const dates = [
+	{
+		value: 'May 31, 2023',
+		display: 'May 31, 2023',
+	},
+];
+
+const tableData = {
+	columns: [
+		{
+			field: 'transactionType',
+			headerName: 'Transaction Type',
+			sortable: true,
+		},
+		{
+			field: 'quickbooksBalance',
+			headerName: 'Quickbooks Balance',
+			sortable: true,
+		},
+		{ field: 'name', headerName: 'Name', sortable: true },
+		{ field: 'memo', headerName: 'Memo/Description', sortable: true },
+		{
+			field: 'expenseAccount',
+			headerName: 'Expense Account',
+			sortable: true,
+		},
+	],
+	rows: [
+		{
+			transactionType: 'Bill',
+			quickbooksBalance: 'INV9865',
+			name: 'ABC Crop',
+			memo: 'Insurance Jan-July',
+			expenseAccount: 'Software',
+		},
+		{
+			transactionType: 'Invoice',
+			quickbooksBalance: 'INV1234',
+			name: 'XYZ Corp',
+			memo: 'Consulting Services',
+			expenseAccount: 'Services',
+		},
+		{
+			transactionType: 'Bill',
+			quickbooksBalance: 'INV7890',
+			name: 'DEF Enterprises',
+			memo: 'Office Supplies',
+			expenseAccount: 'Office Expenses',
+		},
+		{
+			transactionType: 'Expense',
+			quickbooksBalance: 'INV5678',
+			name: 'GHI Inc.',
+			memo: 'Marketing Campaign',
+			expenseAccount: 'Marketing',
+		},
+	],
+};
+
+const tableData2 = {
+	columns: [
+		{
+			field: 'transactionType',
+			headerName: 'Transaction Type',
+			sortable: true,
+		},
+		{
+			field: 'quickbooksBalance',
+			headerName: 'Quickbooks Balance',
+			sortable: true,
+		},
+		{ field: 'name', headerName: 'Name', sortable: true },
+		{ field: 'memo', headerName: 'Memo/Description', sortable: true },
+		{
+			field: 'expenseAccount',
+			headerName: 'Expense Account',
+			sortable: true,
+		},
+	],
+	rows: [
+		{
+			transactionType: 'Bill',
+			quickbooksBalance: 'INV9865',
+			name: 'ABC Crop',
+			memo: 'Insurance Jan-July',
+			expenseAccount: 'Software',
+		},
+		{
+			transactionType: 'Invoice',
+			quickbooksBalance: 'INV1234',
+			name: 'XYZ Corp',
+			memo: 'Consulting Services',
+			expenseAccount: 'Services',
+		},
+		{
+			transactionType: 'Bill',
+			quickbooksBalance: 'INV7890',
+			name: 'DEF Enterprises',
+			memo: 'Office Supplies',
+			expenseAccount: 'Office Expenses',
+		},
+		{
+			transactionType: 'Expense',
+			quickbooksBalance: 'INV5678',
+			name: 'GHI Inc.',
+			memo: 'Marketing Campaign',
+			expenseAccount: 'Marketing',
+		},
+		{
+			transactionType: 'Invoice',
+			quickbooksBalance: 'INV4321',
+			name: 'LMN Corporation',
+			memo: 'Product Sales',
+			expenseAccount: 'Sales',
+		},
+		{
+			transactionType: 'Bill',
+			quickbooksBalance: 'INV9876',
+			name: 'PQR Ltd.',
+			memo: 'Equipment Purchase',
+			expenseAccount: 'Equipment',
+		},
+		{
+			transactionType: 'Expense',
+			quickbooksBalance: 'INV6543',
+			name: 'STU Corp',
+			memo: 'Travel Expenses',
+			expenseAccount: 'Travel',
+		},
+		{
+			transactionType: 'Invoice',
+			quickbooksBalance: 'INV7899',
+			name: 'VWX Enterprises',
+			memo: 'Website Development',
+			expenseAccount: 'Web Services',
+		},
+	],
+};
+
 const Index = () => {
+	const handlePrepare4Jentry = (e) => {};
+
 	return (
 		<Container>
-			<h2>Prepaids Review</h2>
-			<div className='grid grid-4 gap-24'>
+			<div className='grid grid-4 gap-24 mt-32 mb-32'>
 				<Card>
-					<div className='flex align-center gap-4'>
-						<h6>Period End Date</h6>
-						<select name='period-end-date' id='period-end-date'>
-							<option value='May 31, 2023'>May 31, 2023</option>
-						</select>
-					</div>
+					<PeriodsEndDate dates={dates} />
 				</Card>
 				<Card>
-					<h3>Card</h3>
+					<Total title='Subledger Balance' amount='118200' />
 				</Card>
 				<Card>
-					<h3>Card</h3>
+					<Total title='QuickBooks Balance' amount='118200' />
 				</Card>
 				<Card>
-					<h3>Card</h3>
+					<Total title='Variance' amount='' />
 				</Card>
 			</div>
+
+			<Table title='Prepaids Review' scrollable={true} tableData={tableData} />
+			<div className='flex just-end mt-32'>
+				<Button
+					title='Prepare of Journal Entry'
+					onClick={handlePrepare4Jentry}
+				/>
+			</div>
+			<Table title='Sub' scrollable={true} tableData={tableData2} />
 		</Container>
 	);
 };
