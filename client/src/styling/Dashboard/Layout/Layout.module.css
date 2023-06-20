@@ -10,4 +10,5 @@
 	flex-grow: 1;
 	/* Set flex-grow to 1 to allow the content to occupy remaining width */
 	transition: margin-left 0.3s ease; /* Add transition for smooth animation */
+	overflow-y: auto;
 }

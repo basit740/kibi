@@ -16,7 +16,7 @@
 }
 .table__head {
 }
-.table__heading {
+.table__column {
 	padding: 1.7rem 2rem;
 	background-color: var(--primary-color);
 	color: #fff;

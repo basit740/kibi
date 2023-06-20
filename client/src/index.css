@@ -24,6 +24,7 @@
 	--leaner-color-3: #e6fbff;
 
 	/* bg colors */
+	--bg-white: #fff;
 	--bg-color-0: #f8f8f8;
 	--bg-color-1: #e9f6f9;
 
@@ -77,9 +78,14 @@ body {
 	font-family: 'Poppins' serif;
 }
 
+/* ALL ANCHORS */
+a {
+	text-decoration: none;
+}
+
 .dashboard-main {
 	background-color: var(--text-color-black-5);
-	/* height: 100vh; */
+	height: 100vh;
 }
 
 /* UTILITY CLASSES */
@@ -95,9 +101,13 @@ body {
 .grid {
 	display: grid;
 }
-.gap-1 {
-	gap: 1px;
+.flex {
+	display: flex;
 }
+.align-center {
+	align-items: center;
+}
+
 .grid-2 {
 	grid-template-columns: repeat(2, 1fr);
 }
@@ -115,11 +125,39 @@ body {
 .w-70 {
 	width: 70%;
 }
+
+/* MARGINS */
 .mr-10 {
 	margin-right: 10px;
 }
 .mt-32 {
 	margin-top: 3.2rem;
+}
+
+/* GAPS  */
+.gap-1 {
+	gap: 1px;
+}
+.gap-2 {
+	gap: 2px;
+}
+.gap-3 {
+	gap: 3px;
+}
+.gap-4 {
+	gap: 4px;
+}
+.gap-10 {
+	gap: 10px;
+}
+.gap-20 {
+	gap: 2rem;
+}
+.gap-24 {
+	gap: 2.4rem;
+}
+.gap-30 {
+	gap: 3rem;
 }
 /* RESPONSIVE DESIGN GENERALS RULES */
 

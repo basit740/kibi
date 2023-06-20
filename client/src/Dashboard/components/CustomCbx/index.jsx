@@ -6,11 +6,12 @@ import Switch from './Switch';
 const CustomCbx = ({ id }) => {
 	const switchId = 'id-' + id;
 
-	const [checked, setChecked] = useState(false);
+	const [checked, setChecked] = useState();
 
 	const handleChange = (event) => {
 		console.log(event.target.checked);
 		setChecked(event.target.checked);
+		// onCheck(id, event.target.checked);
 	};
 
 	return (

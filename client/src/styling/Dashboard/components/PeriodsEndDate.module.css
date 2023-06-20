@@ -1,0 +1,14 @@
+.periods_end_date {
+}
+.periods_end_date select {
+	border-radius: 5px;
+}
+.periods_end_date__title {
+	width: 77px;
+	height: 46px;
+	font-weight: 500;
+	font-size: 1.5rem;
+	line-height: 22px;
+	color: var(--text-color-black--90);
+	color: red;
+}

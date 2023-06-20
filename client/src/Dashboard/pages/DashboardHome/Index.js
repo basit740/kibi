@@ -10,9 +10,28 @@ const bannerContent = {
 };
 
 const tableData = {
-	headings: ['Subleder Balance', 'Quickbooks Balance', 'Variance'],
-	data: [['$54,365.58', '$120,000.00', '($65,634.42)']],
+	columns: [
+		{
+			field: 'subledgerBalance',
+			headerName: 'Subledger Balance',
+			sortable: false,
+		},
+		{
+			field: 'quickbooksBalance',
+			headerName: 'Quickbooks Balance',
+			sortable: false,
+		},
+		{ field: 'variance', headerName: 'Variance', sortable: false },
+	],
+	rows: [
+		{
+			subledgerBalance: '$54,365.58',
+			quickbooksBalance: '$120,000.00',
+			variance: '($65,634.42)',
+		},
+	],
 };
+
 const Index = () => {
 	return (
 		<Container>
