@@ -32,6 +32,11 @@ const tableData = {
 			headerName: 'Expense Account',
 			sortable: true,
 		},
+		// {
+		// 	field: 'class',
+		// 	headerName: 'Class',
+		// 	sortable: true,
+		// },
 	],
 	rows: [
 		{
@@ -40,6 +45,7 @@ const tableData = {
 			name: 'ABC Crop',
 			memo: 'Insurance Jan-July',
 			expenseAccount: 'Software',
+			class: 'Finance',
 		},
 		{
 			transactionType: 'Invoice',
@@ -47,6 +53,7 @@ const tableData = {
 			name: 'XYZ Corp',
 			memo: 'Consulting Services',
 			expenseAccount: 'Services',
+			class: 'Operations',
 		},
 		{
 			transactionType: 'Bill',
@@ -54,6 +61,7 @@ const tableData = {
 			name: 'DEF Enterprises',
 			memo: 'Office Supplies',
 			expenseAccount: 'Office Expenses',
+			class: 'Legal',
 		},
 		{
 			transactionType: 'Expense',
@@ -61,6 +69,7 @@ const tableData = {
 			name: 'GHI Inc.',
 			memo: 'Marketing Campaign',
 			expenseAccount: 'Marketing',
+			class: 'Operations',
 		},
 	],
 };
@@ -84,6 +93,11 @@ const tableData2 = {
 			headerName: 'Expense Account',
 			sortable: true,
 		},
+		// {
+		// 	field: 'class',
+		// 	headerName: 'Class',
+		// 	sortable: true,
+		// },
 	],
 	rows: [
 		{
@@ -92,6 +106,7 @@ const tableData2 = {
 			name: 'ABC Crop',
 			memo: 'Insurance Jan-July',
 			expenseAccount: 'Software',
+			class: 'Legal',
 		},
 		{
 			transactionType: 'Invoice',
@@ -99,6 +114,7 @@ const tableData2 = {
 			name: 'XYZ Corp',
 			memo: 'Consulting Services',
 			expenseAccount: 'Services',
+			class: 'Legal',
 		},
 		{
 			transactionType: 'Bill',
@@ -106,6 +122,7 @@ const tableData2 = {
 			name: 'DEF Enterprises',
 			memo: 'Office Supplies',
 			expenseAccount: 'Office Expenses',
+			class: 'Legal',
 		},
 		{
 			transactionType: 'Expense',
@@ -113,6 +130,7 @@ const tableData2 = {
 			name: 'GHI Inc.',
 			memo: 'Marketing Campaign',
 			expenseAccount: 'Marketing',
+			class: 'Legal',
 		},
 		{
 			transactionType: 'Invoice',
@@ -120,6 +138,7 @@ const tableData2 = {
 			name: 'LMN Corporation',
 			memo: 'Product Sales',
 			expenseAccount: 'Sales',
+			class: 'Operations',
 		},
 		{
 			transactionType: 'Bill',
@@ -127,6 +146,7 @@ const tableData2 = {
 			name: 'PQR Ltd.',
 			memo: 'Equipment Purchase',
 			expenseAccount: 'Equipment',
+			class: 'Legal',
 		},
 		{
 			transactionType: 'Expense',
@@ -134,6 +154,7 @@ const tableData2 = {
 			name: 'STU Corp',
 			memo: 'Travel Expenses',
 			expenseAccount: 'Travel',
+			class: 'Legal',
 		},
 		{
 			transactionType: 'Invoice',
@@ -141,6 +162,7 @@ const tableData2 = {
 			name: 'VWX Enterprises',
 			memo: 'Website Development',
 			expenseAccount: 'Web Services',
+			class: 'Legal',
 		},
 	],
 };
@@ -172,7 +194,7 @@ const Index = () => {
 					onClick={handlePrepare4Jentry}
 				/>
 			</div>
-			<Table title='Sub' scrollable={true} tableData={tableData2} />
+			<Table title='Subledger' scrollable={true} tableData={tableData2} />
 		</Container>
 	);
 };

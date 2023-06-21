@@ -7,11 +7,11 @@ import LandingPage from './LandingPage/Index';
 // DASHBOARD PAGEGS AND COMPONENTS
 
 import Layout from './Dashboard/layout/Index';
-import DashboardHome from './Dashboard/pages/DashboardHome/Index.js';
-import CompanySettings from './Dashboard/pages/CompanySettings/Index.js';
-import PrepaidsReview from './Dashboard/pages/PrepaidsReview/Index.js';
-import JournalEntries from './Dashboard/pages/JournalEntries/Index.js';
-import AmortizationWaterfall from './Dashboard/pages/AmortizationWaterfall/Index.js';
+import DashboardHome from './Dashboard/pages/DashboardHome/index.js';
+import CompanySettings from './Dashboard/pages/CompanySettings/index.js';
+import PrepaidsReview from './Dashboard/pages/PrepaidsReview/index.js';
+import JournalEntries from './Dashboard/pages/JournalEntries/index.js';
+import AmortizationWaterfall from './Dashboard/pages/AmortizationWaterfall/index.js';
 
 function App() {
 	// const [user, setUser] = useState(false);
