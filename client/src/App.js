@@ -6,7 +6,7 @@ import LandingPage from './LandingPage/Index';
 
 // DASHBOARD PAGEGS AND COMPONENTS
 
-import Layout from 'Dashboard/layout/Index';
+import Layout from 'Dashboard/layout';
 import DashboardHome from 'Dashboard/pages/DashboardHome';
 import CompanySettings from 'Dashboard/pages/CompanySettings';
 import PrepaidsReview from 'Dashboard/pages/PrepaidsReview';
