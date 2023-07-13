@@ -12,6 +12,8 @@ import CompanySettings from './Dashboard/pages/CompanySettings/index.js';
 import PrepaidsReview from './Dashboard/pages/PrepaidsReview/index.js';
 import JournalEntries from './Dashboard/pages/JournalEntries/index.js';
 import AmortizationWaterfall from './Dashboard/pages/AmortizationWaterfall/index.js';
+import FAQ from './Dashboard/pages/FAQ/index.js';
+import Settings from './Dashboard/pages/Settings/index.js';
 
 function App() {
 	// const [user, setUser] = useState(false);
@@ -32,6 +34,8 @@ function App() {
 				<Route path='company-settings' element={<CompanySettings />} />
 				<Route path='prepaids-review' element={<PrepaidsReview />} />
 				<Route path='journal-entries' element={<JournalEntries />} />
+				<Route path='help' element={<FAQ />} />
+				<Route path='settings' element={<Settings />} />
 				<Route
 					path='amortization-waterfall'
 					element={<AmortizationWaterfall />}

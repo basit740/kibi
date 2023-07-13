@@ -1,0 +1,56 @@
+.faq_item {
+	padding: 1.2rem 2.4rem;
+
+	border-radius: 8px;
+
+	width: 100%;
+	padding: 1.2rem 2.4rem;
+	background: #fff;
+	transition: all 0.3s;
+}
+
+.faq_item__question {
+	display: flex;
+	align-items: center;
+	gap: 94px;
+
+	font-weight: 600;
+	color: var(--black-100, #292d32);
+	font-family: 'Poppins';
+	font-size: 1.5rem;
+	font-style: normal;
+	justify-content: space-between;
+}
+.faq_item__toggle {
+	background-color: none;
+	border: none;
+	cursor: pointer;
+	transition: all 0.4s linear;
+
+	width: 24px;
+	height: 24px;
+	background: url('../../../../public/icons/plus-circle.png');
+	background-repeat: no-repeat;
+	object-fit: cover;
+}
+.open .faq_item__toggle {
+	background: url('../../../../public/icons/minus-circle.png');
+}
+.faq_item__answer {
+	color: var(--gray-600, #475467);
+	font-family: 'Gotham' !important;
+	font-size: 1.4rem;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 160%; /* 22.4px */
+	height: 0;
+
+	overflow: hidden;
+	transition: height 0.3s ease-out;
+	padding-top: 0;
+}
+
+.open .faq_item__answer {
+	height: auto;
+	padding-top: 1.6rem;
+}

@@ -2,11 +2,13 @@ import React from 'react';
 
 import TableRow from './TableRow';
 import TableCell from './TableCell';
+import { formatMoney } from 'accounting-js';
 
 // css
 import '../../../styling/Dashboard/components/Table.css';
 const Table = ({ tableData, title, scrollable }) => {
 	const { columns, rows } = tableData;
+
 	return (
 		<div className='table'>
 			<h3 className='table__title'>{title}</h3>
@@ -30,7 +32,11 @@ const Table = ({ tableData, title, scrollable }) => {
 					{rows.map((row, rowIndex) => (
 						<TableRow key={rowIndex} headingsLength={columns.length}>
 							{columns.map((column, cellIndex) => (
-								<TableCell key={cellIndex}>{row[column.field]}</TableCell>
+								<TableCell key={cellIndex}>
+									{typeof row[column.field] === 'number'
+										? formatMoney(row[column.field])
+										: row[column.field]}
+								</TableCell>
 							))}
 						</TableRow>
 					))}

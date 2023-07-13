@@ -34,6 +34,29 @@
 .menu-item-bottom:active svg path {
 	/* fill: var(--text-color-black-100); */
 }
+.menu-item-bottom:hover {
+	background-color: var(--secondary-color);
+	color: #fff;
+}
+/* .menu-item:active {
+	background-color: var(--secondary-color);
+	color: #fff;
+} */
+
+.menu-item-bottom.active {
+	background-color: var(--secondary-color);
+	color: #fff;
+}
+
+.menu-item-bottom:hover svg path {
+	/* fill: var(--text-color-black-100); */
+	/* fill: #fff; */
+}
+.menu-item-bottom:active svg path {
+	/* fill: var(--text-color-black-100); */
+	/* fill: #fff; */
+}
+
 .decrease {
 	/* something */
 }

@@ -22,9 +22,10 @@ const menuItems = [
 const Index = ({ decrease }) => {
 	return (
 		<div className={styles['menu-bottom']}>
-			<ul className={styles.menu__items}>
+			<ul className={styles.menu__items_bottoms}>
 				{menuItems.map((item, index) => (
 					<MenuItemBottom
+						to={item.to}
 						title={item.title}
 						key={index}
 						icon={item.icon}

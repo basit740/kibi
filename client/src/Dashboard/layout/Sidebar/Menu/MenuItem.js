@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import { NavLink } from 'react-router-dom';
 
-import styles from '../../../../styling/Dashboard/Sidebar/MenuItem.module.css';
+import styles from 'styling/Dashboard/Sidebar/MenuItem.module.css';
 
 const NavItem = ({ title, icon, to, decrease }) => {
 	const [isActive, setIsActive] = useState(false);

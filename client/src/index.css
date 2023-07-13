@@ -99,6 +99,9 @@ a {
 .flex {
 	display: flex;
 }
+.flex-coloum {
+	flex-direction: column;
+}
 .align-center {
 	align-items: center;
 }
@@ -130,6 +133,12 @@ a {
 }
 
 /* WIDTH */
+.w-30 {
+	width: 30%;
+}
+.w-40 {
+	width: 40%;
+}
 .w-70 {
 	width: 70%;
 }
@@ -142,6 +151,9 @@ a {
 	margin-top: 3.2rem;
 }
 
+.mt-40 {
+	margin-top: 4rem;
+}
 .mb-10 {
 	margin-bottom: 10px;
 }
@@ -170,6 +182,9 @@ a {
 .gap-10 {
 	gap: 10px;
 }
+.gap-16 {
+	gap: 1.6rem;
+}
 .gap-20 {
 	gap: 2rem;
 }
@@ -178,6 +193,23 @@ a {
 }
 .gap-30 {
 	gap: 3rem;
+}
+
+/* HEADINGS */
+
+.section_heading {
+	color: var(--text-color-black-100);
+	font-family: 'Gotham' !important;
+	font-size: 1.6rem;
+	font-style: normal;
+	font-weight: 700;
+	line-height: 150%; /* 24px */
+}
+
+/* SCROLLS STYLES */
+
+.scrollable {
+	overflow-x: auto;
 }
 /* RESPONSIVE DESIGN GENERALS RULES */
 

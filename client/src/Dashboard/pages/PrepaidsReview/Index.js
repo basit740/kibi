@@ -32,11 +32,6 @@ const tableData = {
 			headerName: 'Expense Account',
 			sortable: true,
 		},
-		// {
-		// 	field: 'class',
-		// 	headerName: 'Class',
-		// 	sortable: true,
-		// },
 	],
 	rows: [
 		{
@@ -93,11 +88,6 @@ const tableData2 = {
 			headerName: 'Expense Account',
 			sortable: true,
 		},
-		// {
-		// 	field: 'class',
-		// 	headerName: 'Class',
-		// 	sortable: true,
-		// },
 	],
 	rows: [
 		{

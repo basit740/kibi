@@ -12,7 +12,6 @@
 	box-shadow: 0px 5px 5px 5px rgba(0, 0, 0, 0.01);
 	border-radius: 10px;
 	overflow: hidden;
-	overflow-x: auto;
 }
 .table__head {
 }
@@ -43,7 +42,7 @@
 }
 
 /* SCROLLABLE TABLE */
-/* .table__content--scrollable {
+.table__content--scrollable {
 	overflow-x: auto;
 }
 
@@ -51,4 +50,4 @@
 .table__cell {
 	min-width: 26.7rem;
 	width: 100%;
-} */
+}
