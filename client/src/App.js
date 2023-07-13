@@ -7,7 +7,7 @@ import LandingPage from './LandingPage/Index';
 // DASHBOARD PAGEGS AND COMPONENTS
 
 import Layout from './Dashboard/layout/Index';
-import DashboardHome from './Dashboard/pages/DashboardHome/index.js';
+import DashboardHome from './Dashboard/pages/Dashboard/Home/index.js';
 import CompanySettings from './Dashboard/pages/CompanySettings/index.js';
 import PrepaidsReview from './Dashboard/pages/PrepaidsReview/index.js';
 import JournalEntries from './Dashboard/pages/JournalEntries/index.js';
