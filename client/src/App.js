@@ -8,8 +8,8 @@ import Login from 'auth/pages/SignIn';
 import Register from 'auth/pages/Register';
 
 // DASHBOARD PAGEGS AND COMPONENTS
-import Layout from './Dashboard/layout/index.js';
-// import Layout from '..dashboard/layout';
+// import Layout from './Dashboard/layout/index.js';
+import Layout from 'dashboard/layout';
 import DashboardHome from 'dashboard/pages/DashboardHome';
 import CompanySettings from 'dashboard/pages/CompanySettings';
 import PrepaidsReview from 'dashboard/pages/PrepaidsReview';
