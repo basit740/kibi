@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { Routes, Route } from 'react-router-dom';
 import LandingPage from './LandingPage/Index';
@@ -8,7 +8,8 @@ import Login from 'auth/pages/SignIn';
 import Register from 'auth/pages/Register';
 
 // DASHBOARD PAGEGS AND COMPONENTS
-import Layout from 'dashboard/layout';
+import Layout from './Dashboard/layout';
+// import Layout from '..dashboard/layout';
 import DashboardHome from 'dashboard/pages/DashboardHome';
 import CompanySettings from 'dashboard/pages/CompanySettings';
 import PrepaidsReview from 'dashboard/pages/PrepaidsReview';
