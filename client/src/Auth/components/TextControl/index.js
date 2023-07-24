@@ -1,6 +1,14 @@
 import React from 'react';
 import 'styling/Auth/TextControl.css';
-const Index = ({ label, className, type, value, onChange, placeholder }) => {
+const Index = ({
+	label,
+	className,
+	type,
+	value,
+	onChange,
+	placeholder,
+	required,
+}) => {
 	let classes = 'text-control ' + className;
 	return (
 		<div className={classes}>
@@ -10,6 +18,7 @@ const Index = ({ label, className, type, value, onChange, placeholder }) => {
 				onChange={onChange}
 				placeholder={placeholder}
 				autoComplete='off'
+				required={required}
 			/>
 		</div>
 	);
