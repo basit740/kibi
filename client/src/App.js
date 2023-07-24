@@ -8,12 +8,12 @@ import Login from 'auth/pages/SignIn';
 import Register from 'auth/pages/Register';
 
 // DASHBOARD PAGEGS AND COMPONENTS
-import Layout from 'dashboard/layout/index.js';
-import DashboardHome from 'dashboard/pages/DashboardHome/index.js';
-import CompanySettings from 'dashboard/pages/CompanySettings/index.js';
-import PrepaidsReview from 'dashboard/pages/PrepaidsReview/index.js';
-import JournalEntries from 'dashboard/pages/JournalEntries/index.js';
-import AmortizationWaterfall from 'dashboard/pages/AmortizationWaterfall/index.js';
+import Layout from 'dashboard/layout';
+import DashboardHome from 'dashboard/pages/DashboardHome';
+import CompanySettings from 'dashboard/pages/CompanySettings';
+import PrepaidsReview from 'dashboard/pages/PrepaidsReview';
+import JournalEntries from 'dashboard/pages/JournalEntries';
+import AmortizationWaterfall from 'dashboard/pages/AmortizationWaterfall';
 import FAQ from 'dashboard/pages/FAQ';
 import Settings from 'dashboard/pages/Settings';
 
