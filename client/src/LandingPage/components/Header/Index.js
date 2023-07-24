@@ -12,13 +12,13 @@ const Index = () => {
 					</a>
 					<ul className='main-nav__list'>
 						<li className='main-nav__list-item'>
-							<a href='/demo' className='main-nav__link'>
+							<a href='/request-a-demo' className='main-nav__link'>
 								Request a demo
 							</a>
 						</li>
 						<li className='main-nav__list-item'>
 							<a
-								href='/dashboard'
+								href='/login'
 								className='main-nav__link main-nav__link--outline'
 							>
 								Log In
