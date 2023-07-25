@@ -1,8 +1,12 @@
 import React from 'react';
 import 'styling/Auth/Control.css';
-const Index = ({ children, className }) => {
+const Index = ({ children, className, disabled, onClick }) => {
 	let classes = 'control ' + className;
-	return <button className={classes}>{children}</button>;
+	return (
+		<button disabled={disabled} className={classes} onClick={onClick}>
+			{children}
+		</button>
+	);
 };
 
 export default Index;

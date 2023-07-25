@@ -3,6 +3,7 @@ import AuthWrapper from '../../components/AuthWrapper';
 import Control from '../../components/Control';
 import Divider from '../../components/Divider';
 import TextControl from '../../components/TextControl';
+import { intuitSignIn } from 'services/auth';
 import 'styling/Auth/SignIn.css';
 const Index = () => {
 	const handleChangeEmail = (e) => {
@@ -15,11 +16,31 @@ const Index = () => {
 		window.location.href = '/dashboard';
 	};
 
+	const handleClickGoogle = async () => {
+		alert('Click Google');
+	};
+
+	const handleClickInuite = async () => {
+		// send authorization request to quickbooks
+		try {
+			// await intuitSignIn();
+			const response = await intuitSignIn();
+			console.log(response);
+			window.location.href = response.authUri;
+		} catch (e) {
+			console.error(e.message);
+		}
+	};
+
 	return (
 		<AuthWrapper title='Sign in to your account'>
 			<div className='sign-in'>
 				<div className='sign-in__third-party'>
-					<Control className='google'>
+					<Control
+						className='google'
+						disabled={true}
+						onClick={handleClickGoogle}
+					>
 						<div className='google-control'>
 							<img
 								className='google-log'
@@ -29,7 +50,9 @@ const Index = () => {
 							<span>Sign In With Google</span>
 						</div>
 					</Control>
-					<Control className='intuit'>Sign In With Intuit</Control>
+					<Control className='intuit' onClick={handleClickInuite}>
+						Sign In With Intuit
+					</Control>
 					<Divider />
 				</div>
 				<form className='sign-in__form' onSubmit={handleSubmit}>
