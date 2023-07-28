@@ -44,7 +44,7 @@ const Index = () => {
 						<div className='google-control'>
 							<img
 								className='google-log'
-								src='icons/google-logo.png'
+								src='/icons/google-logo.png'
 								alt='google logo'
 							/>
 							<span>Sign In With Google</span>
