@@ -3,8 +3,12 @@ import AuthWrapper from '../../components/AuthWrapper';
 import Control from '../../components/Control';
 import Divider from '../../components/Divider';
 import TextControl from '../../components/TextControl';
-import { intuitSignIn } from 'services/auth';
+
 import 'styling/Auth/SignIn.css';
+// import { useOAuth2Token } from 'react-oauth2-hook';
+
+import { intuitSignIn } from 'services/auth';
+
 const Index = () => {
 	const handleChangeEmail = (e) => {
 		console.log(e.target.value);
