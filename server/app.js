@@ -59,7 +59,7 @@ app.get('/api/v1/initiate-intuite-auth', (req, res) => {
 
 	// AuthorizationUri
 	var authUri = oauthClient.authorizeUri({
-		scope: [OAuthClient.scopes.Accounting, OAuthClient.scopes.OpenId],
+		scope: [OAuthClient.scopes.Accounting],
 		state: state,
 	}); // can be an array of multiple scopes ex : {scope:[OAuthClient.scopes.Accounting,OAuthClient.scopes.OpenId]}
 

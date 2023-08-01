@@ -16,6 +16,12 @@
 	max-width: 61.8rem;
 	width: 100%;
 	position: relative;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+
+	animation: bubble 0.4s ease-in-out;
 }
 .auth-wrapper__logo {
 	/* width: 16.6rem;
@@ -50,4 +56,19 @@
 }
 .helper__content a {
 	color: #fff;
+}
+
+@keyframes bubble {
+	0% {
+		top: 30%;
+		opacity: 0;
+	}
+	50% {
+		top: 55%;
+		/* opacity: 0.6; */
+	}
+	100% {
+		top: 50%;
+		opacity: 1;
+	}
 }

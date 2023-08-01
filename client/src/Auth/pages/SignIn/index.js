@@ -7,7 +7,7 @@ import TextControl from '../../components/TextControl';
 import 'styling/Auth/SignIn.css';
 // import { useOAuth2Token } from 'react-oauth2-hook';
 
-import { intuitSignIn } from 'services/auth';
+import { intuitSignIn, intuitSignInClient } from 'services/auth';
 
 const Index = () => {
 	const handleChangeEmail = (e) => {
@@ -29,6 +29,7 @@ const Index = () => {
 		try {
 			// await intuitSignIn();
 			const response = await intuitSignIn();
+			// const response = await intuitSignInClient();
 			console.log(response);
 			window.location.href = response.authUri;
 		} catch (e) {
