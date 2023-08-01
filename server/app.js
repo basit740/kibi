@@ -55,6 +55,7 @@ app.get('/api/v1/initiate-intuite-auth', (req, res) => {
 		clientSecret,
 		environment: 'sandbox', // ‘sandbox’ or ‘production’
 		redirectUri,
+		logging: true,
 	});
 
 	// AuthorizationUri
@@ -63,10 +64,14 @@ app.get('/api/v1/initiate-intuite-auth', (req, res) => {
 		state: state,
 	}); // can be an array of multiple scopes ex : {scope:[OAuthClient.scopes.Accounting,OAuthClient.scopes.OpenId]}
 
+	console.log(authUri);
 	// Redirect the user to the Intuit authorization URL
-	res.status(200).json({
-		success: true,
-		authUri,
-	});
+	// res.status(200).json({
+	// 	success: true,
+	// 	authUri,
+	// });
+
+	res.redirect(authUri);
+
 	// res.redirect(authUri);
 });
