@@ -75,3 +75,41 @@ app.get('/api/v1/initiate-intuite-auth', (req, res) => {
 
 	// res.redirect(authUri);
 });
+
+app.post('/api/v1/intuit-get-code', async (req, res) => {
+	console.log(' here I am ');
+	// Construct the Intuit authorization URL
+	const clientId = process.env.INTUIT_APP_CLIENT_ID; // Replace with your actual client ID
+	const clientSecret = process.env.INTUIT_APP_CLIENT_SECRET; // Replace with your actual client ID
+	const redirectUri = process.env.INTUIT_APP_REDIRECT_URI; // Replace with your actual redirect URI
+	// Instance of client
+	var oauthClient = new OAuthClient({
+		clientId,
+		clientSecret,
+		environment: 'sandbox', // ‘sandbox’ or ‘production’
+		redirectUri,
+		logging: true,
+	});
+
+	// Parse the redirect URL for authCode and exchange them for tokens
+
+	var parseRedirect = req.body.url;
+	console.log(parseRedirect);
+	// Exchange the auth code retrieved from the **req.url** on the redirectUri
+	// oauthClient
+	// 	.createToken(parseRedirect)
+	// 	.then(function (authResponse) {
+	// 		console.log('The Token is  ' + JSON.stringify(authResponse.getJson()));
+	// 	})
+	// 	.catch(function (e) {
+	// 		console.error('The error message is :' + e.originalMessage);
+	// 		console.error(e.intuit_tid);
+	// 	});
+
+	const responseTokenObject = await oauthClient.createToken(parseRedirect);
+	console.log('token  created', token);
+	res.status(200).json({
+		success: true,
+		tokenObject: responseTokenObject,
+	});
+});
