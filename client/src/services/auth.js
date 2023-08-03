@@ -3,14 +3,7 @@ import axios from 'axios';
 const API_URL = process.env.REACT_APP_API_URL;
 
 // User registration
-export const intuitSignIn = async () => {
-	try {
-		const response = await axios.get(`${API_URL}/initiate-intuite-auth`);
-		return response.data;
-	} catch (error) {
-		throw error.response.data;
-	}
-};
+
 
 // https://appcenter.intuit.com/connect/oauth2?
 //     client_id=Q3ylJatCvnkYqVKLmkxxxxxxxxxxxxxxxkYB36b5mws7HkKUEv9aI&response_type=code&

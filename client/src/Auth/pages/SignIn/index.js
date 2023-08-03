@@ -13,7 +13,7 @@ import { v4 as uuidv4 } from 'uuid';
 import 'styling/Auth/SignIn.css';
 // import { useOAuth2Token } from 'react-oauth2-hook';
 
-// import { getIntuitAccessToken } from 'services/intuit';
+import { intuitSignIn } from 'services/intuit';
 
 const Index = () => {
 	const location = useLocation();
@@ -43,7 +43,7 @@ const Index = () => {
 		// send authorization request to quickbooks
 		// try {
 		// 	// await intuitSignIn();
-		// 	const response = await intuitSignIn();
+		const response = await intuitSignIn();
 		// 	// const response = await intuitSignInClient();
 		// 	console.log(response);
 		// 	window.location.href = response.authUri;
@@ -51,27 +51,28 @@ const Index = () => {
 		// 	console.error(e.message);
 		// }
 
-		const unqCode = uuidv4();
-		localStorage.setItem('unqCode', unqCode);
+		// const unqCode = uuidv4();
+		// localStorage.setItem('unqCode', unqCode);
 
-		const clientId = process.env.REACT_APP_INTUIT_CLIENT_ID;
-		const redirectUri = process.env.REACT_APP_INTUIT_REDIRECT_URI;
-		const intuitAuthUrl = process.env.REACT_APP_INTUIT_AUTH_URL;
-		const intuitScope = process.env.REACT_APP_INTUIT_SCOPE;
+		// const clientId = process.env.REACT_APP_INTUIT_CLIENT_ID;
+		// const redirectUri = process.env.REACT_APP_INTUIT_REDIRECT_URI;
+		// const intuitAuthUrl = process.env.REACT_APP_INTUIT_AUTH_URL;
+		// const intuitScope = process.env.REACT_APP_INTUIT_SCOPE;
 
-		window.location.href = `${intuitAuthUrl}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${intuitScope}&response_type=code&state=${unqCode}`;
+		// window.location.href = `${intuitAuthUrl}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${intuitScope}&response_type=code&state=${unqCode}`;
+		window.location.href = response.authUri;
 	};
 
 	useEffect(() => {
 		const storedUUID = localStorage.getItem('unqCode');
 
 		if (state) {
-			if (state !== storedUUID) {
-				toast.error('UNAUTHORIZED_REQUEST !', {
-					position: toast.POSITION.TOP_LEFT,
-				});
-				return;
-			}
+			// if (state !== storedUUID) {
+			// 	toast.error('UNAUTHORIZED_REQUEST !', {
+			// 		position: toast.POSITION.TOP_LEFT,
+			// 	});
+			// 	return;
+			// }
 
 			// make api call to get data
 
@@ -90,35 +91,19 @@ const Index = () => {
 					)
 					.join('&');
 			};
-			const data = {
-				grant_type: 'authorization_code',
-				code,
-				redirect_uri: redirectUri,
-			};
+			// const data = {
+			// 	grant_type: 'authorization_code',
+			// 	code,
+			// 	redirect_uri: redirectUri,
+			// };
 
-			const headers = {
-				Accept: 'application/json', // Example header, you can add more if needed
-				'Content-Type': 'application/x-www-form-urlencoded',
-				Authorization: `Basic ${encodedCredentials}`,
-			};
+			// const headers = {
+			// 	Accept: 'application/json', // Example header, you can add more if needed
+			// 	'Content-Type': 'application/x-www-form-urlencoded',
+			// 	Authorization: `Basic ${encodedCredentials}`,
+			// };
 			try {
-				// fetch('https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer', {
-				// 	headers,
-				// 	method: 'POST',
-				// 	body: urlEncodeData(data),
-				// })
-				// 	.then((response) => {
-				// 		console.log(response.status); // Output the status
-				// 		if (!response.ok) {
-				// 			throw new Error('Network response was not ok'); // Throw an error for non-2xx responses
-				// 		}
-				// 		return response;
-				// 	})
-				// .then((response) => response.json()) // Send response body to next then chain
-				// .then((body) => console.log(body))
-				// .catch((error) => console.error('Error:', error.message)); // Catch any errors that occurred in the chain
-
-				const redirectUrl = `https://0a21-39-62-29-82.ngrok-free.app/login?code=${code}&state=${state}&realmId=${realmId}`;
+				const redirectUrl = `${process.env.REACT_APP_INTUIT_REDIRECT_URI}?code=${code}&state=${state}&realmId=${realmId}`;
 
 				fetch('http://localhost:8080/api/v1/intuit-get-code', {
 					method: 'POST',
@@ -139,6 +124,7 @@ const Index = () => {
 					.catch((error) => console.error('Error:', error.message)); // Catch any errors that occurred in the chain
 			} catch (err) {
 				console.error('Error:', err.message);
+				toast.error(err.message);
 			}
 		}
 	}, []);
@@ -164,6 +150,7 @@ const Index = () => {
 					<Control className='intuit' onClick={handleClickInuite}>
 						Sign In With Intuit
 					</Control>
+
 					<Divider />
 				</div>
 				<form className='sign-in__form' onSubmit={handleSubmit}>

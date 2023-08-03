@@ -38,17 +38,17 @@ app.get('/', (req, res) => {
 
 // -------------------------------- Handling Intuite Requests -----------------------
 
+// Intuite credentials;
+const clientId = process.env.INTUIT_APP_CLIENT_ID; // Replace with your actual client ID
+const clientSecret = process.env.INTUIT_APP_CLIENT_SECRET; // Replace with your actual client ID
+const redirectUri = process.env.INTUIT_APP_REDIRECT_URI; // Replace with your actual redirect URI
+
+// initiate auth request with Intuit server
 app.get('/api/v1/initiate-intuite-auth', (req, res) => {
 	// Generate a random state value using uuid
 	const state = uuid.v4();
-
 	// Save the state value in the user's session
 	req.session.oauthState = state;
-
-	// Construct the Intuit authorization URL
-	const clientId = process.env.INTUIT_APP_CLIENT_ID; // Replace with your actual client ID
-	const clientSecret = process.env.INTUIT_APP_CLIENT_SECRET; // Replace with your actual client ID
-	const redirectUri = process.env.INTUIT_APP_REDIRECT_URI; // Replace with your actual redirect URI
 	// Instance of client
 	var oauthClient = new OAuthClient({
 		clientId,
@@ -60,28 +60,24 @@ app.get('/api/v1/initiate-intuite-auth', (req, res) => {
 
 	// AuthorizationUri
 	var authUri = oauthClient.authorizeUri({
-		scope: [OAuthClient.scopes.Accounting],
+		scope: [OAuthClient.scopes.Accounting, OAuthClient.scopes.OpenId],
 		state: state,
 	}); // can be an array of multiple scopes ex : {scope:[OAuthClient.scopes.Accounting,OAuthClient.scopes.OpenId]}
 
-	console.log(authUri);
-	// Redirect the user to the Intuit authorization URL
-	// res.status(200).json({
-	// 	success: true,
-	// 	authUri,
-	// });
+	//Redirect the user to the Intuit authorization URL
+	res.status(200).json({
+		success: true,
+		authUri,
+	});
 
-	res.redirect(authUri);
+	// res.redirect(authUri);
 
 	// res.redirect(authUri);
 });
 
+//get access token
 app.post('/api/v1/intuit-get-code', async (req, res) => {
-	console.log(' here I am ');
 	// Construct the Intuit authorization URL
-	const clientId = process.env.INTUIT_APP_CLIENT_ID; // Replace with your actual client ID
-	const clientSecret = process.env.INTUIT_APP_CLIENT_SECRET; // Replace with your actual client ID
-	const redirectUri = process.env.INTUIT_APP_REDIRECT_URI; // Replace with your actual redirect URI
 	// Instance of client
 	var oauthClient = new OAuthClient({
 		clientId,
@@ -93,23 +89,56 @@ app.post('/api/v1/intuit-get-code', async (req, res) => {
 
 	// Parse the redirect URL for authCode and exchange them for tokens
 
-	var parseRedirect = req.body.url;
-	console.log(parseRedirect);
-	// Exchange the auth code retrieved from the **req.url** on the redirectUri
-	// oauthClient
-	// 	.createToken(parseRedirect)
-	// 	.then(function (authResponse) {
-	// 		console.log('The Token is  ' + JSON.stringify(authResponse.getJson()));
-	// 	})
-	// 	.catch(function (e) {
-	// 		console.error('The error message is :' + e.originalMessage);
-	// 		console.error(e.intuit_tid);
-	// 	});
+	try {
+		var parseRedirect = req.body.url;
 
-	const responseTokenObject = await oauthClient.createToken(parseRedirect);
-	console.log('token  created', token);
-	res.status(200).json({
-		success: true,
-		tokenObject: responseTokenObject,
+		const responseTokenObject = await oauthClient.createToken(parseRedirect);
+		const getJson = responseTokenObject.getJson();
+
+		res.status(200).json({
+			success: true,
+			data: getJson,
+		});
+	} catch (err) {
+		res.status(400).json({
+			success: false,
+			error: err,
+			message: err.message,
+		});
+	}
+});
+
+// refresh acces token
+
+app.get('/api/v1/intuit-refresh-code', async (req, res) => {
+	// Construct the Intuit authorization URL
+	// Instance of client
+	var oauthClient = new OAuthClient({
+		clientId,
+		clientSecret,
+		environment: 'sandbox', // ‘sandbox’ or ‘production’
+		redirectUri,
+		logging: true,
 	});
+
+	// Parse the redirect URL for authCode and exchange them for tokens
+
+	try {
+		// var parseRedirect = req.body.url;
+		const { refreshToken } = req.query;
+
+		authResponse = await oauthClient.refreshUsingToken(refreshToken);
+		const jsonResponse = await authResponse.getJson();
+
+		res.status(200).json({
+			success: true,
+			data: jsonResponse,
+		});
+	} catch (err) {
+		res.status(400).json({
+			success: false,
+			error: err,
+			message: err.message,
+		});
+	}
 });

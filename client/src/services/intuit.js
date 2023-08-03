@@ -38,3 +38,12 @@ export const getIntuitAccessToken = async (payload) => {
 		throw error.response.data;
 	}
 };
+
+export const intuitSignIn = async () => {
+	try {
+		const response = await axios.get(`${API_URL}/initiate-intuite-auth`);
+		return response.data;
+	} catch (error) {
+		throw error.response.data;
+	}
+};
