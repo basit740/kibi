@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import AuthWrapper from 'auth/components/AuthWrapper';
 import TextControl from 'auth/components/TextControl';
 import 'styling/Auth/Register.css';
@@ -12,6 +12,10 @@ const Index = () => {
 
 		window.location.href = '/dashboard';
 	};
+
+	useEffect(() => {
+		document.title = 'Kibi | Register';
+	}, []);
 
 	return (
 		<AuthWrapper title='Welcome To Kibi'>

@@ -58,25 +58,47 @@ app.get('/api/v1/initiate-intuite-auth', (req, res) => {
 		logging: true,
 	});
 
+	/*
+
+	 Profile: 'profile',
+  Email: 'email',
+  Phone: 'phone',
+  Address: 'address',
+  OpenId: 'openid',
+  Intuit_name: 'intuit_name',
+
+	*/
+
 	// AuthorizationUri
-	var authUri = oauthClient.authorizeUri({
-		scope: [OAuthClient.scopes.Accounting, OAuthClient.scopes.OpenId],
-		state: state,
-	}); // can be an array of multiple scopes ex : {scope:[OAuthClient.scopes.Accounting,OAuthClient.scopes.OpenId]}
+	try {
+		var authUri = oauthClient.authorizeUri({
+			scope: [
+				OAuthClient.scopes.Accounting,
+				OAuthClient.scopes.OpenId,
+				OAuthClient.scopes.Email,
+				OAuthClient.scopes.Phone,
+				OAuthClient.scopes.Address,
+				OAuthClient.scopes.Profile,
+			],
+			state: state,
+		}); // can be an array of multiple scopes ex : {scope:[OAuthClient.scopes.Accounting,OAuthClient.scopes.OpenId]}
 
-	//Redirect the user to the Intuit authorization URL
-	res.status(200).json({
-		success: true,
-		authUri,
-	});
-
-	// res.redirect(authUri);
-
-	// res.redirect(authUri);
+		//Redirect the user to the Intuit authorization URL
+		res.status(200).json({
+			success: true,
+			authUri,
+		});
+	} catch (e) {
+		res.status(400).json({
+			success: false,
+			error: e,
+			message: e.message,
+		});
+	}
 });
 
-//get access token
-app.post('/api/v1/intuit-get-code', async (req, res) => {
+//GET ACCESS TOKEN
+app.post('/api/v1/intuit-get-access-token', async (req, res) => {
 	// Construct the Intuit authorization URL
 	// Instance of client
 	var oauthClient = new OAuthClient({
@@ -95,9 +117,40 @@ app.post('/api/v1/intuit-get-code', async (req, res) => {
 		const responseTokenObject = await oauthClient.createToken(parseRedirect);
 		const getJson = responseTokenObject.getJson();
 
+		// const user info
+
+		// let useInfo;
+		// validate id token
+
+		oauthClient
+			.validateIdToken()
+			.then(function (response) {
+				console.log('Is my ID token validated  : ' + response);
+			})
+			.catch(function (e) {
+				console.log('The error is ' + JSON.stringify(e));
+			});
+
+		// also get user info
+
+		// oauthClient
+		// 	.getUserInfo()
+		// 	.then(function (response) {
+		// 		console.log('The User Info is  : ' + JSON.stringify(response.json()));
+		// 	})
+		// 	.catch(function (e) {
+		// 		console.log('The error is ' + JSON.stringify(e.message));
+		// 	});
+
+		// const userInfoResponse = await oauthClient.getUserInfo();
+		// userInfo = await userInfoResponse.json();
+
+		// Is my ID token validated : true
+
+		// console.log('validated id token response', validatedTokenResponse);
 		res.status(200).json({
 			success: true,
-			data: getJson,
+			data: { ...getJson },
 		});
 	} catch (err) {
 		res.status(400).json({
@@ -108,8 +161,7 @@ app.post('/api/v1/intuit-get-code', async (req, res) => {
 	}
 });
 
-// refresh acces token
-
+// GET REFRESH TOKEN
 app.get('/api/v1/intuit-refresh-code', async (req, res) => {
 	// Construct the Intuit authorization URL
 	// Instance of client
@@ -129,6 +181,82 @@ app.get('/api/v1/intuit-refresh-code', async (req, res) => {
 
 		authResponse = await oauthClient.refreshUsingToken(refreshToken);
 		const jsonResponse = await authResponse.getJson();
+
+		res.status(200).json({
+			success: true,
+			data: jsonResponse,
+		});
+	} catch (err) {
+		res.status(400).json({
+			success: false,
+			error: err,
+			message: err.message,
+		});
+	}
+});
+
+// GET USER INFOR FROM INTUIT
+app.get('/api/v1/intuit-get-user-info', async (req, res) => {
+	// const { accessToken } = req.query;
+
+	// oauthClient
+	// 	.getUserInfo(accessToken)
+	// 	.then(function (response) {
+	// 		console.log('The User Info is  : ' + JSON.stringify(response.json()));
+	// 	})
+	// 	.catch(function (e) {
+	// 		console.log('The error is ' + JSON.stringify(e));
+	// 	});
+
+	try {
+		var oauthClient = new OAuthClient({
+			clientId,
+			clientSecret,
+			environment: 'sandbox', // ‘sandbox’ or ‘production’
+			redirectUri,
+			logging: true,
+		});
+
+		const response = await oauthClient.getUserInfo();
+		const jsonResponse = await response.json();
+
+		res.status(200).json({
+			success: true,
+			data: jsonResponse,
+		});
+	} catch (err) {
+		res.status(400).json({
+			success: false,
+			error: err,
+			message: err.message,
+		});
+	}
+});
+
+// VALIDATE ID TOKEN - do not call it now.
+app.post('/api/v1/validate-id-token', async (req, res) => {
+	try {
+		var oauthClient = new OAuthClient({
+			clientId,
+			clientSecret,
+			environment: 'sandbox', // ‘sandbox’ or ‘production’
+			redirectUri,
+			logging: true,
+		});
+
+		// oauthClient.validateIdToken()
+		//     .then(function(response){
+		//         console.log('Is my ID token validated  : ' + response);
+		//     })
+		//     .catch(function(e) {
+		//         console.log('The error is '+ JSON.stringify(e));
+		//     });
+
+		console.log('id_token', req.body.id_token);
+
+		const response = await oauthClient.validateIdToken(req.body.id_token);
+		const jsonResponse = await response.getJson();
+		// Is my ID token validated : true
 
 		res.status(200).json({
 			success: true,

@@ -3,7 +3,7 @@ import AuthWrapper from '../../components/AuthWrapper';
 import Control from '../../components/Control';
 import Divider from '../../components/Divider';
 import TextControl from '../../components/TextControl';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -13,15 +13,21 @@ import { v4 as uuidv4 } from 'uuid';
 import 'styling/Auth/SignIn.css';
 // import { useOAuth2Token } from 'react-oauth2-hook';
 
-import { intuitSignIn } from 'services/intuit';
+import {
+	intuitSignIn,
+	validateIdToken,
+	intuitGetAccessToken,
+	getUserInfo,
+} from 'services/intuit';
 
 const Index = () => {
+	const navigate = useNavigate();
 	const location = useLocation();
 	const params = new URLSearchParams(location.search);
 	const realmId = params.get('realmId');
 	const code = params.get('code');
 	const state = params.get('state');
-	const [returnedUUID, setReturnedUUID] = useState('');
+	// const [returnedUUID, setReturnedUUID] = useState('');
 	const handleChangeEmail = (e) => {
 		console.log(e.target.value);
 	};
@@ -39,32 +45,18 @@ const Index = () => {
 	// const notify = ({errorEmw}) => toast('UNAUTHORIZED_REQUEST!');
 
 	const handleClickInuite = async () => {
-		//https://appcenter.intuit.com/connect/oauth2?client_id=ABAc1kMQ3krUiAKWA5hP3I9hnXYH0SpuZjx3ld5pcRwCO4yABP&redirect_uri=https://438c-39-62-29-82.ngrok-free.app/login&scope=com.intuit.quickbooks.accounting&response_type=code&state=token_xxx
-		// send authorization request to quickbooks
-		// try {
-		// 	// await intuitSignIn();
 		const response = await intuitSignIn();
-		// 	// const response = await intuitSignInClient();
-		// 	console.log(response);
-		// 	window.location.href = response.authUri;
-		// } catch (e) {
-		// 	console.error(e.message);
-		// }
-
-		// const unqCode = uuidv4();
-		// localStorage.setItem('unqCode', unqCode);
-
-		// const clientId = process.env.REACT_APP_INTUIT_CLIENT_ID;
-		// const redirectUri = process.env.REACT_APP_INTUIT_REDIRECT_URI;
-		// const intuitAuthUrl = process.env.REACT_APP_INTUIT_AUTH_URL;
-		// const intuitScope = process.env.REACT_APP_INTUIT_SCOPE;
-
-		// window.location.href = `${intuitAuthUrl}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${intuitScope}&response_type=code&state=${unqCode}`;
 		window.location.href = response.authUri;
 	};
 
 	useEffect(() => {
-		const storedUUID = localStorage.getItem('unqCode');
+		// change page title
+		document.title = 'Kibi | Login';
+		// const storedUUID = localStorage.getItem('unqCode');
+
+		// const getUserInfo = async()=>{
+		// 	const response = await getUserInfoIntuit();
+		// }
 
 		if (state) {
 			// if (state !== storedUUID) {
@@ -78,7 +70,6 @@ const Index = () => {
 
 			const clientId = process.env.REACT_APP_INTUIT_CLIENT_ID;
 			const clientSecret = process.env.REACT_APP_INTUIT_CLIENT_SECRET;
-			const redirectUri = process.env.REACT_APP_INTUIT_REDIRECT_URI;
 
 			const credentials = `${clientId}:${clientSecret}`;
 			const encodedCredentials = btoa(credentials);
@@ -91,41 +82,74 @@ const Index = () => {
 					)
 					.join('&');
 			};
-			// const data = {
-			// 	grant_type: 'authorization_code',
-			// 	code,
-			// 	redirect_uri: redirectUri,
-			// };
 
-			// const headers = {
-			// 	Accept: 'application/json', // Example header, you can add more if needed
-			// 	'Content-Type': 'application/x-www-form-urlencoded',
-			// 	Authorization: `Basic ${encodedCredentials}`,
-			// };
-			try {
+			(async () => {
 				const redirectUrl = `${process.env.REACT_APP_INTUIT_REDIRECT_URI}?code=${code}&state=${state}&realmId=${realmId}`;
+				try {
+					const accessTokenResponse = await intuitGetAccessToken(redirectUrl);
 
-				fetch('http://localhost:8080/api/v1/intuit-get-code', {
-					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({
-						url: redirectUrl,
-					}),
-				})
-					.then((response) => {
-						console.log(response.status); // Output the status
-						if (!response.ok) {
-							throw new Error('Network response was not ok'); // Throw an error for non-2xx responses
-						}
-						return response;
-					})
-					.then((response) => response.json()) // Send response body to next then chain
-					.then((body) => console.log(body))
-					.catch((error) => console.error('Error:', error.message)); // Catch any errors that occurred in the chain
-			} catch (err) {
-				console.error('Error:', err.message);
-				toast.error(err.message);
-			}
+					console.log('accessTokenResponse', accessTokenResponse);
+
+					localStorage.setItem(
+						'intuitAccessToken',
+						accessTokenResponse.data.access_token
+					);
+					localStorage.setItem(
+						'ituitIdToken',
+						accessTokenResponse.data.id_token
+					);
+
+					const userInfoResponse = await getUserInfo(
+						accessTokenResponse.data.access_token
+					);
+					console.log(userInfoResponse);
+					// navigate('/dashboard');
+					// validate id token
+					// const idTokenResponse = await validateIdToken(
+					// 	accessTokenResponse.data.id_token
+					// );
+
+					// console.log('id token resose....', idTokenResponse);
+				} catch (err) {
+					console.log(err);
+				}
+			})();
+
+			// try {
+			// 	const redirectUrl = `${process.env.REACT_APP_INTUIT_REDIRECT_URI}?code=${code}&state=${state}&realmId=${realmId}`;
+
+			// 	fetch(process.env.REACT_APP_API_URL + '/intuit-get-code', {
+			// 		method: 'POST',
+			// 		headers: { 'Content-Type': 'application/json' },
+			// 		body: JSON.stringify({
+			// 			url: redirectUrl,
+			// 		}),
+			// 	})
+			// 		.then((response) => {
+			// 			console.log(response.status); // Output the status
+			// 			if (!response.ok) {
+			// 				throw new Error('Network response was not ok'); // Throw an error for non-2xx responses
+			// 			}
+			// 			return response;
+			// 		})
+			// 		.then((response) => response.json()) // Send response body to next then chain
+			// 		.then(async (body) => {
+			// 			console.log('body: ', body);
+			// 			// window.location.href = '/dashboard';
+			// 			localStorage.setItem('intuitAccessToken', body.data.access_token);
+
+			// 			// also validate token here
+
+			// 			const response = await validateIdToken();
+			// 			console.log('validted Id token response here>>>>>>>', response);
+
+			// 			navigate('/dashboard');
+			// 		})
+			// 		.catch((error) => console.error('Error:', error.message)); // Catch any errors that occurred in the chain
+			// } catch (err) {
+			// 	console.error('Error:', err.message);
+			// 	toast.error(err.message);
+			// }
 		}
 	}, []);
 
@@ -148,7 +172,7 @@ const Index = () => {
 						</div>
 					</Control>
 					<Control className='intuit' onClick={handleClickInuite}>
-						Sign In With Intuit
+						Sign In With Intuit -
 					</Control>
 
 					<Divider />
