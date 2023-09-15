@@ -40,9 +40,9 @@ export const getIntuitAccessToken = async (payload) => {
 	}
 };
 
-export const intuitSignIn = async () => {
+export const getIntuitAuthUri = async () => {
 	try {
-		const response = await axios.get(`${API_URL}/initiate-intuite-auth`);
+		const response = await axios.get(`${API_URL}/get-intuite-auth-uri`);
 		return response.data;
 	} catch (error) {
 		throw error.response.data;

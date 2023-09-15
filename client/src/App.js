@@ -1,5 +1,6 @@
 import React from 'react';
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { Routes, Route } from 'react-router-dom';
 import LandingPage from './LandingPage/Index';
 
@@ -30,23 +31,26 @@ function App() {
 	// }
 
 	return (
-		<Routes>
-			<Route path='/' element={<LandingPage />}></Route>
-			<Route path='/login' element={<Login />}></Route>
-			<Route path='/register' element={<Register />}></Route>
-			<Route path='/dashboard' element={<Layout />}>
-				<Route exact path='' element={<DashboardHome />} />
-				<Route path='company-settings' element={<CompanySettings />} />
-				<Route path='prepaids-review' element={<PrepaidsReview />} />
-				<Route path='journal-entries' element={<JournalEntries />} />
-				<Route path='help' element={<FAQ />} />
-				<Route path='settings' element={<Settings />} />
-				<Route
-					path='amortization-waterfall'
-					element={<AmortizationWaterfall />}
-				/>
-			</Route>
-		</Routes>
+		<div className='kibi-app'>
+			<ToastContainer />
+			<Routes>
+				<Route path='/' element={<LandingPage />}></Route>
+				<Route path='/login' element={<Login />}></Route>
+				<Route path='/register' element={<Register />}></Route>
+				<Route path='/dashboard' element={<Layout />}>
+					<Route exact path='' element={<DashboardHome />} />
+					<Route path='company-settings' element={<CompanySettings />} />
+					<Route path='prepaids-review' element={<PrepaidsReview />} />
+					<Route path='journal-entries' element={<JournalEntries />} />
+					<Route path='help' element={<FAQ />} />
+					<Route path='settings' element={<Settings />} />
+					<Route
+						path='amortization-waterfall'
+						element={<AmortizationWaterfall />}
+					/>
+				</Route>
+			</Routes>
+		</div>
 	);
 }
 

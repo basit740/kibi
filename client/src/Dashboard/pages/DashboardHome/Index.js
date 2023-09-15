@@ -39,25 +39,9 @@ const Index = () => {
 	//getUserInfoIntuit
 
 	useEffect(() => {
-		// const fetchData = async () => {
-		// 	try {
-		// 		const response = await getUserInfo();
-		// 		console.log('user info respoinse:', response);
-		// 	} catch (e) {
-		// 		console.log('user info error:', e.message);
-		// 	}
-		// };
+		const userInfo = JSON.parse(localStorage.getItem('user'));
 
-		// try {
-		// 	fetchData();
-		// } catch (e) {
-		// 	console.log('error:', e);
-		// }
-
-		(async () => {
-			const response = await getUserInfo();
-			console.log('user data response:', response);
-		})();
+		console.log({ userInfo });
 	}, []);
 	return (
 		<Container>
