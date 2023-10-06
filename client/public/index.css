@@ -1,0 +1,227 @@
+/* FONTS */
+
+:root {
+	--primary-color: #023047;
+	--secondary-color: #219ebc;
+	--intuit-color: #168eca;
+	--text-color: #ddd;
+	--text-color-black-100: #292d32;
+	--text-color-black-90: #3f4247;
+	--text-color-black-80: #54575b;
+	--text-color-black-70: #6a6c70;
+	--text-color-black-60: #7f8184;
+	--text-color-black-50: #939598;
+	--text-color-black-40: #a9abad;
+	--text-color-black-30: #bfc0c2;
+	--text-color-black-20: #d4d5d6;
+	--text-color-black-10: #eaeaeb;
+	--text-color-black-5: #f4f4f4;
+
+	/* #LEANEER COLORS */
+	--leaner-color-1: #1d55b6;
+	--leaner-color-2: #168bd0;
+	--leaner-color-2: #cceef7;
+	--leaner-color-3: #e6fbff;
+
+	/* bg colors */
+	--bg-white: #fff;
+	--bg-color-0: #f8f8f8;
+	--bg-color-1: #e9f6f9;
+
+	--bg-color-2: rgba(33, 158, 188, 0.2);
+
+	--bg-custom-cbx: #e9e9ea;
+	--bg-custom-cbx-checked: #34c759;
+
+	/*info colors */
+	--info-color-1: #ff5e4c;
+}
+
+@font-face {
+	font-family: 'Gotham';
+	src: url('./assets/fonts/Gotham-Light.otf') format('truetype');
+	/* Add additional src lines if you have multiple font file formats */
+}
+
+@font-face {
+	font-family: 'Gotham';
+	src: url('./assets/fonts/Gotham-Bold.otf') format('truetype');
+	/* Add additional src lines if you have multiple font file formats */
+}
+
+@font-face {
+	font-family: 'Gotham';
+	src: url('./assets/fonts/Gotham-Book.otf') format('truetype');
+	/* Add additional src lines if you have multiple font file formats */
+}
+
+@font-face {
+	font-family: 'Gotham';
+	src: url('./assets/fonts/Gotham-Medium.otf') format('truetype');
+	/* Add additional src lines if you have multiple font file formats */
+}
+
+html {
+	font-size: 62.5%;
+}
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box !important;
+	font-family: inherit !important;
+}
+
+body {
+	/* font-family: 'Gotham', serif !important; */
+
+	font-style: normal;
+	font-family: 'Poppins' serif;
+}
+
+/* ALL ANCHORS */
+a {
+	text-decoration: none;
+}
+
+.dashboard-main {
+	background-color: var(--text-color-black-5);
+	height: 100vh;
+}
+
+/* UTILITY CLASSES */
+
+.animated-change {
+	opacity: 0.4;
+}
+
+.grid {
+	display: grid;
+}
+.flex {
+	display: flex;
+}
+.flex-coloum {
+	flex-direction: column;
+}
+.align-center {
+	align-items: center;
+}
+
+.just-end {
+	justify-content: flex-end;
+}
+
+.grid-2 {
+	grid-template-columns: repeat(2, 1fr);
+}
+.grid-3 {
+	grid-template-columns: repeat(3, 1fr);
+}
+.grid-4 {
+	grid-template-columns: repeat(4, 1fr);
+}
+.grid-5 {
+	grid-template-columns: repeat(5, 1fr);
+}
+.grid-6 {
+	grid-template-columns: repeat(6, 1fr);
+}
+.grid-7 {
+	grid-template-columns: repeat(7, 1fr);
+}
+.grid-8 {
+	grid-template-columns: repeat(8, 1fr);
+}
+
+/* WIDTH */
+.w-30 {
+	width: 30%;
+}
+.w-40 {
+	width: 40%;
+}
+.w-70 {
+	width: 70%;
+}
+
+/* MARGINS */
+.mr-10 {
+	margin-right: 10px;
+}
+.mt-32 {
+	margin-top: 3.2rem;
+}
+
+.mt-40 {
+	margin-top: 4rem;
+}
+.mb-10 {
+	margin-bottom: 10px;
+}
+.mb-32 {
+	margin-bottom: 3.2rem;
+}
+/* GAPS  */
+.gap-1 {
+	gap: 1px;
+}
+.gap-2 {
+	gap: 2px;
+}
+.gap-3 {
+	gap: 3px;
+}
+.gap-4 {
+	gap: 4px;
+}
+.gap-6 {
+	gap: 4px;
+}
+.gap-8 {
+	gap: 8px;
+}
+.gap-10 {
+	gap: 10px;
+}
+.gap-16 {
+	gap: 1.6rem;
+}
+.gap-20 {
+	gap: 2rem;
+}
+.gap-24 {
+	gap: 2.4rem;
+}
+.gap-30 {
+	gap: 3rem;
+}
+
+/* HEADINGS */
+
+.section_heading {
+	color: var(--text-color-black-100);
+	font-family: 'Gotham' !important;
+	font-size: 1.6rem;
+	font-style: normal;
+	font-weight: 700;
+	line-height: 150%; /* 24px */
+}
+
+/* SCROLLS STYLES */
+
+.scrollable {
+	overflow-x: auto;
+}
+/* RESPONSIVE DESIGN GENERALS RULES */
+
+@media (max-width: 768px) {
+	html {
+		font-size: 50%;
+	}
+}
+
+@media (max-width: 600px) {
+	html {
+		font-size: 38%;
+	}
+}

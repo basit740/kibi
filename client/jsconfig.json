@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "dashboard/*": [
+        "Dashboard/*"
+      ],
+      "landing-page/*": [
+        "LandingPage/*"
+      ],
+      "auth/*": [
+        "Auth/*"
+      ],
+      "styling/*": [
+        "styling/*"
+      ],
+      "store/*": [
+        "store/*"
+      ],
+      "utils/*": [
+        "utils/*"
+      ],
+      "services/*": [
+        "services/*"
+      ],
+    }
+  },
+}

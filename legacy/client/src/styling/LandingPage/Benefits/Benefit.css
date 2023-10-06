@@ -1,0 +1,19 @@
+.benefit {
+}
+.benefit:before {
+}
+
+.benefit__icon {
+	margin-bottom: 24px;
+}
+.benefit__title {
+	font-family: 'Gotham' !important;
+	font-size: 2.4rem;
+	line-height: 100%;
+	color: var(--secondary-color);
+	margin-bottom: 12px;
+}
+.benefit__description {
+	font-size: 1.6rem;
+	color: var(--text-color-black-90);
+}

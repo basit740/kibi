@@ -23,7 +23,7 @@
 }
 
 .sidebar__button {
-	background: url('../../../../public/icons/indent-decrease.png');
+	background: url('/icons/indent-decrease.png');
 	border: none;
 	cursor: pointer;
 	width: 24px;

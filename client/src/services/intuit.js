@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL;
-const INTUIT_SERVER_URL = process.env.REACT_APP_INTUIT_SERVER_URL;
+const API_URL = import.meta.env.VITE_API_URL;
+const INTUIT_SERVER_URL = import.meta.env.VITE_INTUIT_SERVER_URL;
 
 // curl -X POST 'https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer' \
 // -H 'Accept: application/json' \
@@ -12,9 +12,9 @@ const INTUIT_SERVER_URL = process.env.REACT_APP_INTUIT_SERVER_URL;
 // -d 'redirect_uri=REPLACE_WITH_REDIRECT_URI'
 
 export const getIntuitAccessToken = async (payload) => {
-	const clientId = process.env.REACT_APP_INTUIT_CLIENT_ID;
-	const clientSecret = process.env.REACT_APP_INTUIT_CLIENT_SECRET;
-	const redirectUri = process.env.REACT_APP_INTUIT_REDIRECT_URI;
+	const clientId = import.meta.env.VITE_INTUIT_CLIENT_ID;
+	const clientSecret = import.meta.env.VITE_INTUIT_CLIENT_SECRET;
+	const redirectUri = import.meta.env.VITE_INTUIT_REDIRECT_URI;
 	const headers = {
 		Accept: 'application/json', // Example header, you can add more if needed
 		'Content-Type': 'application/x-www-form-urlencoded',
@@ -110,6 +110,16 @@ export const validateIdToken = async (payload) => {
 		} else {
 			throw error.message; // Handle network errors
 		}
+	}
+};
+
+export const changeAvailablilityStatus = async (body) => {
+	try {
+		const response = await axios.post(`${API_URL}/change-availablility-status`,body);
+		return response.data;
+	} catch (error) {
+		console.log('error', error);
+		throw error.response.data;
 	}
 };
 

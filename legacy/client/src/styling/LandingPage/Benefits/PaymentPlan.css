@@ -1,0 +1,102 @@
+.payment-plan {
+	background-color: #fff;
+	padding: 3.2rem;
+	border-radius: 10px;
+	box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);
+	max-width: 338px;
+	justify-self: flex-end;
+	align-self: center;
+}
+.payment-plan__title {
+	font-family: 'Gotham' !important;
+	font-size: 3.2rem;
+	line-height: 100%;
+	color: var(--secondary-color);
+	margin-bottom: 1.5rem;
+}
+.payment-plan__description {
+	font-size: 1.5rem;
+	line-height: 160%;
+	margin-bottom: 3rem;
+	color: var(--text-color-black-60);
+}
+.payment-plan__includes {
+	list-style: none;
+	padding-left: 0;
+}
+
+.payment-plan__includes-title {
+	font-size: 1.5rem;
+	color: var(--text-color-black-100);
+	font-weight: 700;
+	line-height: 160%;
+	margin-bottom: 1.5rem;
+}
+.payment-plan__includes-list {
+	list-style: none;
+	/* margin-left: 2rem; */
+	display: flex;
+	flex-direction: column;
+	gap: 1.27rem;
+	margin-bottom: 3rem;
+}
+.payment-plan__indluded {
+	font-weight: 500;
+	font-size: 1.5rem;
+	line-height: 140%;
+	color: var(--text-color-black-90);
+
+	background-repeat: no-repeat;
+	background-position: 0 50%; /* Adjust position as needed */
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+}
+
+.payment-plan__indluded:before {
+	content: '';
+	display: inline-block;
+	width: 2.3rem; /* Adjust width as needed */
+	height: 2.3rem; /* Adjust height as needed */
+	background-image: url('../../../assets/icons/checkmark.png'); /* Path to your custom PNG image */
+}
+.payment__plan-amount-info {
+	margin-bottom: 4.6rem;
+}
+.payment-plan__amount {
+	font-family: 'Gotham';
+	font-size: 3rem;
+	font-weight: bold;
+}
+.period {
+	font-family: 'Poppins' !important;
+	font-size: 1.5rem;
+	color: var(--text-color-black-60);
+}
+.payment-plan__cta {
+	padding: 1.5rem 0;
+	display: block;
+	text-align: center;
+	border-radius: 5px;
+	width: 100%;
+	background-color: var(--secondary-color);
+	font-size: 1.6rem;
+	text-decoration: none;
+	color: #fff;
+	cursor: pointer;
+	/* font-weight: 600; */
+	font-family: 'Poppins' !important;
+	font-weight: 600;
+	transition: all 0.3s;
+	margin-bottom: 1.8rem;
+}
+.payment-plan__cta:hover {
+	background-color: var(--primary-color);
+}
+.payment-plan__payment-help {
+	text-align: center;
+	font-size: 1.5rem;
+	font-weight: 400;
+	line-height: 140%;
+	color: var(--text-color-black-60);
+}

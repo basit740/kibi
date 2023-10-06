@@ -1,0 +1,71 @@
+.menu-item-bottom {
+	/* font-family: 'Gotham' !important; */
+	font-size: 1.6rem;
+	/* font-weight: lighter; */
+	font-weight: 350;
+	padding: 10px;
+	display: flex;
+	align-items: center;
+	padding: 9px 16px;
+	gap: 6px;
+	width: 100%;
+	flex: none;
+	order: 0;
+	align-self: stretch;
+
+	color: var(--text-color-black-80);
+	border-radius: 6px;
+	transition: all 0.4s;
+
+	line-height: 100%;
+
+	position: relative;
+}
+
+.menu-item-bottom:hover,
+.menu-item-bottom:active {
+	color: var(--text-color-black-100);
+}
+
+.menu-item-bottom:hover svg path {
+	/* fill: var(--text-color-black-100); */
+	/* fill: #fff; */
+}
+.menu-item-bottom:active svg path {
+	/* fill: var(--text-color-black-100); */
+}
+.menu-item-bottom:hover {
+	background-color: var(--secondary-color);
+	color: #fff;
+}
+/* .menu-item:active {
+	background-color: var(--secondary-color);
+	color: #fff;
+} */
+
+.menu-item-bottom.active {
+	background-color: var(--secondary-color);
+	color: #fff;
+}
+
+.menu-item-bottom:hover svg path {
+	/* fill: var(--text-color-black-100); */
+	/* fill: #fff; */
+}
+.menu-item-bottom:active svg path {
+	/* fill: var(--text-color-black-100); */
+	/* fill: #fff; */
+}
+
+.decrease {
+	/* something */
+}
+
+.menu-item-bottom.decrease {
+	padding: 5px;
+}
+/* DECREASE STATE */
+.decrease .menu-item-bottom__text,
+.menu-item-bottom__dropdown {
+	display: none;
+}

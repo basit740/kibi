@@ -1,0 +1,14 @@
+.layout {
+	display: flex;
+	height: 100vh;
+	background-color: var(--text-color-black-5);
+	font-family: 'Poppins' !important;
+}
+
+.dashboard-main {
+	/* Main content styles */
+	flex-grow: 1;
+	/* Set flex-grow to 1 to allow the content to occupy remaining width */
+	transition: margin-left 0.3s ease; /* Add transition for smooth animation */
+	overflow-y: scroll;
+}

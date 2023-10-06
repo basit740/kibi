@@ -1,0 +1,62 @@
+.journal_entry {
+	padding: 2.8rem 2rem;
+	border-radius: 8px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 15px;
+	background: #fff;
+	font-family: 'Poppins';
+	min-width: 32rem;
+}
+
+.journal_entry__item {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	align-self: stretch;
+}
+
+.journal_entry__label {
+	color: var(--text-color-black-90);
+	font-family: 'Gotham' !important;
+	font-size: 1.2rem;
+	font-style: normal;
+	font-weight: 400;
+}
+
+.journal_entry__data {
+	color: var(--text-color-black-90);
+
+	font-size: 1.5rem;
+	font-weight: 500;
+}
+
+.journal_entry__actions {
+	margin-top: auto;
+	display: flex;
+	align-items: flex-start;
+	gap: 5px;
+}
+.journal_entry__btn {
+	border-radius: 8px;
+	color: var(--secondary-color);
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 500;
+	padding: 8px 10px;
+	cursor: pointer;
+	background: none;
+	transition: all 0.4s linear;
+	opacity: 0.8;
+	border: none;
+}
+
+.journal_entry__btn--fill {
+	background: rgba(33, 158, 188, 0.3);
+}
+
+.journal_entry__btn:hover {
+	opacity: 1;
+}

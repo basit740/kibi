@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
-
+import { changeAvailablilityStatus } from 'services/intuit';
 import '../../../styling/Dashboard/components/CustomCbx.css';
 import Switch from './Switch';
 
-const CustomCbx = ({ id }) => {
+const CustomCbx = ({ id, _id, value }) => {
 	const switchId = 'id-' + id;
 
-	const [checked, setChecked] = useState();
+	const [checked, setChecked] = useState(value);
 
 	const handleChange = (event) => {
 		console.log(event.target.checked);
-		setChecked(event.target.checked);
+		changeAvailablilityStatus({value: event.target.checked, id: _id}).then((response)=>{
+			setChecked(event.target.checked);
+
+		})
 		// onCheck(id, event.target.checked);
 	};
 

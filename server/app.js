@@ -5,12 +5,19 @@ const colors = require('colors');
 const uuid = require('uuid');
 const session = require('express-session');
 const OAuthClient = require('intuit-oauth');
-
+const connectDB = require('./db.js')
 // Instance of intuit-oauth client
+
+const {storeUser} = require('./controllers/users')
+const {storeCompany} = require('./controllers/company')
+const {storeAccounts, getAccounts, changeAccountStatus} = require('./controllers/accounts');
+const { request } = require('express');
 
 dotenv.config({
 	path: './.env',
 });
+
+connectDB();
 
 const oauthClient = new OAuthClient({
 	clientId: process.env.INTUIT_APP_CLIENT_ID,
@@ -50,7 +57,41 @@ app.get('/', (req, res) => {
 // const clientId = process.env.INTUIT_APP_CLIENT_ID;
 // const clientSecret = process.env.INTUIT_APP_CLIENT_SECRET;
 // const redirectUri = process.env.INTUIT_APP_REDIRECT_URI;
+const getAccountDetails = async () => {
+	const authResponse = await oauthClient.getToken().getToken();
+	console.log('getting token',authResponse);
+	const access_token = authResponse.access_token;
+	const response = await oauthClient
+	.makeApiCall({
+		url:
+			oauthClient.environment === 'sandbox'
+				? process.env.INTUIT_APP_SANDBOX_BASE_URL + '/v3/company/4620816365323080540/reports/AccountList'
+				: OAuthClient.userinfo_endpoint_production,
+		method: 'GET',
+		headers: {
+			'Accept':'application/json',
+			"Authorization": `Bearer ${access_token}`
+		}
+	});
+	console.log(response.getJson());
+	return response.getJson();
+}
 
+app.post('/api/v1/change-availablility-status', async (req, res)=>{
+	const response = await changeAccountStatus(req.body.id, req.body.value);
+	console.log(response);
+	res.json({
+		status: '200',
+		data: response
+	})
+})
+app.get('/api/v1/account-details', async (req, res) => {
+	const accounts = await getAccounts(req.query.companyId);
+		res.json({
+			status: '200',
+			data: accounts
+		})
+})
 // initiate auth request with Intuit server
 app.get('/api/v1/get-intuite-auth-uri', (req, res) => {
 	// Generate a random state value using uuid
@@ -272,7 +313,7 @@ app.get('/api/v1/get-intuite-auth-uri', (req, res) => {
 app.post('/api/v1/authenticate', (req, res) => {
 	console.log({ url: req.body });
 	// GetUserInfo
-	const getUserInfo = () => {
+	const getUserInfo = (authResponse) => {
 		return oauthClient
 			.makeApiCall({
 				url:
@@ -281,16 +322,16 @@ app.post('/api/v1/authenticate', (req, res) => {
 						: OAuthClient.userinfo_endpoint_production,
 				method: 'GET',
 			})
-			.then((userInfo) => {
-				console.log({ userInfo });
-				return { userInfo: userInfo.getJson() };
+			.then(async(userInfo) => {
+				console.log({ "userInfo": userInfo });
+				await storeUser(userInfo.getJson())
+				return Object.assign({ userInfo: userInfo.getJson() }, authResponse);
 			});
 	};
 
 	// GetCompanyInfo
 	const getCompanyInfo = (userInfo) => {
 		const companyID = oauthClient.getToken().realmId;
-
 		const url =
 			oauthClient.environment === 'sandbox'
 				? OAuthClient.environment.sandbox
@@ -310,9 +351,26 @@ app.post('/api/v1/authenticate', (req, res) => {
 
 	oauthClient
 		.createToken(req.body.url)
+		.then((authResponse) => {
+			const accessToken =  authResponse.getJson().access_token;
+			console.log(accessToken);
+			const response = oauthClient.getToken().setToken(authResponse.getJson());
+			console.log("response of setting token",response)
+			return {authResponse: authResponse.getJson()}
+		})
 		.then(getUserInfo)
 		.then(getCompanyInfo)
-		.then((response) => {
+		.then(async (response) => {
+			const companyId = await storeCompany(response);
+			return {...response, companyId: companyId};
+		}).then(async (response) => {
+			const accounts = await getAccountDetails();
+			console.log(accounts);
+			response = {
+				...response,
+				accounts: accounts
+			};
+			await storeAccounts(response);
 			return res.status(200).json({
 				success: true,
 				data: response,

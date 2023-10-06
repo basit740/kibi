@@ -1,0 +1,92 @@
+.navbar {
+	padding: 1.6rem 2.4rem;
+	background-color: var(--bg-color-1);
+
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 4rem;
+	color: var(--text-color-black--90);
+	font-family: 'Poppins' !important;
+	/* box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.005); */
+}
+.navbar__title_link {
+	color: var(--text-color-black--100);
+	text-decoration: none;
+}
+.navbar__title {
+	font-size: 2rem;
+	line-height: 100%;
+	font-weight: 500;
+	color: var(--text-color-black--100);
+}
+.quickbooks-sync {
+	display: flex;
+	align-items: center;
+	gap: 1.6rem;
+}
+.quickbooks-sync__label {
+	font-style: normal;
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 100%;
+}
+.quickbooks-sync__last-time {
+	font-size: 13px;
+	font-weight: 300;
+	color: var(--text-color-black--80);
+	transition: all 0.3s ease-in-out;
+}
+.quicbooks-sync__button {
+	font-size: 12px;
+	padding: 10px;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: all 0.4s;
+	background-color: transparent;
+	border: 1px solid var(--text-color-black-80);
+	display: flex;
+	align-items: center;
+	gap: 0.8rem;
+	padding: 8px 10px;
+	border-radius: 8px;
+}
+
+svg {
+	transition: all 0.3s;
+}
+
+.quicbooks-sync__button svg {
+	transition: all 0.4s;
+}
+.syncing svg {
+	/* transform: rotate(360deg); */
+
+	animation-name: infinite-rotate;
+	animation-duration: 2s;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+}
+
+.quicbooks-sync__button:active {
+}
+.navbar__user-img {
+	cursor: pointer;
+	width: 4rem;
+	height: 4rem;
+	border-radius: 50%;
+	object-fit: cover;
+}
+
+/* ANIMATIONS */
+
+/*infinite rotation*/
+
+@keyframes infinite-rotate {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}

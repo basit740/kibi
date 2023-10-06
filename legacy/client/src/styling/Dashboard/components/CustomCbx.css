@@ -1,0 +1,16 @@
+.custom_cbx {
+	display: flex;
+	align-items: center;
+	gap: 2rem;
+}
+.custom_cbx__checkbox {
+	display: none;
+}
+.custom_cbx__label {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	align-items: center;
+	gap: 8px;
+	cursor: pointer;
+	transition: all 0.3s;
+}

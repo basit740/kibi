@@ -1,0 +1,83 @@
+.section-duplicate-report {
+	margin: 0 15px;
+}
+.duplicate-report {
+	padding: 6.4rem 0;
+	max-width: 126rem;
+	font-family: 'Poppins' !important;
+	margin: 0 auto;
+
+	background: linear-gradient(83.79deg, #1b45b4 3.25%, #219ebc 96.85%);
+	position: absolute;
+
+	left: 50%;
+	width: 126rem;
+	top: -60%;
+	transform: translate(-50%, 0);
+	background-repeat: no-repeat;
+	border-radius: 5px;
+}
+.duplicate-report__title {
+	font-family: 'Gotham' !important;
+	font-style: normal;
+	font-weight: 700;
+	font-size: 4.8rem;
+	/* line-height: 120%; */
+	text-align: center;
+	margin: 0 auto;
+	margin-bottom: 1.6rem;
+	/* width: 60%; */
+	max-width: 60.7rem;
+	/* margin-bottom: 1.6rem; */
+	color: #fff;
+}
+.duplicate-report__description {
+	font-weight: 400;
+	font-size: 1.6rem;
+	line-height: 160%;
+
+	text-align: center;
+	letter-spacing: -0.03em;
+
+	max-width: 51.4rem;
+	margin: 0 auto 4.8rem;
+	color: var(--text-color-black-10);
+}
+.duplicate-report__actions {
+	max-width: 34.3rem;
+	margin: 0 auto;
+	display: flex;
+	gap: 3.8rem;
+	align-items: center;
+}
+.duplicate-report__btn {
+	padding: 16px 32px;
+	border-radius: 5px;
+	font-size: 1.6rem;
+	border: none;
+	background-color: transparent;
+	cursor: pointer;
+	transition: all 0.3s;
+}
+.duplicate-report__btn {
+}
+
+.duplicate-report__btn--try-free {
+	background-color: #fff;
+	color: var(--secondary-color);
+}
+.duplicate-report__btn--contact-us {
+	box-shadow: 0 0 0 1px #fff;
+	color: #fff;
+	background-color: transparent;
+}
+
+.duplicate-report__btn--try-free:hover {
+	box-shadow: 0 0 0 1px #fff;
+	color: #fff;
+	background-color: transparent;
+}
+.duplicate-report__btn--contact-us:hover {
+	background-color: #fff;
+	color: var(--secondary-color);
+}

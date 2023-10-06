@@ -1,0 +1,26 @@
+.customer-select {
+	display: flex;
+	align-items: center;
+	gap: 2rem;
+	justify-self: center;
+	margin: 0 auto;
+}
+
+.customer-select__label {
+	font-weight: 300;
+	font-size: 13px;
+	color: var(--text-color-black--80);
+}
+.customer-select__dropdown {
+	padding: 17.5px 14px;
+	border-radius: 5px;
+	background-color: #fff;
+	cursor: pointer;
+	font-size: 13px;
+	font-weight: 300;
+	width: 40.4rem;
+	/* min-width: 26rem; */
+	/* width: 30rem; */
+	border: none;
+	border-radius: 10px;
+}

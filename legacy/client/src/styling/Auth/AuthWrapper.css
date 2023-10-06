@@ -1,0 +1,74 @@
+.auth-wrapper {
+	min-height: 100vh;
+	background: linear-gradient(83.79deg, #1b45b4 3.25%, #219ebc 96.85%);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-family: 'Gotham' !important;
+}
+.auth-wrapper__header {
+	text-align: center;
+}
+.auth-wrapper__content {
+	background-color: #fff;
+	padding: 48px;
+	border-radius: 10px;
+	max-width: 61.8rem;
+	width: 100%;
+	position: relative;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+
+	animation: bubble 0.4s ease-in-out;
+}
+.auth-wrapper__logo {
+	/* width: 16.6rem;
+	height: 5.6rem; */
+	display: inline;
+	margin-bottom: 3.2rem;
+}
+.auth-wrapper__title {
+	color: var(--primary-color);
+	font-size: 2.8rem;
+	font-style: normal;
+	font-weight: 500;
+	margin-bottom: 3.2rem;
+	text-align: left;
+}
+
+.helper__content {
+	position: absolute;
+	top: 102%;
+	color: #fff;
+
+	color: #fff;
+	text-align: center;
+
+	font-size: 1.6rem;
+
+	font-style: normal;
+	font-weight: 400;
+	line-height: 100%; /* 16px */
+	left: 50%;
+	transform: translateX(-50%);
+}
+.helper__content a {
+	color: #fff;
+}
+
+@keyframes bubble {
+	0% {
+		top: 30%;
+		opacity: 0;
+	}
+	50% {
+		top: 55%;
+		/* opacity: 0.6; */
+	}
+	100% {
+		top: 50%;
+		opacity: 1;
+	}
+}
