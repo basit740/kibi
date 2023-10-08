@@ -9,11 +9,14 @@ import CustomeerSelect from './CustomerSelect/Index';
 // icons
 import IconSyncNow from './svg/SyncNow';
 import { Link } from 'react-router-dom';
+import Avatar from 'dashboard/components/Avatar';
 
 const Index = () => {
 	const [syncing, setSyncing] = useState(false);
 	const [time, setTime] = useState('Today, 8:52 PM');
 
+	const name = localStorage.getItem('kibiUserName')? localStorage.getItem('kibiUserName'): 'John Doe';
+	
 	const handleSyncNow = () => {
 		setSyncing(true);
 		const ms = 1000 * (Math.floor(Math.random() * 5) + 1);
@@ -68,11 +71,12 @@ const Index = () => {
 				</button>
 			</div>
 
-			<img
+			<Avatar name={name} />
+			{/* <img
 				src='images/user.jpeg'
 				alt='user'
 				className={styles['navbar__user-img']}
-			/>
+			/> */}
 		</nav>
 	);
 };

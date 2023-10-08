@@ -147,6 +147,8 @@ const Index = () => {
 						localStorage.setItem('intuitLoggedIn', true);
 						localStorage.setItem('user', JSON.stringify(data.data.userInfo));
 						localStorage.setItem('companyId', data.data.companyId);
+						localStorage.setItem('kibiUserName', data.data.userInfo.giverName);
+
 						console.log(data.data.companyId);
 						localStorage.setItem('authResponse', JSON.stringify(data.data.authResponse));
 						navigate('/dashboard');
