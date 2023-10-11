@@ -1,30 +1,22 @@
 import React, { useState } from 'react';
-import { changeAvailablilityStatus } from 'services/intuit';
 import '../../../styling/Dashboard/components/CustomCbx.css';
 import Switch from './Switch';
 
-const CustomCbx = ({ id, _id, value }) => {
+const CustomCbx = ({ id, _id, value, handleChange }) => {
 	const switchId = 'id-' + id;
-
+	console.log('value', value)
 	const [checked, setChecked] = useState(value);
 
-	const handleChange = (event) => {
-		console.log(event.target.checked);
-		changeAvailablilityStatus({value: event.target.checked, id: _id}).then((response)=>{
-			setChecked(event.target.checked);
-
-		})
-		// onCheck(id, event.target.checked);
-	};
+	
 
 	return (
 		<div className={`custom_cbx ${checked ? 'checked' : ''}`}>
 			<input
 				type='checkbox'
-				value='dark'
+				value={checked}
 				className={`custom_cbx__checkbox`}
 				id={switchId}
-				onChange={handleChange}
+				onClick={(e)=>handleChange(e, checked, setChecked, _id)}
 			/>
 			<label htmlFor={switchId} className='custom_cbx__label'>
 				{checked ? 'No' : 'Yes'}

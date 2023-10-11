@@ -110,7 +110,9 @@ a {
 .just-end {
 	justify-content: flex-end;
 }
-
+.just-between {
+	justify-content: space-between;
+}
 .grid-2 {
 	grid-template-columns: repeat(2, 1fr);
 }

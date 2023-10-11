@@ -1,9 +1,9 @@
 const Users = require('../models/Users');
 const Companies = require('../models/Companies');
-const Accounts = require('../models/Accounts');
+const Class = require('../models/Class');
 
 
-exports.storeAccounts = async (data) => {
+exports.storeClass = async (data) => {
     const {userInfo, companyInfo, accounts} = data;
     console.log('accounts: ', accounts);
     console.log('company info', companyInfo)
@@ -37,29 +37,3 @@ exports.storeAccounts = async (data) => {
 
     });    
 }
-exports.getAccounts = async(companyId)=> {
-    const company_Id = await Companies.findOne({Kibi_CompanyId: companyId}).select('_id').exec();
-    const accounts = await Accounts.find({Kibi_CompanyId: company_Id._id}).select('AccountNumber AccountName Kibi_AvailableForSelection DetailType').exec();
-    console.log(accounts);
-    return accounts;
-}
-exports.getAvailableAccounts = async(companyId)=> {
-    const company_Id = await Companies.findOne({Kibi_CompanyId: companyId}).select('_id').exec();
-    const accounts = await Accounts.find({Kibi_CompanyId: company_Id._id, Kibi_AvailableForSelection: true}).select('AccountNumber AccountName Kibi_AvailableForSelection DetailType').exec();
-    console.log(accounts);
-    return accounts;
-}
-
-exports.changeAccountStatus = async(id, value)=> {
-    const filter = { _id: id};
-    const update = {Kibi_AvailableForSelection: value}
-    const response = await Accounts.findOneAndUpdate(filter, update);
-    return response;
-}
-
-exports.changeAllAccountsStatus = async(value)=> {
-    const update = {Kibi_AvailableForSelection: value}
-    const response = await Accounts.updateMany({},update);
-    return response;
-}
-

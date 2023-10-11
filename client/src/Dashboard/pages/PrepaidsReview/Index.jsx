@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState} from 'react';
 import Container from 'dashboard/components/Container';
 import Card from 'dashboard/components/UI/Card';
 import PeriodsEndDate from 'dashboard/components/PeriodsEndDate';
 import Total from 'dashboard/components/Total';
 import Table from 'dashboard/components/Table';
 import Button from 'dashboard/components/Button';
-
+import Dropdown from 'dashboard/components/Dropdown';
 const dates = [
 	{
 		value: 'May 31, 2023',
@@ -13,61 +13,6 @@ const dates = [
 	},
 ];
 
-const tableData = {
-	Columns: [
-		{
-			field: 'transactionType',
-			headerName: 'Transaction Type',
-			sortable: true,
-		},
-		{
-			field: 'quickbooksBalance',
-			headerName: 'Quickbooks Balance',
-			sortable: true,
-		},
-		{ field: 'name', headerName: 'Name', sortable: true },
-		{ field: 'memo', headerName: 'Memo/Description', sortable: true },
-		{
-			field: 'expenseAccount',
-			headerName: 'Expense Account',
-			sortable: true,
-		},
-	],
-	Rows: [
-		{
-			transactionType: 'Bill',
-			quickbooksBalance: 'INV9865',
-			name: 'ABC Crop',
-			memo: 'Insurance Jan-July',
-			expenseAccount: 'Software',
-			class: 'Finance',
-		},
-		{
-			transactionType: 'Invoice',
-			quickbooksBalance: 'INV1234',
-			name: 'XYZ Corp',
-			memo: 'Consulting Services',
-			expenseAccount: 'Services',
-			class: 'Operations',
-		},
-		{
-			transactionType: 'Bill',
-			quickbooksBalance: 'INV7890',
-			name: 'DEF Enterprises',
-			memo: 'Office Supplies',
-			expenseAccount: 'Office Expenses',
-			class: 'Legal',
-		},
-		{
-			transactionType: 'Expense',
-			quickbooksBalance: 'INV5678',
-			name: 'GHI Inc.',
-			memo: 'Marketing Campaign',
-			expenseAccount: 'Marketing',
-			class: 'Operations',
-		},
-	],
-};
 
 const tableData2 = {
 	Columns: [
@@ -159,6 +104,101 @@ const tableData2 = {
 
 const Index = () => {
 	const handlePrepare4Jentry = (e) => {};
+
+	const [quickbookaccounts, setQuickbookaccounts] = useState()
+	const [accounts, setAccounts] = useState([]);
+
+	const fetchQuickbookAccounts = async () => {
+		try {
+			const companyId = localStorage.getItem('companyId')
+			const response = await fetch(import.meta.env.VITE_API_URL + '/available-account-details?companyId=' + companyId);
+			if (!response.ok) {
+				throw new Error('Network response was not ok');
+			}
+			const data = await response.json();
+			// Use the functional form of setState to ensure you're using the latest state
+			const newAccounts = data.data
+			setAccounts(newAccounts)
+		} catch (error) {
+			console.error('Error fetching data:', error);
+		}
+	};
+
+	useEffect(()=> {
+		fetchQuickbookAccounts();
+	},[])
+
+	const tableData = {
+		Columns: [
+			{
+				field: 'transactionType',
+				headerName: 'Transaction Type',
+				sortable: true,
+			},
+			{
+				field: 'quickbooksBalance',
+				headerName: 'Quickbooks Balance',
+				sortable: true,
+			},
+			{ field: 'name', headerName: 'Name', sortable: true },
+			{ field: 'memo', headerName: 'Memo/Description', sortable: true },
+			{
+				field: 'expenseAccount',
+				headerName: 'Expense Account',
+				sortable: true,
+			},
+		],
+		Rows: [
+			{
+				transactionType: 'Bill',
+				quickbooksBalance: 'INV9865',
+				name: (<Dropdown
+				data={accounts}
+				value='AccountName'
+				displayName='AccountName'
+			/>),
+				memo: 'Insurance Jan-July',
+				expenseAccount: 'Software',
+				class: 'Finance',
+			},
+			{
+				transactionType: 'Invoice',
+				quickbooksBalance: 'INV1234',
+				name: (<Dropdown
+					data={accounts}
+					value='AccountName'
+					displayName='AccountName'
+				/>),			memo: 'Consulting Services',
+				expenseAccount: 'Services',
+				class: 'Operations',
+			},
+			{
+				transactionType: 'Bill',
+				quickbooksBalance: 'INV7890',
+				name: (<Dropdown
+					data={accounts}
+					value='AccountName'
+					displayName='AccountName'
+				/>),
+				memo: 'Office Supplies',
+				expenseAccount: 'Office Expenses',
+				class: 'Legal',
+			},
+			{
+				transactionType: 'Expense',
+				quickbooksBalance: 'INV5678',
+				name: (<Dropdown
+					data={accounts}
+					value='AccountName'
+					displayName='AccountName'
+				/>),
+				memo: 'Marketing Campaign',
+				expenseAccount: 'Marketing',
+				class: 'Operations',
+			},
+		],
+	};
+	
 
 	return (
 		<Container>

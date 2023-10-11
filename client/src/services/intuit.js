@@ -123,6 +123,16 @@ export const changeAvailablilityStatus = async (body) => {
 	}
 };
 
+export const changeAllAccountsAvailabilityStatus = async (body) => {
+	try{
+		const response = await axios.post(`${API_URL}/change-all-accounts-availability-status`, body)
+		return response.data;
+	} catch (error) {
+		console.log('error', error);
+		throw error.response.data;
+	}
+}
+
 export const getUserInfo = async (accessToken) => {
 	// try {
 	// 	const response = await fetch(

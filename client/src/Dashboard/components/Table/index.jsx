@@ -7,6 +7,7 @@ import CustomCbx from 'dashboard/components/CustomCbx';
 
 // css
 import '../../../styling/Dashboard/components/Table.css';
+
 const Table = ({ tableData, title, scrollable }) => {
 	const { Columns, Rows } = tableData;
 
@@ -32,19 +33,10 @@ const Table = ({ tableData, title, scrollable }) => {
 					{Rows.map((row, rowIndex) => (
 						<TableRow key={rowIndex} headingsLength={Columns.length}>
 							{Columns.map((column, cellIndex) => {
-
-								if(column.field === 'Kibi_AvailableForSelection')
-								{
-									return ( 
-									<TableCell key={cellIndex}>
-										<CustomCbx _id={row._id} id={row.AccountName} value={row[column.field]} />
-									</TableCell> 
-									)
-								}
 								return (
-								<TableCell key={cellIndex}>
-									{row[column.field]}
-								</TableCell>
+									<TableCell key={cellIndex}>
+										{row[column.field]}
+									</TableCell>
 								)
 							})}
 						</TableRow>

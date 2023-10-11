@@ -10,7 +10,7 @@ const connectDB = require('./db.js')
 
 const {storeUser} = require('./controllers/users')
 const {storeCompany} = require('./controllers/company')
-const {storeAccounts, getAccounts, changeAccountStatus} = require('./controllers/accounts');
+const {storeAccounts, getAccounts,getAvailableAccounts, changeAccountStatus, changeAllAccountsStatus} = require('./controllers/accounts');
 const { request } = require('express');
 
 dotenv.config({
@@ -76,6 +76,25 @@ const getAccountDetails = async () => {
 	console.log(response.getJson());
 	return response.getJson();
 }
+const getClassDetails = async () => {
+	const authResponse = await oauthClient.getToken().getToken();
+	console.log('getting token',authResponse);
+	const access_token = authResponse.access_token;
+	const response = await oauthClient
+	.makeApiCall({
+		url:
+			oauthClient.environment === 'sandbox'
+				? process.env.INTUIT_APP_SANDBOX_BASE_URL + '/v3/company/4620816365323080540/query?query=select  * from Class&minorversion=69v3/company/4620816365323080540/reports/AccountList'
+				: OAuthClient.userinfo_endpoint_production,
+		method: 'GET',
+		headers: {
+			'Accept':'application/json',
+			"Authorization": `Bearer ${access_token}`
+		}
+	});
+	console.log(response.getJson());
+	return response.getJson();
+}
 
 app.post('/api/v1/change-availablility-status', async (req, res)=>{
 	const response = await changeAccountStatus(req.body.id, req.body.value);
@@ -85,11 +104,36 @@ app.post('/api/v1/change-availablility-status', async (req, res)=>{
 		data: response
 	})
 })
+app.post('/api/v1/change-all-accounts-availability-status', async (req, res) => {
+	const response = await changeAllAccountsStatus(req.body.value);
+	console.log(response);
+	res.json({
+		status: '200',
+		data: response
+	})
+	
+});
 app.get('/api/v1/account-details', async (req, res) => {
 	const accounts = await getAccounts(req.query.companyId);
 		res.json({
 			status: '200',
 			data: accounts
+		})
+})
+app.get('/api/v1/available-account-details', async (req, res) => {
+	const accounts = await getAvailableAccounts(req.query.companyId);
+		res.json({
+			status: '200',
+			data: accounts
+		})
+})
+app.get('/api/v1/class-details', async (req, res) => {
+	const classes = await getClassDetails();
+	
+	console.log(classes)
+		res.json({
+			status: '200',
+			data: classes
 		})
 })
 // initiate auth request with Intuit server

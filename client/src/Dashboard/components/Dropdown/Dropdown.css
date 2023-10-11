@@ -1,0 +1,12 @@
+.dropdown{
+    max-width: 26rem;
+    border: 0px;
+    font-size: 1.4rem;
+    background-color: var(--bg-color-0);
+    width:100%;
+}
+.dropdown__option{
+    background-color: var(--bg-color-0);
+    width: 200px;
+    max-width: 26rem;
+}
