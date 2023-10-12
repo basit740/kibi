@@ -107,7 +107,7 @@ const Index = () => {
 
 	const [quickbookaccounts, setQuickbookaccounts] = useState()
 	const [accounts, setAccounts] = useState([]);
-
+	const [selectedAccount, setSelectedAccount] = useState()
 	const fetchQuickbookAccounts = async () => {
 		try {
 			const companyId = localStorage.getItem('companyId')
@@ -119,6 +119,7 @@ const Index = () => {
 			// Use the functional form of setState to ensure you're using the latest state
 			const newAccounts = data.data
 			setAccounts(newAccounts)
+			setSelectedAccount(newAccounts[0])
 		} catch (error) {
 			console.error('Error fetching data:', error);
 		}
@@ -127,6 +128,12 @@ const Index = () => {
 	useEffect(()=> {
 		fetchQuickbookAccounts();
 	},[])
+
+	const updateSelectedAccount = (e) =>{
+		console.log(e.target.value)
+		const newSelectedAccount = accounts.find(a => a.AccountName === e.target.value)
+		setSelectedAccount(newSelectedAccount);
+	}
 
 	const tableData = {
 		Columns: [
@@ -151,51 +158,52 @@ const Index = () => {
 		Rows: [
 			{
 				transactionType: 'Bill',
-				quickbooksBalance: 'INV9865',
+				quickbooksBalance: selectedAccount? selectedAccount.Balance : '' ,
 				name: (<Dropdown
 				data={accounts}
+				handleChange={updateSelectedAccount}
 				value='AccountName'
 				displayName='AccountName'
 			/>),
-				memo: 'Insurance Jan-July',
+				memo: selectedAccount? selectedAccount.Description: '',
 				expenseAccount: 'Software',
 				class: 'Finance',
 			},
-			{
-				transactionType: 'Invoice',
-				quickbooksBalance: 'INV1234',
-				name: (<Dropdown
-					data={accounts}
-					value='AccountName'
-					displayName='AccountName'
-				/>),			memo: 'Consulting Services',
-				expenseAccount: 'Services',
-				class: 'Operations',
-			},
-			{
-				transactionType: 'Bill',
-				quickbooksBalance: 'INV7890',
-				name: (<Dropdown
-					data={accounts}
-					value='AccountName'
-					displayName='AccountName'
-				/>),
-				memo: 'Office Supplies',
-				expenseAccount: 'Office Expenses',
-				class: 'Legal',
-			},
-			{
-				transactionType: 'Expense',
-				quickbooksBalance: 'INV5678',
-				name: (<Dropdown
-					data={accounts}
-					value='AccountName'
-					displayName='AccountName'
-				/>),
-				memo: 'Marketing Campaign',
-				expenseAccount: 'Marketing',
-				class: 'Operations',
-			},
+			// {
+			// 	transactionType: 'Invoice',
+			// 	quickbooksBalance: 'INV1234',
+			// 	name: (<Dropdown
+			// 		data={accounts}
+			// 		value='AccountName'
+			// 		displayName='AccountName'
+			// 	/>),			memo: 'Consulting Services',
+			// 	expenseAccount: 'Services',
+			// 	class: 'Operations',
+			// },
+			// {
+			// 	transactionType: 'Bill',
+			// 	quickbooksBalance: 'INV7890',
+			// 	name: (<Dropdown
+			// 		data={accounts}
+			// 		value='AccountName'
+			// 		displayName='AccountName'
+			// 	/>),
+			// 	memo: 'Office Supplies',
+			// 	expenseAccount: 'Office Expenses',
+			// 	class: 'Legal',
+			// },
+			// {
+			// 	transactionType: 'Expense',
+			// 	quickbooksBalance: 'INV5678',
+			// 	name: (<Dropdown
+			// 		data={accounts}
+			// 		value='AccountName'
+			// 		displayName='AccountName'
+			// 	/>),
+			// 	memo: 'Marketing Campaign',
+			// 	expenseAccount: 'Marketing',
+			// 	class: 'Operations',
+			// },
 		],
 	};
 	

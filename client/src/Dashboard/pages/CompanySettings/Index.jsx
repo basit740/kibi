@@ -119,6 +119,28 @@ const tableData3 = {
 const Index = () => {
 	const [quickbookaccounts, setQuickbookaccounts] = useState()
 	const [subledgerAccounts, setSubledgerAccounts] = useState([]);
+	const [selectAllButton, setSelectAllButton] = useState(false)
+
+	const AddCustomBoxComp = (accounts) => {
+		const result = accounts.Rows.map((row) => {
+			const newRow = {
+				...row,
+				Kibi_AvailableForSelection: (
+					<CustomCbx
+						_id={row._id}
+						id={row.AccountName}
+						value={row.Kibi_AvailableForSelection}
+						handleChange={handleStatusChange}
+					/>
+				)
+			}
+			return newRow;
+		})
+		return {
+			...accounts,
+			Rows: result,
+		};
+	}
 
 	const fetchQuickbookAccounts = async () => {
 		try {
@@ -129,33 +151,14 @@ const Index = () => {
 			}
 			const data = await response.json();
 			// Use the functional form of setState to ensure you're using the latest state
-			const newData = data.data.map((row) => {
-				let newRow = {
-					...row,
-					Kibi_AvailableForSelection: (
-						<CustomCbx
-							_id={row._id}
-							id={row.AccountName}
-							value={row.Kibi_AvailableForSelection}
-							handleChange={handleStatusChange}
-						/>
-					)
-				};
-				if (newRow.AccountNumber) {
-					return newRow;
-				}
-				return { ...newRow, AccountNumber: 'XXXX' }
-			})
-			const newSubledgerAccounts = data.data.filter(row => {
-				if (row.DetailType === 'Prepaid Expenses') {
-					return true;
-				}
-				return false;
-			})
-			setSubledgerAccounts(newSubledgerAccounts)
+			const newData = data.data.map((row) => row.AccountNumber? row : {...row, AccountNumber: 'XXXX'});
+			const newSubledgerAccounts = data.data.filter(row =>  row.DetailType === 'Prepaid Expenses'? true : false)
+				
+			setSubledgerAccounts([...newSubledgerAccounts])
 			setQuickbookaccounts((prevAccounts) => (
 				{
-					Rows: newData,
+					...prevAccounts,
+					Rows: [...newData],
 					Columns: [
 						{
 							field: 'AccountNumber',
@@ -171,7 +174,7 @@ const Index = () => {
 							field: 'Kibi_AvailableForSelection',
 							headerName: (
 								<span className='flex just-between'>
-								Available for Selection
+									Available for Selection
 									<CustomCbx
 										_id={'abc'}
 										id='account_settings'
@@ -193,25 +196,26 @@ const Index = () => {
 
 	const handleStatusChange = (event, state, setState, _id) => {
 		console.log('i am in the handle change function')
-		console.log(event.target.checked);
-		setState(event.target.checked);
-		changeAvailablilityStatus({ value: event.target.checked, id: _id }).then((response) => {
+		console.log(event.target.value);
+		setState(!state);
+		changeAvailablilityStatus({ value: !state, id: _id }).then((response) => {
 
 		}).catch((error) => {
-			setState(!event.target.checked);
+			setState(state);
 
 		})
 		// onCheck(id, event.target.checked);
 	};
 	const handleSelectAllChange = async (event, state, setState) => {
 		console.log('i am in the handle change function')
-		console.log(event.target.checked);
-		setState(event.target.checked);
+		console.log(!state);
+		setState(!state);
 		console.log(quickbookaccounts)
-		await changeAllAccountsAvailabilityStatus({ value: event.target.checked }).then(async(response) => {
-			await fetchQuickbookAccounts()
+		await changeAllAccountsAvailabilityStatus({ value: !state }).then(async (response) => {
+			setSelectAllButton(!state)
+
 		}).catch((error) => {
-			setState(!event.target.checked);
+			setState(state);
 		})
 		console.log(quickbookaccounts)
 
@@ -251,9 +255,8 @@ const Index = () => {
 
 
 	useEffect(() => {
-		
 		fetchQuickbookAccounts();
-	}, []); // The empty dependency array ensures this effect runs only once on component mount.
+	}, [selectAllButton]); // The empty dependency array ensures this effect runs only once on component mount.
 	return (
 		<Container>
 
@@ -261,7 +264,7 @@ const Index = () => {
 			{
 				quickbookaccounts &&
 				<div className='w-70 mt-32'>
-					<Table title='Quickbooks Accounts' tableData={quickbookaccounts} />
+					<Table title='Quickbooks Accounts' tableData={AddCustomBoxComp(quickbookaccounts)} />
 				</div>
 			}
 			<div className='grid grid-2 gap-30 mt-32'>

@@ -45,7 +45,7 @@ exports.getAccounts = async(companyId)=> {
 }
 exports.getAvailableAccounts = async(companyId)=> {
     const company_Id = await Companies.findOne({Kibi_CompanyId: companyId}).select('_id').exec();
-    const accounts = await Accounts.find({Kibi_CompanyId: company_Id._id, Kibi_AvailableForSelection: true}).select('AccountNumber AccountName Kibi_AvailableForSelection DetailType').exec();
+    const accounts = await Accounts.find({Kibi_CompanyId: company_Id._id, Kibi_AvailableForSelection: true}).select('AccountNumber AccountName Kibi_AvailableForSelection DetailType Description Balance').exec();
     console.log(accounts);
     return accounts;
 }

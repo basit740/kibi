@@ -129,7 +129,6 @@ app.get('/api/v1/available-account-details', async (req, res) => {
 })
 app.get('/api/v1/class-details', async (req, res) => {
 	const classes = await getClassDetails();
-	
 	console.log(classes)
 		res.json({
 			status: '200',

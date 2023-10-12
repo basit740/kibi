@@ -1,10 +1,10 @@
 import React from 'react'
 import './Dropdown.css';
 
-const Dropdown = ({data, value, displayName}) => {
+const Dropdown = ({data, value, displayName, handleChange}) => {
   return (
     <div>
-      <select className='dropdown'>
+      <select className='dropdown' onChange={handleChange}>
         {
             data.map((option)=> {
               console.log(option)
