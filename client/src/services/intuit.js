@@ -123,6 +123,16 @@ export const changeAvailablilityStatus = async (body) => {
 	}
 };
 
+export const getSelectAllAccountsValue = async () => {
+	try {
+		const response = await axios.get(`${API_URL}/get-selectall-accounts-value`);
+		return response.data;
+	} catch (error) {
+		console.log('error', error);
+		throw error.response.data;
+	}
+};
+
 export const changeAllAccountsAvailabilityStatus = async (body) => {
 	try{
 		const response = await axios.post(`${API_URL}/change-all-accounts-availability-status`, body)

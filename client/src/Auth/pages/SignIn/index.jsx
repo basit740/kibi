@@ -5,7 +5,7 @@ import Control from '../../components/Control';
 import Divider from '../../components/Divider';
 import TextControl from '../../components/TextControl';
 import { useLocation, useNavigate } from 'react-router-dom';
-
+import Loader from 'dashboard/components/Loader'
 import { toast } from 'react-toastify';
 
 import { v4 as uuidv4 } from 'uuid';
@@ -26,6 +26,7 @@ const Index = () => {
 	const state = params.get('state');
 
 	const [loading, setLoading] = useState(false);
+	const [intuitLoading, setIntuitLoading] = useState(false);
 	// const [returnedUUID, setReturnedUUID] = useState('');
 	const handleChangeEmail = (e) => {
 		console.log(e.target.value);
@@ -44,8 +45,10 @@ const Index = () => {
 	// const notify = ({errorEmw}) => toast('UNAUTHORIZED_REQUEST!');
 
 	const handleClickInuite = async () => {
+		setIntuitLoading(true);
 		const response = await getIntuitAuthUri();
 		window.location.href = response.authUri;
+		setIntuitLoading(false);
 	};
 
 	// useEffect(() => {
@@ -168,13 +171,13 @@ const Index = () => {
 		}
 	}, [code]);
 
-	if (loading) {
-		return (
-			<div>
-				<h1>Loading....</h1>
-			</div>
-		);
-	}
+	// if (loading) {
+	// 	return (
+	// 		<div>
+	// 			<h1>Loading....</h1>
+	// 		</div>
+	// 	);
+	// }
 	return (
 		<AuthWrapper title='Sign in to your account'>
 			<div className='sign-in'>
@@ -195,6 +198,10 @@ const Index = () => {
 					</Control>
 					<Control className='intuit' onClick={handleClickInuite}>
 						Sign In With Intuit -
+						{
+							intuitLoading &&
+							<Loader size='sm' />
+						}
 					</Control>
 
 					<Divider />
@@ -222,7 +229,7 @@ const Index = () => {
 						/>
 					</div>
 					<div className='form__actions'>
-						<button className='sign-in__submit' type='submit'>
+						<button className='bg-primary sign-in__submit' type='submit'>
 							Sign In
 						</button>
 					</div>

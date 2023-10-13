@@ -10,8 +10,15 @@ const connectDB = require('./db.js')
 
 const {storeUser} = require('./controllers/users')
 const {storeCompany} = require('./controllers/company')
-const {storeAccounts, getAccounts,getAvailableAccounts, changeAccountStatus, changeAllAccountsStatus} = require('./controllers/accounts');
-const { request } = require('express');
+const {
+	storeAccounts, 
+	getAccounts,
+	getAvailableAccounts, 
+	changeAccountStatus, 
+	changeAllAccountsStatus,
+	getSelectAllAccountsValue
+} = require('./controllers/accounts');
+const { request, response } = require('express');
 
 dotenv.config({
 	path: './.env',
@@ -98,7 +105,7 @@ const getClassDetails = async () => {
 
 app.post('/api/v1/change-availablility-status', async (req, res)=>{
 	const response = await changeAccountStatus(req.body.id, req.body.value);
-	console.log(response);
+	// console.log(response);
 	res.json({
 		status: '200',
 		data: response
@@ -134,6 +141,13 @@ app.get('/api/v1/class-details', async (req, res) => {
 			status: '200',
 			data: classes
 		})
+})
+app.get('/api/v1/get-selectall-accounts-value', async (req, res) => {
+	const response = await getSelectAllAccountsValue();
+	res.json({
+		status: '200',
+		data: response,
+	})
 })
 // initiate auth request with Intuit server
 app.get('/api/v1/get-intuite-auth-uri', (req, res) => {

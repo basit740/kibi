@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Container from 'dashboard/components/Container';
 
+import Loader from 'dashboard/components/Loader'
 import Table from 'dashboard/components/Table';
 import CustomCbx from 'dashboard/components/CustomCbx';
 import { Link } from 'react-router-dom';
 import Dropdown from 'dashboard/components/Dropdown';
-import { changeAvailablilityStatus, changeAllAccountsAvailabilityStatus } from 'services/intuit';
+import { changeAvailablilityStatus, changeAllAccountsAvailabilityStatus, getSelectAllAccountsValue } from 'services/intuit';
 
 
 const tableData1 = {
@@ -119,7 +120,7 @@ const tableData3 = {
 const Index = () => {
 	const [quickbookaccounts, setQuickbookaccounts] = useState()
 	const [subledgerAccounts, setSubledgerAccounts] = useState([]);
-	const [selectAllButton, setSelectAllButton] = useState(false)
+	const [selectAllValue, setSelectAllValue] = useState(false)
 
 	const AddCustomBoxComp = (accounts) => {
 		const result = accounts.Rows.map((row) => {
@@ -141,7 +142,7 @@ const Index = () => {
 			Rows: result,
 		};
 	}
-
+	console.log(quickbookaccounts)
 	const fetchQuickbookAccounts = async () => {
 		try {
 			const companyId = localStorage.getItem('companyId')
@@ -149,6 +150,9 @@ const Index = () => {
 			if (!response.ok) {
 				throw new Error('Network response was not ok');
 			}
+			const selectAll = await getSelectAllAccountsValue();
+			console.log(selectAll.data.SelectAllValue);
+			setSelectAllValue(selectAll.data.SelectAllValue);
 			const data = await response.json();
 			// Use the functional form of setState to ensure you're using the latest state
 			const newData = data.data.map((row) => row.AccountNumber? row : {...row, AccountNumber: 'XXXX'});
@@ -178,7 +182,7 @@ const Index = () => {
 									<CustomCbx
 										_id={'abc'}
 										id='account_settings'
-										value={false}
+										value={selectAll.data.SelectAllValue}
 										handleChange={handleSelectAllChange}
 									/>
 								</span>
@@ -187,39 +191,82 @@ const Index = () => {
 						},
 					]
 				}));
-			console.log('quickbookaccount', quickbookaccounts);
+			console.log('quickbookaccounts', newData);
 		} catch (error) {
 			console.error('Error fetching data:', error);
 		}
 	};
 
 
-	const handleStatusChange = (event, state, setState, _id) => {
+	const handleStatusChange = async (event, state, setState, _id) => {
 		console.log('i am in the handle change function')
 		console.log(event.target.value);
 		setState(!state);
-		changeAvailablilityStatus({ value: !state, id: _id }).then((response) => {
+		await changeAvailablilityStatus({ value: !state, id: _id }).then((response) => {
 
 		}).catch((error) => {
 			setState(state);
 
 		})
+		const selectAll = await getSelectAllAccountsValue();
+		console.log(selectAll);
+		if(selectAll.data.SelectAllValue !== selectAllValue){
+			setSelectAllValue(selectAll.data.SelectAllValue);
+		}
 		// onCheck(id, event.target.checked);
 	};
 	const handleSelectAllChange = async (event, state, setState) => {
-		console.log('i am in the handle change function')
+		console.log('i am in the handle change all function')
 		console.log(!state);
 		setState(!state);
 		console.log(quickbookaccounts)
-		await changeAllAccountsAvailabilityStatus({ value: !state }).then(async (response) => {
-			setSelectAllButton(!state)
+
+		setQuickbookaccounts((prev) => {
+			const newquickbookaccounts = prev.Rows.map((account) => {
+			  return { ...account, Kibi_AvailableForSelection: !state };
+			});
+		
+			return {
+			  ...prev,
+			  Rows: [...newquickbookaccounts],
+			  Columns: [
+				{
+					field: 'AccountNumber',
+					headerName: 'Account Number',
+					sortable: false
+				},
+				{
+					field: 'AccountName',
+					headerName: 'Account Name',
+					sortable: false
+				},
+				{
+					field: 'Kibi_AvailableForSelection',
+					headerName: (
+						<span className='flex just-between'>
+							Available for Selection 
+							<CustomCbx
+								_id={'abc'}
+								id='account_settings'
+								value={!state}
+								handleChange={handleSelectAllChange}
+							/>
+						</span>
+					),
+					sortable: false,
+				},
+			]
+			  // other properties
+			};
+		  });
+		console.log(quickbookaccounts)
+		await changeAllAccountsAvailabilityStatus({ value: !state }).then((response) => {
+			setSelectAllValue(!state)
 
 		}).catch((error) => {
 			setState(state);
 		})
 		console.log(quickbookaccounts)
-
-
 	}
 
 	const tableData = {
@@ -256,16 +303,17 @@ const Index = () => {
 
 	useEffect(() => {
 		fetchQuickbookAccounts();
-	}, [selectAllButton]); // The empty dependency array ensures this effect runs only once on component mount.
+	}, [selectAllValue]); // The empty dependency array ensures this effect runs only once on component mount.
 	return (
 		<Container>
 
 			<Table title='Subledger' tableData={tableData} />
 			{
-				quickbookaccounts &&
+				quickbookaccounts ?
 				<div className='w-70 mt-32'>
 					<Table title='Quickbooks Accounts' tableData={AddCustomBoxComp(quickbookaccounts)} />
-				</div>
+				</div> :
+				<Loader size='lg' />
 			}
 			<div className='grid grid-2 gap-30 mt-32'>
 				<Table title='QuickBooks Class' tableData={tableData2} />

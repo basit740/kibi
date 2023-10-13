@@ -1,7 +1,7 @@
 const Users = require('../models/Users');
 const Companies = require('../models/Companies');
 const Accounts = require('../models/Accounts');
-
+const SelectAll = require('../models/SelectAll');
 
 exports.storeAccounts = async (data) => {
     const {userInfo, companyInfo, accounts} = data;
@@ -54,12 +54,35 @@ exports.changeAccountStatus = async(id, value)=> {
     const filter = { _id: id};
     const update = {Kibi_AvailableForSelection: value}
     const response = await Accounts.findOneAndUpdate(filter, update);
+    const allAvailable = await Accounts.find({Kibi_AvailableForSelection: true}).exec();
+    const allBusy = await Accounts.find({Kibi_AvailableForSelection: false}).exec();
+
+    console.log(allAvailable.length,allBusy);
+    const account = await SelectAll.findOne({TableName: 'Accounts'}).exec();
+    if(!account){
+        await SelectAll.create({TableName: 'Accounts'});
+    }
+    
+    if(allAvailable.length>0 && allBusy.length>0) 
+        await SelectAll.findOneAndUpdate({TableName: 'Accounts'},{SelectAllValue: false});
+    else if(allAvailable.length>0)
+        await SelectAll.findOneAndUpdate({TableName: 'Accounts'},{SelectAllValue: true});
+    else if(allBusy.length>0)
+        await SelectAll.findOneAndUpdate({TableName: 'Accounts'},{SelectAllValue: true});
+    
     return response;
 }
 
 exports.changeAllAccountsStatus = async(value)=> {
     const update = {Kibi_AvailableForSelection: value}
     const response = await Accounts.updateMany({},update);
+    await SelectAll.findOneAndUpdate({TableName: 'Accounts'},{SelectAllValue: value})
+    console.log(value)
+    return response;
+}
+
+exports.getSelectAllAccountsValue = async () => {
+    const response = await SelectAll.findOne({TableName: 'Accounts'}).exec();
     return response;
 }
 

@@ -4,9 +4,9 @@ import Switch from './Switch';
 
 const CustomCbx = ({ id, _id, value, handleChange }) => {
 	const switchId = 'id-' + id;
-	console.log('value', value)
+	//console.log('value', value)
 	const [checked, setChecked] = useState(value);
-	console.log(switchId,checked)
+	//console.log(switchId,checked)
 	useEffect(() =>{
 
 		if(value !== checked){
