@@ -42,7 +42,7 @@ export const getIntuitAccessToken = async (payload) => {
 
 export const getIntuitAuthUri = async () => {
 	try {
-		const response = await axios.get(`${API_URL}/get-intuite-auth-uri`);
+		const response = await axios.get(`${API_URL}/auth/get-intuite-auth-uri`);
 		return response.data;
 	} catch (error) {
 		throw error.response.data;
@@ -51,7 +51,7 @@ export const getIntuitAuthUri = async () => {
 export const intuitGetAccessToken = async (payload) => {
 	try {
 		const response = await axios.post(
-			`${API_URL}/intuit-get-access-token`,
+			`${API_URL}/auth/intuit-get-access-token`,
 			{ url: payload },
 			{
 				headers: {
@@ -72,7 +72,7 @@ export const intuitGetAccessToken = async (payload) => {
 
 export const getUserInfoIntuit = async () => {
 	try {
-		const response = await axios.get(`${API_URL}/intuit-get-user-info`);
+		const response = await axios.get(`${API_URL}/auth/intuit-get-user-info`);
 		return response.data;
 	} catch (error) {
 		console.log('error', error);

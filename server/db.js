@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const connectDB = async () => {
     try {
         const dbUrl = process.env.INTUIT_APP_MONGO_URL;
+        console.log(dbUrl)
         if (!dbUrl) {
             throw new Error('MONGO_URL environment variable is not set.');
         }

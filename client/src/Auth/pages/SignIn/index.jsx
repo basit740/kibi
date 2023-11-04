@@ -17,13 +17,7 @@ import { getIntuitAuthUri } from 'services/intuit';
 // import { toToastItem } from 'react-toastify/dist/utils';
 
 const Index = () => {
-	const navigate = useNavigate();
-	const location = useLocation();
-	const params = new URLSearchParams(location.search);
-	console.log(params)
-	const realmId = params.get('realmId');
-	const code = params.get('code');
-	const state = params.get('state');
+	
 
 	const [loading, setLoading] = useState(false);
 	const [intuitLoading, setIntuitLoading] = useState(false);
@@ -95,82 +89,7 @@ const Index = () => {
 	// }, []);
 
 	// New code
-	useEffect(() => {
-		const url = window.location.href;
-		const hasCode = code;
-
-		if (hasCode) {
-			const newUrl = url.split('?code=');
-			window.history.pushState({}, null, newUrl[0]);
-
-			setLoading(true);
-			// setData({ ...data, isLoading: true });
-			// will check load state here
-
-			const client_id = import.meta.env.VITE_INTUIT_CLIENT_ID;
-			const client_secret = import.meta.env.VITE_INTUIT_CLIENT_SECRET;
-			const redirect_uri = import.meta.env.VITE_INTUIT_REDIRECT_URI;
-			const requestData = {
-				client_id,
-				redirect_uri,
-				client_secret,
-				code: code,
-				url: url,
-			};
-			const proxy_url = import.meta.env.VITE_API_URL + '/authenticate';
-
-			console.log({ requestData });
-			fetch(proxy_url, {
-				method: 'POST',
-				body: JSON.stringify(requestData),
-				headers: {
-					Accept: 'application/json',
-					'Content-Type': 'application/json',
-				},
-			})
-				.then((response) => response.json())
-				.then((data) => {
-					// dispatch({
-					//   type: 'LOGIN',
-					//   payload: { user: data, isLoggedIn: true },
-					// });
-
-					setLoading(false);
-					console.log({ data });
-					if (data.success) {
-						toast.success('logged in successfully');
-						console.log({
-							data: data.data.userInfo,
-						});
-						console.log({
-							auth: data.data.authResponse,
-						});
-
-						localStorage.setItem('loggedIn', true);
-						localStorage.setItem('intuitLoggedIn', true);
-						localStorage.setItem('user', JSON.stringify(data.data.userInfo));
-						localStorage.setItem('companyId', data.data.companyId);
-						localStorage.setItem('kibiUserName', data.data.userInfo.giverName);
-
-						console.log(data.data.companyId);
-						localStorage.setItem('authResponse', JSON.stringify(data.data.authResponse));
-						navigate('/dashboard');
-					} else {
-						toast.error(data.message);
-					}
-				})
-				.catch((error) => {
-					// setData({
-					//   isLoading: false,
-					//   errorMessage: 'Sorry! Login failed',
-					// });
-
-					setLoading(false);
-					toast.error(error.message);
-				});
-		}
-	}, [code]);
-
+	
 	// if (loading) {
 	// 	return (
 	// 		<div>

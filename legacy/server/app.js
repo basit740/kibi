@@ -52,48 +52,7 @@ app.get('/', (req, res) => {
 // const redirectUri = process.env.INTUIT_APP_REDIRECT_URI;
 
 // initiate auth request with Intuit server
-app.get('/api/v1/get-intuite-auth-uri', (req, res) => {
-	// Generate a random state value using uuid
-	// const state = uuid.v4();
-	// Save the state value in the user's session
-	// req.session.oauthState = state;
-	// Instance of client
-	// var oauthClient = new OAuthClient({
-	// 	clientId,
-	// 	clientSecret,
-	// 	environment: 'sandbox', // ‘sandbox’ or ‘production’
-	// 	redirectUri,
-	// 	logging: true,
-	// });
 
-	// AuthorizationUri
-	try {
-		// app.get('/authorizeUrl', (req, res) => {
-		// 	const authorizeURL = oauthClient.authorizeUri({
-		// 		scope: process.env.REACT_APP_SCOPES.split(' '),
-		// 		state: 'testState',
-		// 	});
-		// 	return res.send(authorizeURL);
-		// }); can be an array of multiple scopes ex : {scope:[OAuthClient.scopes.Accounting,OAuthClient.scopes.OpenId]}
-		const authUri = oauthClient.authorizeUri({
-			scope: process.env.INTUIT_APP_SCOPES.split(' '),
-			state: 'testState',
-		});
-
-		console.log({ authUri });
-		//Redirect the user to the Intuit authorization URL
-		res.status(200).json({
-			success: true,
-			authUri,
-		});
-	} catch (e) {
-		res.status(400).json({
-			success: false,
-			error: e,
-			message: e.message,
-		});
-	}
-});
 
 //GET ACCESS TOKEN
 // app.post('/api/v1/intuit-get-access-token', async (req, res) => {
@@ -269,65 +228,7 @@ app.get('/api/v1/get-intuite-auth-uri', (req, res) => {
 // 	}
 // });
 
-app.post('/api/v1/authenticate', (req, res) => {
-	console.log({ url: req.body });
-	// GetUserInfo
-	const getUserInfo = () => {
-		return oauthClient
-			.makeApiCall({
-				url:
-					oauthClient.environment === 'sandbox'
-						? OAuthClient.userinfo_endpoint_sandbox
-						: OAuthClient.userinfo_endpoint_production,
-				method: 'GET',
-			})
-			.then((userInfo) => {
-				console.log({ userInfo });
-				return { userInfo: userInfo.getJson() };
-			});
-	};
 
-	// GetCompanyInfo
-	const getCompanyInfo = (userInfo) => {
-		const companyID = oauthClient.getToken().realmId;
-
-		const url =
-			oauthClient.environment === 'sandbox'
-				? OAuthClient.environment.sandbox
-				: OAuthClient.environment.production;
-
-		return oauthClient
-			.makeApiCall({
-				url: `${url}v3/company/${companyID}/companyinfo/${companyID}`,
-			})
-			.then((companyInfo) => {
-				return Object.assign({ companyInfo: companyInfo.getJson() }, userInfo);
-			})
-			.catch(function (e) {
-				console.error(e);
-			});
-	};
-
-	oauthClient
-		.createToken(req.body.url)
-		.then(getUserInfo)
-		.then(getCompanyInfo)
-		.then((response) => {
-			return res.status(200).json({
-				success: true,
-				data: response,
-			});
-		})
-		.catch(function (e) {
-			console.log(e);
-			console.error(e.intuit_tid);
-
-			return res.status(400).json({
-				success: false,
-				message: e.message,
-			});
-		});
-});
 
 // https://appcenter.intuit.com/app/connect/oauth2?response_type=code&scope=com.intuit.quickbooks.accounting%20openid%20email%20phone%20profile&state=testState
 

@@ -4,21 +4,18 @@ const dotenv = require('dotenv');
 const colors = require('colors');
 const uuid = require('uuid');
 const session = require('express-session');
-const OAuthClient = require('intuit-oauth');
 const connectDB = require('./db.js')
 // Instance of intuit-oauth client
 
 const {storeUser} = require('./controllers/users')
 const {storeCompany} = require('./controllers/company')
-const {
-	storeAccounts, 
-	getAccounts,
-	getAvailableAccounts, 
-	changeAccountStatus, 
-	changeAllAccountsStatus,
-	getSelectAllAccountsValue
-} = require('./controllers/accounts');
 const { request, response } = require('express');
+
+
+//  Route files
+const accounts = require('./routes/Accounts.js');
+const auth = require('./routes/Auth.js');
+const classes = require('./routes/Class.js');
 
 dotenv.config({
 	path: './.env',
@@ -26,12 +23,6 @@ dotenv.config({
 
 connectDB();
 
-const oauthClient = new OAuthClient({
-	clientId: process.env.INTUIT_APP_CLIENT_ID,
-	clientSecret: process.env.INTUIT_APP_CLIENT_SECRET,
-	environment: process.env.INTUIT_APP_ENVIRONMENT,
-	redirectUri: process.env.INTUIT_APP_REDIRECT_URI,
-});
 // -------------------------------- Application --------------------------------
 const app = express();
 
@@ -52,11 +43,21 @@ app.listen(PORT, () =>
 	console.log(`applicaiton running at port: ${PORT}`.bgCyan)
 );
 
+
+// Mount routers
+app.use('/api/v1',accounts)
+app.use('/api/v1/auth', auth)
+app.use('/api/v1/class', classes)
 // -------------------------------- Handling HTTP Requests -----------------------
 
 app.get('/', (req, res) => {
 	res.send('Welcome home server');
 });
+
+
+
+
+
 
 // -------------------------------- Handling Intuite Requests -----------------------
 
@@ -64,134 +65,10 @@ app.get('/', (req, res) => {
 // const clientId = process.env.INTUIT_APP_CLIENT_ID;
 // const clientSecret = process.env.INTUIT_APP_CLIENT_SECRET;
 // const redirectUri = process.env.INTUIT_APP_REDIRECT_URI;
-const getAccountDetails = async () => {
-	const authResponse = await oauthClient.getToken().getToken();
-	console.log('getting token',authResponse);
-	const access_token = authResponse.access_token;
-	const response = await oauthClient
-	.makeApiCall({
-		url:
-			oauthClient.environment === 'sandbox'
-				? process.env.INTUIT_APP_SANDBOX_BASE_URL + '/v3/company/4620816365323080540/reports/AccountList'
-				: OAuthClient.userinfo_endpoint_production,
-		method: 'GET',
-		headers: {
-			'Accept':'application/json',
-			"Authorization": `Bearer ${access_token}`
-		}
-	});
-	console.log(response.getJson());
-	return response.getJson();
-}
-const getClassDetails = async () => {
-	const authResponse = await oauthClient.getToken().getToken();
-	console.log('getting token',authResponse);
-	const access_token = authResponse.access_token;
-	const response = await oauthClient
-	.makeApiCall({
-		url:
-			oauthClient.environment === 'sandbox'
-				? process.env.INTUIT_APP_SANDBOX_BASE_URL + '/v3/company/4620816365323080540/query?query=select  * from Class&minorversion=69v3/company/4620816365323080540/reports/AccountList'
-				: OAuthClient.userinfo_endpoint_production,
-		method: 'GET',
-		headers: {
-			'Accept':'application/json',
-			"Authorization": `Bearer ${access_token}`
-		}
-	});
-	console.log(response.getJson());
-	return response.getJson();
-}
 
-app.post('/api/v1/change-availablility-status', async (req, res)=>{
-	const response = await changeAccountStatus(req.body.id, req.body.value);
-	// console.log(response);
-	res.json({
-		status: '200',
-		data: response
-	})
-})
-app.post('/api/v1/change-all-accounts-availability-status', async (req, res) => {
-	const response = await changeAllAccountsStatus(req.body.value);
-	console.log(response);
-	res.json({
-		status: '200',
-		data: response
-	})
-	
-});
-app.get('/api/v1/account-details', async (req, res) => {
-	const accounts = await getAccounts(req.query.companyId);
-		res.json({
-			status: '200',
-			data: accounts
-		})
-})
-app.get('/api/v1/available-account-details', async (req, res) => {
-	const accounts = await getAvailableAccounts(req.query.companyId);
-		res.json({
-			status: '200',
-			data: accounts
-		})
-})
-app.get('/api/v1/class-details', async (req, res) => {
-	const classes = await getClassDetails();
-	console.log(classes)
-		res.json({
-			status: '200',
-			data: classes
-		})
-})
-app.get('/api/v1/get-selectall-accounts-value', async (req, res) => {
-	const response = await getSelectAllAccountsValue();
-	res.json({
-		status: '200',
-		data: response,
-	})
-})
+
 // initiate auth request with Intuit server
-app.get('/api/v1/get-intuite-auth-uri', (req, res) => {
-	// Generate a random state value using uuid
-	// const state = uuid.v4();
-	// Save the state value in the user's session
-	// req.session.oauthState = state;
-	// Instance of client
-	// var oauthClient = new OAuthClient({
-	// 	clientId,
-	// 	clientSecret,
-	// 	environment: 'sandbox', // ‘sandbox’ or ‘production’
-	// 	redirectUri,
-	// 	logging: true,
-	// });
 
-	// AuthorizationUri
-	try {
-		// app.get('/authorizeUrl', (req, res) => {
-		// 	const authorizeURL = oauthClient.authorizeUri({
-		// 		scope: process.env.REACT_APP_SCOPES.split(' '),
-		// 		state: 'testState',
-		// 	});
-		// 	return res.send(authorizeURL);
-		// }); can be an array of multiple scopes ex : {scope:[OAuthClient.scopes.Accounting,OAuthClient.scopes.OpenId]}
-		const authUri = oauthClient.authorizeUri({
-			scope: process.env.INTUIT_APP_SCOPES.split(' '),
-			state: 'testState',
-		});
-
-		console.log({ authUri });
-		//Redirect the user to the Intuit authorization URL
-		res.status(200).json({
-			success: true,
-			authUri,
-		});
-	} catch (e) {
-		res.status(400).json({
-			success: false,
-			error: e,
-			message: e.message,
-		});
-	}
-});
 
 //GET ACCESS TOKEN
 // app.post('/api/v1/intuit-get-access-token', async (req, res) => {
@@ -367,82 +244,6 @@ app.get('/api/v1/get-intuite-auth-uri', (req, res) => {
 // 	}
 // });
 
-app.post('/api/v1/authenticate', (req, res) => {
-	console.log({ url: req.body });
-	// GetUserInfo
-	const getUserInfo = (authResponse) => {
-		return oauthClient
-			.makeApiCall({
-				url:
-					oauthClient.environment === 'sandbox'
-						? OAuthClient.userinfo_endpoint_sandbox
-						: OAuthClient.userinfo_endpoint_production,
-				method: 'GET',
-			})
-			.then(async(userInfo) => {
-				console.log({ "userInfo": userInfo });
-				await storeUser(userInfo.getJson())
-				return Object.assign({ userInfo: userInfo.getJson() }, authResponse);
-			});
-	};
-
-	// GetCompanyInfo
-	const getCompanyInfo = (userInfo) => {
-		const companyID = oauthClient.getToken().realmId;
-		const url =
-			oauthClient.environment === 'sandbox'
-				? OAuthClient.environment.sandbox
-				: OAuthClient.environment.production;
-
-		return oauthClient
-			.makeApiCall({
-				url: `${url}v3/company/${companyID}/companyinfo/${companyID}`,
-			})
-			.then((companyInfo) => {
-				return Object.assign({ companyInfo: companyInfo.getJson() }, userInfo);
-			})
-			.catch(function (e) {
-				console.error(e);
-			});
-	};
-
-	oauthClient
-		.createToken(req.body.url)
-		.then((authResponse) => {
-			const accessToken =  authResponse.getJson().access_token;
-			console.log(accessToken);
-			const response = oauthClient.getToken().setToken(authResponse.getJson());
-			console.log("response of setting token",response)
-			return {authResponse: authResponse.getJson()}
-		})
-		.then(getUserInfo)
-		.then(getCompanyInfo)
-		.then(async (response) => {
-			const companyId = await storeCompany(response);
-			return {...response, companyId: companyId};
-		}).then(async (response) => {
-			const accounts = await getAccountDetails();
-			console.log(accounts);
-			response = {
-				...response,
-				accounts: accounts
-			};
-			await storeAccounts(response);
-			return res.status(200).json({
-				success: true,
-				data: response,
-			});
-		})
-		.catch(function (e) {
-			console.log(e);
-			console.error(e.intuit_tid);
-
-			return res.status(400).json({
-				success: false,
-				message: e.message,
-			});
-		});
-});
 
 // https://appcenter.intuit.com/app/connect/oauth2?response_type=code&scope=com.intuit.quickbooks.accounting%20openid%20email%20phone%20profile&state=testState
 
