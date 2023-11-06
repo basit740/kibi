@@ -98,3 +98,97 @@ exports.getCompanyId = () => {
 	const companyID = oauthClient.getToken().realmId;
 	return companyID;
 }
+
+// exports.getTransections = (endDate) => {
+// 	let startDate = getStartOfMonth(endDate);
+// 	endDate = formatDate(endDate);
+// 	startDate = formatDate(startDate);
+// 	const companyID = oauthClient.getToken().realmId;
+
+// 	oauthClient.makeApiCall(
+// 		{
+// 			url: 
+// 			oauthClient.environment === 'sandbox'? 
+// 			process.env.INTUIT_APP_SANDBOX_BASE_URL + `/v3/company/${companyID}/reports/TransactionList?start_date=${startDate}&end_date=${endDate}&source_account_type=Expense&columns=account_name tracking_num txn_type&minorversion=69`:
+// 			process.env.INTUIT_APP_SANDBOX_BASE_URL + `/v3/company/${companyID}/reports/TransactionList?start_date=${startDate}&end_date=${endDate}&source_account_type=Expense&columns=account_name tracking_num txn_type&minorversion=69`
+// 			,
+// 			method: 'GET',
+// 		}
+// 	)
+
+// }
+
+exports.getExpenseTransactionsByMonth = async (expenseAccountName, year, month) => {
+	const companyID = oauthClient.getToken().realmId;
+	const authResponse = await oauthClient.getToken().getToken();
+	const access_token = authResponse.access_token;
+	
+	const fromDate = new Date(year, month - 1, 1).toISOString(); // Start of the specified month
+	const toDate = new Date(year, month, 0).toISOString(); // End of the specified month
+  
+	const response = await oauthClient.makeApiCall({
+	  url: `${
+		oauthClient.environment === 'sandbox'
+		  ? process.env.INTUIT_APP_SANDBOX_BASE_URL
+		  : OAuthClient.userinfo_endpoint_production
+	  }/v3/company/${companyID}/reports/TransactionList?accountName=${encodeURIComponent(
+		expenseAccountName
+	  )}&date_macro=This%20Month&start_date=${fromDate}&end_date=${toDate}`,
+	  method: 'GET',
+	  headers: {
+		Accept: 'application/json',
+		Authorization: `Bearer ${access_token}`,
+	  },
+	});
+  
+	return { transactions: response.getJson() };
+  };
+  
+  exports.createJournalEntry = async (lineItems) => {
+	const companyID = oauthClient.getToken().realmId;
+	const authResponse = await oauthClient.getToken().getToken();
+	const access_token = authResponse.access_token;
+  
+	const apiUrl = `${
+	  oauthClient.environment === 'sandbox'
+		? process.env.INTUIT_APP_SANDBOX_BASE_URL
+		: OAuthClient.userinfo_endpoint_production
+	}/v3/company/${companyID}/journalentry`;
+  
+	const options = {
+	  method: 'POST',
+	  uri: apiUrl,
+	  headers: {
+		Authorization: `Bearer ${access_token}`,
+		'Content-Type': 'application/json',
+	  },
+	  body: {
+		Line: lineItems,
+	  },
+	  json: true,
+	};
+  
+	try {
+	  const response = await oauthClient.makeApiCall(options);
+	  return { success: true, journalEntry: response.getJson() };
+	} catch (error) {
+	  return { success: false, error: error.message };
+	}
+  };
+  
+
+function formatDate(date) {
+	const year = date.getFullYear();
+	const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is 0-indexed
+	const day = String(date.getDate()).padStart(2, '0');
+  
+	return `${year}-${month}-${day}`;
+  }
+  function getStartOfMonth(date) {
+	return new Date(date.getFullYear(), date.getMonth(), 1);
+  }
+  const inputDate = new Date(); // Replace this with your desired date
+  const formattedDate = formatDate(inputDate);
+  
+  console.log(formattedDate);
+  
