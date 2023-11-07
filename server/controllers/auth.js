@@ -17,7 +17,7 @@ exports.authenticateUser = async (req, res) => {
 	const userInfo = await getUserInfo();
 	const companyInfo = await getCompanyInfo();
 	const accounts = await getAccountDetails();
-	console.log({ ...authResponse, ...userInfo, ...companyInfo })
+	//console.log({ ...authResponse, ...userInfo, ...companyInfo })
 	await storeUser(userInfo.userInfo);
 	const companyId = await storeCompany({...userInfo, ...companyInfo});
 	await storeAccounts({ ...userInfo, ...companyInfo, ...accounts });

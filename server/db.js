@@ -8,10 +8,7 @@ const connectDB = async () => {
             throw new Error('MONGO_URL environment variable is not set.');
         }
 
-        const conn = await mongoose.connect(dbUrl, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true, // Add this for modern versions of Mongoose
-        });
+        const conn = await mongoose.connect(dbUrl);
 
         console.log(`Database connected to host: ${conn}`);
     } catch (error) {

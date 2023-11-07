@@ -6,6 +6,11 @@ import Total from 'dashboard/components/Total';
 import Table from 'dashboard/components/Table';
 import Button from 'dashboard/components/Button';
 import Dropdown from 'dashboard/components/Dropdown';
+
+import { useDispatch } from 'react-redux';
+// importing services
+import { getTransections } from 'services/intuit';
+
 const dates = [
 	{
 		value: 'May 31, 2023',
@@ -108,6 +113,9 @@ const Index = () => {
 	const [quickbookaccounts, setQuickbookaccounts] = useState()
 	const [accounts, setAccounts] = useState([]);
 	const [selectedAccount, setSelectedAccount] = useState()
+
+	const dispatch = useDispatch();
+
 	const fetchQuickbookAccounts = async () => {
 		try {
 			const companyId = localStorage.getItem('companyId')
@@ -125,8 +133,11 @@ const Index = () => {
 		}
 	};
 
-	useEffect(()=> {
+	useEffect(async ()=> {
 		fetchQuickbookAccounts();
+		const response = await getTransections();
+		console.log(response)
+
 	},[])
 
 	const updateSelectedAccount = (e) =>{

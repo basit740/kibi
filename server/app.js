@@ -16,6 +16,7 @@ const { request, response } = require('express');
 const accounts = require('./routes/Accounts.js');
 const auth = require('./routes/Auth.js');
 const classes = require('./routes/Class.js');
+const transections = require('./routes/Transections.js');
 
 dotenv.config({
 	path: './.env',
@@ -48,6 +49,8 @@ app.listen(PORT, () =>
 app.use('/api/v1',accounts)
 app.use('/api/v1/auth', auth)
 app.use('/api/v1/class', classes)
+app.use('/api/v1/transections', transections)
+
 // -------------------------------- Handling HTTP Requests -----------------------
 
 app.get('/', (req, res) => {

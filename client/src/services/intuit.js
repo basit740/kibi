@@ -190,6 +190,17 @@ export const getUserInfo = async (accessToken) => {
 		}
 	}
 };
+
+export const getTransections = async () => {
+	try {
+		const response = await axios.get(`${API_URL}/transections`)
+		return response.data;
+	} catch (error) {
+		console.error('Error:', error);
+	}
+}
+
+
 ///intuit-get-user-info
 
 //validate-id-token

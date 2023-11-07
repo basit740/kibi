@@ -118,13 +118,13 @@ exports.getCompanyId = () => {
 
 // }
 
-exports.getExpenseTransactionsByMonth = async (expenseAccountName, year, month) => {
+exports.getExpenseTransactionsByMonth = async (expenseAccountName = 'Prepaid Expenses', year=2023, month = 10) => {
 	const companyID = oauthClient.getToken().realmId;
 	const authResponse = await oauthClient.getToken().getToken();
 	const access_token = authResponse.access_token;
 	
-	const fromDate = new Date(year, month - 1, 1).toISOString(); // Start of the specified month
-	const toDate = new Date(year, month, 0).toISOString(); // End of the specified month
+	const fromDate = '2023-10-01'; // Start of the specified month
+	const toDate = '2023-11-01'; // End of the specified month
   
 	const response = await oauthClient.makeApiCall({
 	  url: `${
@@ -140,8 +140,13 @@ exports.getExpenseTransactionsByMonth = async (expenseAccountName, year, month) 
 		Authorization: `Bearer ${access_token}`,
 	  },
 	});
-  
-	return { transactions: response.getJson() };
+	const transections = response.getJson();
+	const data = transections.Rows.Row.map((transection)=> {
+		return parseTransactionData(transection);
+	})
+	console.log(data)
+	console.log(data)
+	return { transactions: data };
   };
   
   exports.createJournalEntry = async (lineItems) => {
@@ -187,8 +192,44 @@ function formatDate(date) {
   function getStartOfMonth(date) {
 	return new Date(date.getFullYear(), date.getMonth(), 1);
   }
-  const inputDate = new Date(); // Replace this with your desired date
-  const formattedDate = formatDate(inputDate);
-  
-  console.log(formattedDate);
-  
+
+function parseTransactionData(transaction) {
+  const accountData = {
+    transectionType: null,
+    num: null,
+    name: null,
+    description: '',
+    amount: null
+  };
+
+  // Extract data from the transaction response
+  const colData = transaction.ColData;
+
+  // Loop through the ColData to extract relevant information
+  colData.forEach(data => {
+    const colType = data.ColType;
+    const value = data.value;
+
+    switch (colType) {
+      case 'txn_type':
+        accountData.transectionType = value;
+        break;
+      case 'doc_num':
+        accountData.num = value;
+        break;
+      case 'name':
+        accountData.name = value;
+        break;
+      case 'memo':
+        accountData.description = value;
+        break;
+      case 'subt_nat_amount':
+        accountData.amount = parseFloat(value);
+        break;
+      default:
+        break;
+    }
+  });
+
+  return accountData;
+}
