@@ -1,52 +1,83 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
+const AmortizationWaterfallSchema = new mongoose.Schema({
+  monthYear: {
+    type: String,
+    required: true,
+  },
+  expenseAmount: {
+    type: Number,
+    required: true,
+  },
+});
 const TransactionsSchema = new mongoose.Schema({
-    Kibi_User: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Users',
-        required: true,
-    },
-    Kibi_CompanyId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Companies', 
-        required: true,
-    },
-    Kibi_AccountId: {
-        type: String, 
-        required: true,
-        unique: true,
-    },
-    Kibi_AvailableForSelection: {
-        type: Boolean, 
-        required: true,
-    },
-    AccountNumber: {
-        type: Number, 
-    },
-    AccountName: {
-        type: String, 
-        required: true,
-    },
-    Type: {
-        type: String, 
-    },
-    DetailType: {
-        type: String
-    },
-    Description: {
-        type: String
-    },
-    Balance: {
-        type: Number,
-    },
-    AmortizationStartDate: {
-        type: Date,  // Added field for amortization start date
-    },
-    AmortizationEndDate: {
-        type: Date,  // Added field for amortization end date
-    },
+  Kibi_User: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Users",
+    required: true,
+  },
+  Kibi_CompanyId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Companies",
+    required: true,
+  },
+  Kibi_tid: {
+    type: String,
+    required: true,
+  },
+  transectionType: {
+    type: String,
+  },
+  num: {
+    type: String,
+  },
+  name: {
+    type: String,
+    default: "",
+  },
+  description: {
+    type: String,
+    default: "",
+  },
+  amount: {
+    type: Number,
+    default: 0,
+  },
+  markReadyValue: {
+    type: Boolean,
+  },
+  amortizationStartDateValue: {
+    type: String,
+    required: true,
+  },
+  amortizationEndDateValue: {
+    type: String,
+    required: true,
+  },
+  expenseAccountValue: {
+    type: String,
+  },
+  expensedToDate: {
+    type: Number,
+  },
+  remainingEspense: {
+    type: Number,
+  },
+  currentPeriodExpense: {
+    type: Number,
+  },
+  totalMonths: {
+    type: Number,
+  },
+  remaingMonths: {
+    type: Number,
+  },
+  remainingMonths: {
+    type: Number,
+  },
+  amortizationWaterfall: [AmortizationWaterfallSchema],
 });
 
-const Transactions = mongoose.model('Transactions', TransactionsSchema);
+const Transactions = mongoose.model("Transactions", TransactionsSchema);
 
 module.exports = Transactions;
