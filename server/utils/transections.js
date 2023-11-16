@@ -1,76 +1,57 @@
-exports.fillRemainingTransectionValues = (transection, userId, companyId) => {
-  // currentperiodexpense, amortizationwaterfall, expensedtodate, remainingexpense
-  const startDate = new Date(transection.amortizationStartDateValue);
-  const endDate = new Date(transection.amortizationEndDateValue);
+exports.fillRemainingTransactionValues = (transaction, userId, companyId) => {
+  const { amortizationStartDateValue, amortizationEndDateValue, amount } =
+    transaction;
+  const startDate = new Date(amortizationStartDateValue);
+  const endDate = new Date(amortizationEndDateValue);
   const months = monthsBetween(startDate, endDate);
-  const expensedToDate = 0;
-  const remainingExpense = transection.amount;
-  let currentPeriodExpense = transection.amount / months;
-  currentPeriodExpense = currentPeriodExpense.toFixed(2);
+
+  const currentPeriodExpense = parseFloat((amount / months).toFixed(2));
   const amortizationWaterfall = calculateAmortizationWaterfall(
-    startDate.getMonth() + 1,
+    startDate,
     months,
-    startDate.getFullYear(),
     currentPeriodExpense
   );
+
   return {
-    ...transection,
-    Kibi_tid: transection.tid,
+    ...transaction,
+    Kibi_tid: transaction.tid,
     currentPeriodExpense: currentPeriodExpense,
-    amortizationWaterfall: amortizationWaterfall,
-    remainingEspense: remainingExpense,
-    expensedToDate: expensedToDate,
+    amortizationWaterfall,
+    remainingExpense: amount,
+    expensedToDate: 0,
     Kibi_CompanyId: companyId,
     Kibi_User: userId,
     totalMonths: months,
     remainingMonths: months,
   };
 };
+
 function monthsBetween(startDate, endDate) {
-  // Ensure that the start date is before the end date
-  if (startDate > endDate) {
-    // Swap dates if start date is after end date
-    var temp = startDate;
-    startDate = endDate;
-    endDate = temp;
-  }
+  const startYear = startDate.getFullYear();
+  const endYear = endDate.getFullYear();
+  const months =
+    (endYear - startYear) * 12 - startDate.getMonth() + endDate.getMonth();
 
-  var months = (endDate.getFullYear() - startDate.getFullYear()) * 12;
-  months -= startDate.getMonth();
-  months += endDate.getMonth();
-
-  // Adding one to include the start month if the end day is greater than or equal to the start day
-  if (endDate.getDate() >= 28) {
-    months++;
-  }
-
-  return months;
+  return endDate.getDate() >= 28 ? months + 1 : months;
 }
-const calculateAmortizationWaterfall = (
-  startMonth,
-  totalMonths,
-  year,
-  amount
-) => {
+
+function calculateAmortizationWaterfall(startDate, totalMonths, amount) {
   let amortizationWaterfall = [];
-  let month = startMonth;
   for (let i = 0; i < totalMonths; i++) {
-    if (month > 12) {
-      month = month - 12;
-      year++;
-    }
-    let monthYear = `${getMonthAbbreviation(month)} ${year}`;
-    amortizationWaterfall.push({
-      monthYear: monthYear,
-      expenseAmount: amount,
-    });
-    month++;
+    const date = new Date(
+      startDate.getFullYear(),
+      startDate.getMonth() + i,
+      startDate.getDate()
+    );
+    const monthYear = `${getMonthAbbreviation(
+      date.getMonth()
+    )} ${date.getFullYear()}`;
+    amortizationWaterfall.push({ monthYear, expenseAmount: amount });
   }
   return amortizationWaterfall;
-};
+}
 
 function getMonthAbbreviation(monthNumber) {
-  // Array of month abbreviations
   const months = [
     "Jan",
     "Feb",
@@ -85,11 +66,7 @@ function getMonthAbbreviation(monthNumber) {
     "Nov",
     "Dec",
   ];
-  // Check if the month number is valid (1-12)
-  if (monthNumber < 1 || monthNumber > 12) {
-    return "Invalid month number";
-  }
-  // Return the corresponding month abbreviation
-  // Subtract 1 from monthNumber since array indexing starts at 0
-  return months[monthNumber - 1];
+  return monthNumber >= 0 && monthNumber < 12
+    ? months[monthNumber]
+    : "Invalid month number";
 }

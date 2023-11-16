@@ -160,6 +160,19 @@ export const saveTransections = async (body) => {
     throw error.response.data;
   }
 };
+
+export const updateTransectionOnDb = async (body) => {
+  try {
+    const response = await axios.post(
+      `${API_URL}/transections/update-transection`,
+      body
+    );
+    return response.data;
+  } catch (error) {
+    console.log("error", error);
+    throw error.response.data;
+  }
+};
 export const getTransectionsFromDb = async () => {
   try {
     const companyId = localStorage.getItem("companyId");
@@ -221,9 +234,11 @@ export const getUserInfo = async (accessToken) => {
   }
 };
 
-export const getTransections = async () => {
+export const getTransections = async (month, year) => {
   try {
-    const response = await axios.get(`${API_URL}/transections`);
+    const response = await axios.get(
+      `${API_URL}/transections?month=${month}&year=${year}`
+    );
     return response.data;
   } catch (error) {
     console.error("Error:", error);

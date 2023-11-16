@@ -1,60 +1,127 @@
 const { getExpenseTransactionsByMonth } = require("../utils/intiut");
-const Transections = require("../models/Transections");
-const { fillRemainingTransectionValues } = require("../utils/transections");
+const Transactions = require("../models/Transections");
+const { fillRemainingTransactionValues } = require("../utils/transections");
 const Users = require("../models/Users");
 const Companies = require("../models/Companies");
+
 exports.getTransactions = async (req, res) => {
   try {
-    console.log("i am here");
-    const transectionsData = await getExpenseTransactionsByMonth();
-
-    // Assuming transactionsData contains the data fetched from Intuit API
-    res.json({ success: true, data: transectionsData.transactions });
+    const { year, month } = req.query;
+    const transactionsData = await getExpenseTransactionsByMonth(
+      "Prepaid Expenses",
+      year,
+      month
+    );
+    res.json({ success: true, data: transactionsData.transactions });
   } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
+    res
+      .status(500)
+      .json({ error: "Internal Server Error", message: error.message });
   }
 };
+
 exports.getTransactionsFromDb = async (req, res) => {
   try {
     const companyId = req.query.companyId;
-    const company_Id = await Companies.findOne({ Kibi_CompanyId: companyId })
-      .select("_id")
-      .exec();
-    console.log(company_Id);
-    const transactions = await Transections.find({
-      Kibi_CompanyId: company_Id._id,
+    if (!companyId) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Company ID is required" });
+    }
+
+    const company = await Companies.findOne(
+      { Kibi_CompanyId: companyId },
+      "_id"
+    ).exec();
+    if (!company) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Company not found" });
+    }
+
+    const transactions = await Transactions.find({
+      Kibi_CompanyId: company._id,
     }).exec();
-    res.status(200).json({
-      success: true,
-      data: transactions,
-    });
+    res.status(200).json({ success: true, data: transactions });
   } catch (error) {
-    return res.status(500).json({ success: false, error: error.message });
+    res.status(500).json({ success: false, error: error.message });
   }
 };
 
 exports.saveTransactions = async (req, res) => {
   try {
-    const { transections, userId, companyId } = req.body;
-    const objectId_user = await Users.findOne({ email: userId })
-      .select("_id")
-      .exec();
-    const objectId_company = await Companies.findOne({
-      Kibi_CompanyId: companyId,
-    })
-      .select("_id")
-      .exec();
-    const finalTransections = transections.map((transection) => {
-      return fillRemainingTransectionValues(
-        transection,
-        objectId_user._id,
-        objectId_company._id
-      );
-    });
-    const response = await Transections.insertMany(finalTransections);
-    console.log(response);
+    const { transactions, userId, companyId } = req.body;
+    if (!userId || !companyId) {
+      return res.status(400).json({
+        success: false,
+        message: "User ID and Company ID are required",
+      });
+    }
+
+    const [user, company] = await Promise.all([
+      Users.findOne({ email: userId }, "_id").exec(),
+      Companies.findOne({ Kibi_CompanyId: companyId }, "_id").exec(),
+    ]);
+
+    if (!user || !company) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User or Company not found" });
+    }
+
+    const filledTransactions = transactions.map((transaction) =>
+      fillRemainingTransactionValues(transaction, user._id, company._id)
+    );
+
+    const response = await Transactions.insertMany(filledTransactions);
     res.json({ success: true, data: response });
   } catch (error) {
-    return res.status(500).json({ success: false, error: error.message });
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+exports.updateTransaction = async (req, res) => {
+  try {
+    const { transactionId, updatedData } = req.body;
+
+    // Input validation
+    if (!transactionId) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Transaction ID is required" });
+    }
+    if (!updatedData || Object.keys(updatedData).length === 0) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Updated data is required" });
+    }
+    const finalTransaction = fillRemainingTransactionValues(
+      updatedData,
+      updatedData.Kibi_User,
+      updatedData.Kibi_CompanyId
+    );
+
+    // Attempt to update the transaction
+    const updatedTransaction = await Transactions.findOneAndUpdate(
+      transactionId,
+      { $set: finalTransaction },
+      { new: true, runValidators: true } // Ensures updated document is returned and schema validations are applied
+    );
+
+    if (!updatedTransaction) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Transaction not found" });
+    }
+
+    res.json({ success: true, data: updatedTransaction });
+  } catch (error) {
+    // Improved error handling for potential database or server issues
+    console.error("Error updating transaction:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error updating transaction",
+      error: error.message,
+    });
   }
 };

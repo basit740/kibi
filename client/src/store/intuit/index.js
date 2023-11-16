@@ -1,9 +1,18 @@
 // intuitSlice.js
 import { createSlice } from "@reduxjs/toolkit";
+function getCurrentDateFormatted() {
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Months are zero-indexed
+  const day = date.getDate().toString().padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+}
 
 const intuitSlice = createSlice({
   name: "intuit",
   initialState: {
+    periodEndDate: getCurrentDateFormatted(),
     transections: null,
     savedTransections: [],
     journalEntries: [],
@@ -30,8 +39,6 @@ const intuitSlice = createSlice({
     },
     updateSavedTransection: (state, action) => {
       const { id, name, value } = action.payload;
-      window.alert(name);
-
       state.editableSavedTransection[`${name}Value`] = value;
     },
     saveUpdatedTransection: (state, action) => {
@@ -43,6 +50,9 @@ const intuitSlice = createSlice({
       });
       state.savedTransections = [...newTransections];
       state.editableSavedTransection = null;
+    },
+    updatePeriodEndDate: (state, action) => {
+      state.periodEndDate = action.payload;
     },
     removePushedTransections: (state) => {
       const newTransections = state.transections.filter(
@@ -117,5 +127,6 @@ export const {
   updateSavedTransection,
   setEditableSavedTransection,
   setQuickbooksBalance,
+  updatePeriodEndDate,
 } = intuitSlice.actions;
 export default intuitSlice.reducer;

@@ -15,91 +15,79 @@ const oauthClient = new OAuthClient({
   redirectUri: process.env.INTUIT_APP_REDIRECT_URI,
 });
 
-exports.getAccountDetails = async () => {
-  const companyID = oauthClient.getToken().realmId;
+const getAccessToken = async () => {
   const authResponse = await oauthClient.getToken().getToken();
-  const access_token = authResponse.access_token;
-  const response = await oauthClient.makeApiCall({
-    url:
-      oauthClient.environment === "sandbox"
-        ? process.env.INTUIT_APP_SANDBOX_BASE_URL +
-          `/v3/company/${companyID}/reports/AccountList`
-        : OAuthClient.userinfo_endpoint_production,
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-      Authorization: `Bearer ${access_token}`,
-    },
-  });
-  return { accounts: response.getJson() };
+  return authResponse.access_token;
 };
 
-exports.getClassDetails = async () => {
-  const authResponse = await oauthClient.getToken().getToken();
-  const access_token = authResponse.access_token;
-  const companyID = oauthClient.getToken().realmId;
-  const response = await oauthClient.makeApiCall({
-    url:
-      oauthClient.environment === "sandbox"
-        ? process.env.INTUIT_APP_SANDBOX_BASE_URL +
-          `/v3/company/${companyID}/query?query=select  * from Class&minorversion=69v3/company/${companyID}/reports/AccountList`
-        : OAuthClient.userinfo_endpoint_production,
-    method: "GET",
+const makeApiCall = async (url, method = "GET") => {
+  const accessToken = await getAccessToken();
+  return oauthClient.makeApiCall({
+    url,
+    method,
     headers: {
       Accept: "application/json",
-      Authorization: `Bearer ${access_token}`,
+      Authorization: `Bearer ${accessToken}`,
     },
   });
-  return { classes: response.getJson() };
+};
+
+exports.getAuthURI = async () => {
+  return oauthClient.authorizeUri({
+    scope: process.env.INTUIT_APP_SCOPES.split(" "),
+    state: "testState",
+  });
 };
 
 exports.getAuthResponse = async (url) => {
   const authResponse = await oauthClient.createToken(url);
-
-  const accessToken = authResponse.getJson().access_token;
-  const response = await oauthClient
-    .getToken()
-    .setToken(authResponse.getJson());
   return { authResponse: authResponse.getJson() };
 };
 
 exports.getCompanyInfo = async () => {
   const companyID = oauthClient.getToken().realmId;
-  const url =
+  const environmentUrl =
     oauthClient.environment === "sandbox"
       ? OAuthClient.environment.sandbox
       : OAuthClient.environment.production;
+  const url = `${environmentUrl}v3/company/${companyID}/companyinfo/${companyID}`;
 
-  const companyInfo = await oauthClient.makeApiCall({
-    url: `${url}v3/company/${companyID}/companyinfo/${companyID}`,
-  });
+  const companyInfo = await makeApiCall(url);
   return { companyInfo: companyInfo.getJson() };
 };
-exports.getUserInfo = () => {
-  return oauthClient
-    .makeApiCall({
-      url:
-        oauthClient.environment === "sandbox"
-          ? OAuthClient.userinfo_endpoint_sandbox
-          : OAuthClient.userinfo_endpoint_production,
-      method: "GET",
-    })
-    .then(async (userInfo) => {
-      return { userInfo: userInfo.getJson() };
-    });
+
+exports.getUserInfo = async () => {
+  const environmentUrl =
+    oauthClient.environment === "sandbox"
+      ? OAuthClient.userinfo_endpoint_sandbox
+      : OAuthClient.userinfo_endpoint_production;
+  const userInfo = await makeApiCall(environmentUrl);
+
+  return { userInfo: userInfo.getJson() };
 };
 
-exports.getAuthURI = async () => {
-  const authUri = await oauthClient.authorizeUri({
-    scope: process.env.INTUIT_APP_SCOPES.split(" "),
-    state: "testState",
-  });
-  return authUri;
-};
-
-exports.getCompanyId = () => {
+exports.getAccountDetails = async () => {
   const companyID = oauthClient.getToken().realmId;
-  return companyID;
+  const environmentUrl =
+    oauthClient.environment === "sandbox"
+      ? process.env.INTUIT_APP_SANDBOX_BASE_URL
+      : OAuthClient.userinfo_endpoint_production;
+  const url = `${environmentUrl}/v3/company/${companyID}/reports/AccountList`;
+
+  const accounts = await makeApiCall(url);
+  return { accounts: accounts.getJson() };
+};
+
+exports.getClassDetails = async () => {
+  const companyID = oauthClient.getToken().realmId;
+  const environmentUrl =
+    oauthClient.environment === "sandbox"
+      ? process.env.INTUIT_APP_SANDBOX_BASE_URL
+      : OAuthClient.userinfo_endpoint_production;
+  const url = `${environmentUrl}/v3/company/${companyID}/query?query=select * from Class&minorversion=69`;
+
+  const classes = await makeApiCall(url);
+  return { classes: classes.getJson() };
 };
 
 exports.getExpenseTransactionsByMonth = async (
@@ -108,120 +96,88 @@ exports.getExpenseTransactionsByMonth = async (
   month = 10
 ) => {
   const companyID = oauthClient.getToken().realmId;
-  const authResponse = await oauthClient.getToken().getToken();
-  const access_token = authResponse.access_token;
+  const environmentUrl = getEnvironmentUrl();
+  const { fromDate, toDate } = getTransactionDateRange(year, month);
 
-  const fromDate = "2023-10-01"; // Start of the specified month
-  const toDate = "2023-11-01"; // End of the specified month
+  const url =
+    `${environmentUrl}/v3/company/${companyID}/reports/TransactionList?` +
+    `accountName=${encodeURIComponent(expenseAccountName)}&` +
+    `date_macro=This%20Month&start_date=${fromDate}&end_date=${toDate}`;
 
-  const response = await oauthClient.makeApiCall({
-    url: `${
-      oauthClient.environment === "sandbox"
-        ? process.env.INTUIT_APP_SANDBOX_BASE_URL
-        : OAuthClient.userinfo_endpoint_production
-    }/v3/company/${companyID}/reports/TransactionList?accountName=${encodeURIComponent(
-      expenseAccountName
-    )}&date_macro=This%20Month&start_date=${fromDate}&end_date=${toDate}`,
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-      Authorization: `Bearer ${access_token}`,
-    },
-  });
-  const transections = response.getJson();
-  console.log(transections);
-  const data = transections.Rows.Row.map((transection) => {
-    return parseTransactionData(transection);
-  });
-  console.log(data);
-  console.log(data);
-  return { transactions: data };
+  try {
+    const transactionsResponse = await makeApiCall(url);
+    const transactions = transactionsResponse.getJson();
+    console.log(transactions);
+    return { transactions: transactions?.Rows?.Row?.map(parseTransactionData) };
+  } catch (error) {
+    console.error("Error fetching expense transactions:", error);
+    throw new Error("Failed to fetch transactions");
+  }
 };
+
+function getEnvironmentUrl() {
+  return oauthClient.environment === "sandbox"
+    ? process.env.INTUIT_APP_SANDBOX_BASE_URL
+    : OAuthClient.userinfo_endpoint_production;
+}
+
+function getTransactionDateRange(year, month) {
+  const fromDate = `${year}-${String(month - 1).padStart(2, "0")}-01`;
+  const toDate = `${year}-${String(month).padStart(2, "0")}-01`;
+  return { fromDate, toDate };
+}
 
 exports.createJournalEntry = async (lineItems) => {
   const companyID = oauthClient.getToken().realmId;
-  const authResponse = await oauthClient.getToken().getToken();
-  const access_token = authResponse.access_token;
-
-  const apiUrl = `${
+  const environmentUrl =
     oauthClient.environment === "sandbox"
       ? process.env.INTUIT_APP_SANDBOX_BASE_URL
-      : OAuthClient.userinfo_endpoint_production
-  }/v3/company/${companyID}/journalentry`;
-
-  const options = {
-    method: "POST",
-    uri: apiUrl,
-    headers: {
-      Authorization: `Bearer ${access_token}`,
-      "Content-Type": "application/json",
-    },
-    body: {
-      Line: lineItems,
-    },
-    json: true,
-  };
+      : OAuthClient.userinfo_endpoint_production;
+  const apiUrl = `${environmentUrl}/v3/company/${companyID}/journalentry`;
 
   try {
-    const response = await oauthClient.makeApiCall(options);
+    const response = await makeApiCall(apiUrl, "POST", {
+      Line: lineItems,
+    });
     return { success: true, journalEntry: response.getJson() };
   } catch (error) {
     return { success: false, error: error.message };
   }
 };
 
-function formatDate(date) {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0"); // Month is 0-indexed
-  const day = String(date.getDate()).padStart(2, "0");
+exports.getCompanyId = () => {
+  return oauthClient.getToken().realmId;
+};
 
-  return `${year}-${month}-${day}`;
+function formatDate(date) {
+  return date.toISOString().split("T")[0];
 }
+
 function getStartOfMonth(date) {
   return new Date(date.getFullYear(), date.getMonth(), 1);
 }
+
 function getUniqueId() {
-  return uuidv4();
+  return uuidv4(); // Assuming uuidv4 is imported from a relevant library
 }
 
 function parseTransactionData(transaction) {
   const accountData = {
     tid: getUniqueId(),
-    transectionType: null,
-    num: null,
-    name: null,
-    description: "",
-    amount: null,
+    transectionType: transaction.ColData[1]?.value || null,
+    num: transaction.ColData[2]?.value || null,
+    name: transaction.ColData[4]?.value || null,
+    description: transaction.ColData[6]?.value || "",
+    amount: parseFloat(transaction.ColData[9]?.value) || 0,
   };
-
-  // Extract data from the transaction response
-  const colData = transaction.ColData;
-
-  // Loop through the ColData to extract relevant information
-  colData.map((data, index) => {
-    const colType = data.ColType;
-    const value = data.value;
-
-    switch (index) {
-      case 1:
-        accountData.transectionType = value;
-        break;
-      case 2:
-        accountData.num = value;
-        break;
-      case 4:
-        accountData.name = value;
-        break;
-      case 6:
-        accountData.description = value;
-        break;
-      case 9:
-        accountData.amount = parseFloat(value) ? parseFloat(value) : 0;
-        break;
-      default:
-        break;
-    }
-  });
 
   return accountData;
 }
+
+exports.getAuthURI = async () => {
+  const authUri = await oauthClient.authorizeUri({
+    scope: process.env.INTUIT_APP_SCOPES.split(" "),
+    state: "testState",
+  });
+  return authUri;
+};

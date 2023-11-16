@@ -24,6 +24,7 @@ import {
   saveTransections,
   getTransectionsFromDb,
   getQuickbooksBalance,
+  updateTransectionOnDb,
 } from "services/intuit";
 
 const dates = [
@@ -77,7 +78,7 @@ const Index = () => {
   const handleUpdateTransection = (id, name, value) => {
     const payload = {
       id: id,
-      value: value,
+      value: value, //yyyy-mm-dd
       name: name,
     };
     dispatch(updateTransection(payload));
@@ -164,6 +165,10 @@ const Index = () => {
   };
   const handleSave = (row) => {
     dispatch(saveUpdatedTransection());
+    updateTransectionOnDb({
+      transactionId: { Kibi_tid: editableSavedTransection.Kibi_tid },
+      updatedData: editableSavedTransection,
+    });
     setEditingTransection(null);
   };
 
@@ -176,14 +181,20 @@ const Index = () => {
       dispatch(setQuickbooksBalance(response.data));
     })();
   }, []);
+  const date = useSelector((state) => state.intuit.periodEndDate);
 
   useEffect(() => {
     (async () => {
-      const account = await fetchQuickbookAccounts();
-      const response = await getTransections();
+      const newDate = new Date(date);
+      const year = newDate.getFullYear();
+      const month = newDate.getMonth() + 1;
+      const [account, response] = await Promise.all([
+        fetchQuickbookAccounts(),
+        getTransections(month, year),
+      ]);
       if (response) {
         console.log(response);
-        const someNewTransections = response.data.map((tr) => {
+        const someNewTransections = response.data?.map((tr) => {
           return {
             ...tr,
             expenseAccountValue: account?.AccountName,
@@ -192,7 +203,7 @@ const Index = () => {
         dispatch(setTransections(someNewTransections));
       }
     })();
-  }, []);
+  }, [date]);
 
   useEffect(() => {
     (async () => {
