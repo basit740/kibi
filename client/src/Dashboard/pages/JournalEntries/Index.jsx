@@ -9,7 +9,7 @@ import Table from "dashboard/components/Table";
 
 import JournalEntry from "dashboard/components/JournalEntry";
 import { useSelector, useDispatch } from "react-redux";
-import { getQuickbooksBalance, getTransectionsFromDb } from "services/intuit";
+import { getQuickbooksBalance, getTransectionsFromDb, postJournalEntry } from "services/intuit";
 import { setQuickbooksBalance, setSavedTransections } from "store/intuit";
 const dates = [
   {
@@ -30,7 +30,10 @@ const items = [
 ];
 const Index = () => {
   const journalEntries = useSelector((state) => state.intuit.journalEntries);
-  const handlePost2QB = (e) => {};
+  const handlePost2QB = (e) => {
+    const body = {}
+    const response = postJournalEntry(body)
+  };
   const handleDownload = (e) => {};
   const dispatch = useDispatch();
   const quickbooksBalance = useSelector(

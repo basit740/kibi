@@ -14,6 +14,4 @@ exports.storeCompany = async (data) => {
     }
     console.log('company', company);
     return key;
-
-    
 }

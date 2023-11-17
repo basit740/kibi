@@ -160,6 +160,18 @@ export const saveTransections = async (body) => {
     throw error.response.data;
   }
 };
+export const postJournalEntry = async (body) => {
+  try {
+    const response = await axios.post(
+      `${API_URL}/journal-entry/post`,
+      body
+    );
+    return response.data;
+  } catch (error) {
+    console.log("error", error);
+    throw error.response.data;
+  }
+};
 
 export const updateTransectionOnDb = async (body) => {
   try {
