@@ -1,261 +1,257 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
-import AuthWrapper from '../../components/AuthWrapper';
-import Control from '../../components/Control';
-import Divider from '../../components/Divider';
-import TextControl from '../../components/TextControl';
-import { useLocation, useNavigate } from 'react-router-dom';
-import Loader from 'dashboard/components/Loader'
-import { toast } from 'react-toastify';
+import AuthWrapper from "../../components/AuthWrapper";
+import Control from "../../components/Control";
+import Divider from "../../components/Divider";
+import TextControl from "../../components/TextControl";
+import { useLocation, useNavigate } from "react-router-dom";
+import Loader from "dashboard/components/Loader";
+import { toast } from "react-toastify";
 
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
-import 'styling/Auth/SignIn.css';
+import "styling/Auth/SignIn.css";
 // import { useOAuth2Token } from 'react-oauth2-hook';
 
-import { getIntuitAuthUri } from 'services/intuit';
+import { getIntuitAuthUri } from "services/intuit";
 // import { toToastItem } from 'react-toastify/dist/utils';
 
 const Index = () => {
-	
-	const location = useLocation();
-	const params = new URLSearchParams(location.search);
-	console.log(params);
-	const realmId = params.get("realmId");
-	const code = params.get("code");
-	const state = params.get("state");
-  
-	const [loading, setLoading] = useState(false);
-	const [intuitLoading, setIntuitLoading] = useState(false);
-	// const [returnedUUID, setReturnedUUID] = useState('');
-	const handleChangeEmail = (e) => {
-		console.log(e.target.value);
-	};
+  const navigate = useNavigate();
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  console.log(params);
+  const realmId = params.get("realmId");
+  const code = params.get("code");
+  const state = params.get("state");
 
-	const handleSubmit = (event) => {
-		event.preventDefault();
+  const [loading, setLoading] = useState(false);
+  const [intuitLoading, setIntuitLoading] = useState(false);
+  // const [returnedUUID, setReturnedUUID] = useState('');
+  const handleChangeEmail = (e) => {
+    console.log(e.target.value);
+  };
 
-		window.location.href = '/dashboard';
-	};
+  const handleSubmit = (event) => {
+    event.preventDefault();
 
-	const handleClickGoogle = async () => {
-		alert('Click Google');
-	};
+    window.location.href = "/dashboard";
+  };
 
-	// const notify = ({errorEmw}) => toast('UNAUTHORIZED_REQUEST!');
+  const handleClickGoogle = async () => {
+    alert("Click Google");
+  };
 
-	const handleClickInuite = async () => {
-		setIntuitLoading(true);
-		const response = await getIntuitAuthUri();
-		window.location.href = response.authUri;
-		setIntuitLoading(false);
-	};
+  // const notify = ({errorEmw}) => toast('UNAUTHORIZED_REQUEST!');
 
-	// useEffect(() => {
-	// 	if (state) {
-	// 		const clientId = import.meta.env.VITE_INTUIT_CLIENT_ID;
-	// 		const clientSecret = import.meta.env.VITE_INTUIT_CLIENT_SECRET;
+  const handleClickInuite = async () => {
+    setIntuitLoading(true);
+    const response = await getIntuitAuthUri();
+    window.location.href = response.authUri;
+    setIntuitLoading(false);
+  };
 
-	// 		const credentials = `${clientId}:${clientSecret}`;
+  // useEffect(() => {
+  // 	if (state) {
+  // 		const clientId = import.meta.env.VITE_INTUIT_CLIENT_ID;
+  // 		const clientSecret = import.meta.env.VITE_INTUIT_CLIENT_SECRET;
 
-	// 		(async () => {
-	// 			const redirectUrl = `${import.meta.env.VITE_INTUIT_REDIRECT_URI}?code=${code}&state=${state}&realmId=${realmId}`;
-	// 			try {
-	// 				const accessTokenResponse = await intuitGetAccessToken(redirectUrl);
+  // 		const credentials = `${clientId}:${clientSecret}`;
 
-	// 				console.log('accessTokenResponse', accessTokenResponse);
+  // 		(async () => {
+  // 			const redirectUrl = `${import.meta.env.VITE_INTUIT_REDIRECT_URI}?code=${code}&state=${state}&realmId=${realmId}`;
+  // 			try {
+  // 				const accessTokenResponse = await intuitGetAccessToken(redirectUrl);
 
-	// 				localStorage.setItem(
-	// 					'intuitAccessToken',
-	// 					accessTokenResponse.data.access_token
-	// 				);
-	// 				localStorage.setItem(
-	// 					'ituitIdToken',
-	// 					accessTokenResponse.data.id_token
-	// 				);
+  // 				console.log('accessTokenResponse', accessTokenResponse);
 
-	// 				const userInfoResponse = await getUserInfo(
-	// 					accessTokenResponse.data.access_token
-	// 				);
-	// 				console.log(userInfoResponse);
-	// 				// navigate('/dashboard');
-	// 				// validate id token
-	// 				// const idTokenResponse = await validateIdToken(
-	// 				// 	accessTokenResponse.data.id_token
-	// 				// );
+  // 				localStorage.setItem(
+  // 					'intuitAccessToken',
+  // 					accessTokenResponse.data.access_token
+  // 				);
+  // 				localStorage.setItem(
+  // 					'ituitIdToken',
+  // 					accessTokenResponse.data.id_token
+  // 				);
 
-	// 				// console.log('id token resose....', idTokenResponse);
-	// 			} catch (err) {
-	// 				console.log(err);
+  // 				const userInfoResponse = await getUserInfo(
+  // 					accessTokenResponse.data.access_token
+  // 				);
+  // 				console.log(userInfoResponse);
+  // 				// navigate('/dashboard');
+  // 				// validate id token
+  // 				// const idTokenResponse = await validateIdToken(
+  // 				// 	accessTokenResponse.data.id_token
+  // 				// );
 
-	// 				toast.error(err.message);
-	// 			}
-	// 		})();
-	// 	}
-	// }, []);
+  // 				// console.log('id token resose....', idTokenResponse);
+  // 			} catch (err) {
+  // 				console.log(err);
 
-	// New code
-	
-	// if (loading) {
-	// 	return (
-	// 		<div>
-	// 			<h1>Loading....</h1>
-	// 		</div>
-	// 	);
-	// }
+  // 				toast.error(err.message);
+  // 			}
+  // 		})();
+  // 	}
+  // }, []);
 
-	useEffect(() => {
-		const url = window.location.href;
-		const hasCode = code;
-	
-		if (hasCode) {
-		  const newUrl = url.split("?code=");
-		  window.history.pushState({}, null, newUrl[0]);
-	
-		  setLoading(true);
-	
-		  const client_id = import.meta.env.VITE_INTUIT_CLIENT_ID;
-		  const client_secret = import.meta.env.VITE_INTUIT_CLIENT_SECRET;
-		  const redirect_uri = import.meta.env.VITE_INTUIT_REDIRECT_URI;
-		  const requestData = {
-			client_id,
-			redirect_uri,
-			client_secret,
-			code: code,
-			url: url,
-		  };
-		  const proxy_url = import.meta.env.VITE_API_URL + "/auth/authenticate";
-	
-		  console.log({ requestData });
-		  fetch(proxy_url, {
-			method: "POST",
-			body: JSON.stringify(requestData),
-			headers: {
-			  Accept: "application/json",
-			  "Content-Type": "application/json",
-			},
-		  })
-			.then((response) => response.json())
-			.then((data) => {
-			  // dispatch({
-			  //   type: 'LOGIN',
-			  //   payload: { user: data, isLoggedIn: true },
-			  // });
-	
-			  setLoading(false);
-			  console.log({ data });
-			  if (data.success) {
-				toast.success("logged in successfully");
-				console.log({
-				  data: data.data.userInfo,
-				});
-				console.log({
-				  auth: data.data.authResponse,
-				});
-				console.log({
-				  companyId: data.data.companyId,
-				});
-	
-				localStorage.setItem("loggedIn", true);
-				localStorage.setItem("intuitLoggedIn", true);
-				localStorage.setItem("user", JSON.stringify(data.data.userInfo));
-				localStorage.setItem("companyId", data.data.companyId);
-				localStorage.setItem("userId", data.data.userInfo.email);
-				localStorage.setItem("kibiUserName", data.data.userInfo.givenName);
-	
-				console.log(data.data.companyId);
-				localStorage.setItem(
-				  "authResponse",
-				  JSON.stringify(data.data.authResponse)
-				);
-				navigate("/dashboard");
-			  } else {
-				toast.error(data.message);
-			  }
-			})
-			.catch((error) => {
-			  // setData({
-			  //   isLoading: false,
-			  //   errorMessage: 'Sorry! Login failed',
-			  // });
-			  setLoading(false);
-			  toast.error(error.message);
-			});
-		}
-	  }, [code]);
-	  if (loading) {
-		return (
-		  <div
-			style={{
-			  display: "flex",
-			  alignItems: "center",
-			  justifyContent: "center",
-			}}
-		  >
-			<Loader size={"lg"} />
-		  </div>
-		);
-	  }
-	  
-	return (
-		<AuthWrapper title='Sign in to your account'>
-			<div className='sign-in'>
-				<div className='sign-in__third-party'>
-					<Control
-						className='google'
-						disabled={true}
-						onClick={handleClickGoogle}
-					>
-						<div className='google-control'>
-							<img
-								className='google-log'
-								src='icons/google-logo.png'
-								alt='google logo'
-							/>
-							<span>Sign In With Google</span>
-						</div>
-					</Control>
-					<Control className='intuit' onClick={handleClickInuite}>
-						Sign In With Intuit -
-						{
-							intuitLoading &&
-							<Loader size='sm' />
-						}
-					</Control>
+  // New code
 
-					<Divider />
-				</div>
-				<form className='sign-in__form' onSubmit={handleSubmit}>
-					<div className='form-control'>
-						<label htmlFor=''>Email</label>
-						<TextControl
-							id='email'
-							className='text-control--text'
-							type='email'
-							onChange={handleChangeEmail}
-							placeholder='jessica.hanson@example.com'
-						/>
-					</div>
+  // if (loading) {
+  // 	return (
+  // 		<div>
+  // 			<h1>Loading....</h1>
+  // 		</div>
+  // 	);
+  // }
 
-					<div className='form-control'>
-						<label htmlFor='password'>Password</label>
-						<TextControl
-							id='password'
-							className='text-control--password'
-							type='password'
-							onChange={handleChangeEmail}
-							placeholder='Type your Password'
-						/>
-					</div>
-					<div className='form__actions'>
-						<button className='bg-primary sign-in__submit' type='submit'>
-							Sign In
-						</button>
-					</div>
-				</form>
-			</div>
-		</AuthWrapper>
-	);
+  useEffect(() => {
+    const url = window.location.href;
+    const hasCode = code;
+
+    if (hasCode) {
+      const newUrl = url.split("?code=");
+      window.history.pushState({}, null, newUrl[0]);
+
+      setLoading(true);
+
+      const client_id = import.meta.env.VITE_INTUIT_CLIENT_ID;
+      const client_secret = import.meta.env.VITE_INTUIT_CLIENT_SECRET;
+      const redirect_uri = import.meta.env.VITE_INTUIT_REDIRECT_URI;
+      const requestData = {
+        client_id,
+        redirect_uri,
+        client_secret,
+        code: code,
+        url: url,
+      };
+      const proxy_url = import.meta.env.VITE_API_URL + "/auth/authenticate";
+
+      console.log({ requestData });
+      fetch(proxy_url, {
+        method: "POST",
+        body: JSON.stringify(requestData),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          // dispatch({
+          //   type: 'LOGIN',
+          //   payload: { user: data, isLoggedIn: true },
+          // });
+
+          setLoading(false);
+          console.log({ data });
+          if (data.success) {
+            toast.success("logged in successfully");
+            console.log({
+              data: data.data.userInfo,
+            });
+            console.log({
+              auth: data.data.authResponse,
+            });
+            console.log({
+              companyId: data.data.companyId,
+            });
+
+            localStorage.setItem("loggedIn", true);
+            localStorage.setItem("intuitLoggedIn", true);
+            localStorage.setItem("user", JSON.stringify(data.data.userInfo));
+            localStorage.setItem("companyId", data.data.companyId);
+            localStorage.setItem("userId", data.data.userInfo.email);
+            localStorage.setItem("kibiUserName", data.data.userInfo.givenName);
+
+            console.log(data.data.companyId);
+            localStorage.setItem(
+              "authResponse",
+              JSON.stringify(data.data.authResponse)
+            );
+            navigate("/dashboard");
+          } else {
+            toast.error(data.message);
+          }
+        })
+        .catch((error) => {
+          // setData({
+          //   isLoading: false,
+          //   errorMessage: 'Sorry! Login failed',
+          // });
+          setLoading(false);
+          toast.error(error.message);
+        });
+    }
+  }, [code]);
+  if (loading) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Loader size={"lg"} />
+      </div>
+    );
+  }
+
+  return (
+    <AuthWrapper title="Sign in to your account">
+      <div className="sign-in">
+        <div className="sign-in__third-party">
+          <Control
+            className="google"
+            disabled={true}
+            onClick={handleClickGoogle}
+          >
+            <div className="google-control">
+              <img
+                className="google-log"
+                src="icons/google-logo.png"
+                alt="google logo"
+              />
+              <span>Sign In With Google</span>
+            </div>
+          </Control>
+          <Control className="intuit" onClick={handleClickInuite}>
+            Sign In With Intuit -{intuitLoading && <Loader size="sm" />}
+          </Control>
+
+          <Divider />
+        </div>
+        <form className="sign-in__form" onSubmit={handleSubmit}>
+          <div className="form-control">
+            <label htmlFor="">Email</label>
+            <TextControl
+              id="email"
+              className="text-control--text"
+              type="email"
+              onChange={handleChangeEmail}
+              placeholder="jessica.hanson@example.com"
+            />
+          </div>
+
+          <div className="form-control">
+            <label htmlFor="password">Password</label>
+            <TextControl
+              id="password"
+              className="text-control--password"
+              type="password"
+              onChange={handleChangeEmail}
+              placeholder="Type your Password"
+            />
+          </div>
+          <div className="form__actions">
+            <button className="bg-primary sign-in__submit" type="submit">
+              Sign In
+            </button>
+          </div>
+        </form>
+      </div>
+    </AuthWrapper>
+  );
 };
 
 export default Index;

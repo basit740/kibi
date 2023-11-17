@@ -152,8 +152,9 @@ const Index = () => {
     const newTransections = transections.filter((tr) => tr.markReadyValue);
     const companyId = localStorage.getItem("companyId");
     const userId = localStorage.getItem("userId");
+    window.alert(newTransections);
     const body = {
-      transections: newTransections,
+      transactions: newTransections,
       companyId: companyId,
       userId: userId,
     };

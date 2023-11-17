@@ -40,7 +40,7 @@ const Table = ({ tableData, title, scrollable }) => {
                 const cellContent = column.renderCell
                   ? column.renderCell(row)
                   : row[column.field];
-                return <TableCell key={cellIndex}>{cellContent}</TableCell>;
+                return <TableCell key={cellContent}>{cellContent}</TableCell>;
               })}
             </TableRow>
           ))}
