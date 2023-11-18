@@ -1,25 +1,24 @@
-const express = require('express');
-const cors = require('cors');
-const dotenv = require('dotenv');
-const colors = require('colors');
-const uuid = require('uuid');
-const session = require('express-session');
-const connectDB = require('./db.js')
+const express = require("express");
+const cors = require("cors");
+const dotenv = require("dotenv");
+const colors = require("colors");
+const uuid = require("uuid");
+const session = require("express-session");
+const connectDB = require("./db.js");
 // Instance of intuit-oauth client
 
-const {storeUser} = require('./controllers/users')
-const {storeCompany} = require('./controllers/company')
-const { request, response } = require('express');
-
+const { storeUser } = require("./controllers/users");
+const { storeCompany } = require("./controllers/company");
+const { request, response } = require("express");
 
 //  Route files
-const accounts = require('./routes/Accounts.js');
-const auth = require('./routes/Auth.js');
-const classes = require('./routes/Class.js');
-const transections = require('./routes/Transections.js');
-
+const accounts = require("./routes/Accounts.js");
+const auth = require("./routes/Auth.js");
+const classes = require("./routes/Class.js");
+const transections = require("./routes/Transections.js");
+const journalEntry = require("./routes/JournalEntry.js");
 dotenv.config({
-	path: './.env',
+  path: "./.env",
 });
 
 connectDB();
@@ -41,26 +40,20 @@ app.use(cors());
 // -------------------------------- Staring Application -------------------------
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () =>
-	console.log(`applicaiton running at port: ${PORT}`.bgCyan)
+  console.log(`applicaiton running at port: ${PORT}`.bgCyan)
 );
 
-
 // Mount routers
-app.use('/api/v1',accounts)
-app.use('/api/v1/auth', auth)
-app.use('/api/v1/class', classes)
-app.use('/api/v1/transections', transections)
-
+app.use("/api/v1", accounts);
+app.use("/api/v1/auth", auth);
+app.use("/api/v1/class", classes);
+app.use("/api/v1/transections", transections);
+app.use("/api/v1/journal-entry", journalEntry);
 // -------------------------------- Handling HTTP Requests -----------------------
 
-app.get('/', (req, res) => {
-	res.send('Welcome home server');
+app.get("/", (req, res) => {
+  res.send("Welcome home server");
 });
-
-
-
-
-
 
 // -------------------------------- Handling Intuite Requests -----------------------
 
@@ -69,9 +62,7 @@ app.get('/', (req, res) => {
 // const clientSecret = process.env.INTUIT_APP_CLIENT_SECRET;
 // const redirectUri = process.env.INTUIT_APP_REDIRECT_URI;
 
-
 // initiate auth request with Intuit server
-
 
 //GET ACCESS TOKEN
 // app.post('/api/v1/intuit-get-access-token', async (req, res) => {
@@ -247,15 +238,7 @@ app.get('/', (req, res) => {
 // 	}
 // });
 
-
 // https://appcenter.intuit.com/app/connect/oauth2?response_type=code&scope=com.intuit.quickbooks.accounting%20openid%20email%20phone%20profile&state=testState
-
-
-
-
-
-
-
 
 /*
 

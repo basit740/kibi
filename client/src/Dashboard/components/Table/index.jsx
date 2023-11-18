@@ -37,10 +37,11 @@ const Table = ({ tableData, title, scrollable }) => {
           {Rows.map((row, rowIndex) => (
             <TableRow key={rowIndex} headingsLength={Columns.length}>
               {Columns.map((column, cellIndex) => {
+                console.log(row.Kibi_tid);
                 const cellContent = column.renderCell
                   ? column.renderCell(row)
                   : row[column.field];
-                return <TableCell key={cellContent}>{cellContent}</TableCell>;
+                return <TableCell key={row.Kibi_tid}>{cellContent}</TableCell>;
               })}
             </TableRow>
           ))}

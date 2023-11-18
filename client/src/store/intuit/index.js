@@ -63,6 +63,9 @@ const intuitSlice = createSlice({
     setEditableSavedTransection: (state, action) => {
       state.editableSavedTransection = action.payload;
     },
+    removeEditableSavedTransection: (state) => {
+      state.editableSavedTransection = null;
+    },
     setQuickbooksBalance: (state, action) => {
       state.quickbooksBalance = action.payload;
     },
@@ -128,5 +131,6 @@ export const {
   setEditableSavedTransection,
   setQuickbooksBalance,
   updatePeriodEndDate,
+  removeEditableSavedTransection,
 } = intuitSlice.actions;
 export default intuitSlice.reducer;

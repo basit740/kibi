@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const {updateTransaction} = require("../controllers/journalEntry");
+const { postJournalEntry } = require("../controllers/journalEntry");
 
-router.post("/post", updateTransaction);
+router.post("/post", postJournalEntry);
 module.exports = router;

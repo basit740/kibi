@@ -129,6 +129,7 @@ function getTransactionDateRange(year, month) {
 
 exports.createJournalEntry = async (lineItems) => {
   const companyID = oauthClient.getToken().realmId;
+  const accessToken = await getAccessToken();
   const environmentUrl =
     oauthClient.environment === "sandbox"
       ? process.env.INTUIT_APP_SANDBOX_BASE_URL
@@ -136,12 +137,18 @@ exports.createJournalEntry = async (lineItems) => {
   const apiUrl = `${environmentUrl}/v3/company/${companyID}/journalentry`;
 
   try {
-    const response = await makeApiCall(apiUrl, "POST", {
-      Line: lineItems,
+    const response = await oauthClient.makeApiCall({
+      url: apiUrl,
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify(lineItems),
     });
     return { success: true, journalEntry: response.getJson() };
   } catch (error) {
-    return { success: false, error: error.message };
+    return { success: false, error: error };
   }
 };
 

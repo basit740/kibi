@@ -18,6 +18,7 @@ import {
   setEditableSavedTransection,
   updateTransection,
   setQuickbooksBalance,
+  removeEditableSavedTransection,
 } from "store/intuit";
 import {
   getTransections,
@@ -114,6 +115,7 @@ const Index = () => {
           amortizationStartDate: (
             <DatePicker
               id={transection.tid}
+              key={transection.tid}
               name={"amortizationStartDate"}
               handleChange={handleUpdateTransection}
             />
@@ -121,6 +123,7 @@ const Index = () => {
           amortizationEndDate: (
             <DatePicker
               id={transection.tid}
+              key={transection.tid}
               name={"amortizationEndDate"}
               handleChange={handleUpdateTransection}
             />
@@ -129,6 +132,7 @@ const Index = () => {
             <Dropdown
               data={accounts}
               id={transection.tid}
+              key={transection.tid}
               name={"expenseAccount"}
               value={"AccountName"}
               displayName={"AccountName"}
@@ -138,6 +142,7 @@ const Index = () => {
           markReady: (
             <CustomCbx
               _id={transection.id}
+              key={transection.tid}
               id={transection.tid}
               value={transection.markReady || false}
               handleChange={handleUpdateMarkReady}
@@ -174,7 +179,7 @@ const Index = () => {
   };
 
   const handleCancelEdit = () => {
-    setEditingTransection(null);
+    dispatch(removeEditableSavedTransection());
   };
   useEffect(() => {
     (async () => {
@@ -297,6 +302,7 @@ const Index = () => {
           row.Kibi_tid === editableSavedTransection?.Kibi_tid ? (
             <DatePicker
               id={row.tid}
+              key={row.tid}
               name="amortizationStartDate"
               handleChange={handleUpdateSavedTransection}
               value={editableSavedTransection?.amortizationStartDateValue}
@@ -313,6 +319,7 @@ const Index = () => {
             <DatePicker
               id={row.tid}
               name="amortizationEndDate"
+              key={row.tid}
               handleChange={handleUpdateSavedTransection}
               value={editableSavedTransection?.amortizationEndDateValue}
             />
@@ -328,6 +335,7 @@ const Index = () => {
             <Dropdown
               data={accounts}
               id={row.tid}
+              key={row.tid}
               name="expenseAccount"
               value={editableSavedTransection?.expenseAccountValue}
               displayName="AccountName"
@@ -343,11 +351,19 @@ const Index = () => {
         renderCell: (row) =>
           row.Kibi_tid === editableSavedTransection?.Kibi_tid ? (
             <>
-              <Button title="Save" onClick={() => handleSave(row)} />
-              <Button title="Cancel" onClick={handleCancelEdit} />
+              <Button
+                key={row.tid}
+                title="Save"
+                onClick={() => handleSave(row)}
+              />
+              <Button key={row.tid} title="Cancel" onClick={handleCancelEdit} />
             </>
           ) : (
-            <Button title="Edit" onClick={() => handleEditClick(row)} />
+            <Button
+              key={row.tid}
+              title="Edit"
+              onClick={() => handleEditClick(row)}
+            />
           ),
       },
       // ... other columns ...
