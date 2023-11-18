@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const { postJournalEntry } = require("../controllers/journalEntry");
+const { createJournalEntry } = require("../controllers/journalEntry");
 
-router.post("/post", postJournalEntry);
+router.post("/post", createJournalEntry);
 module.exports = router;

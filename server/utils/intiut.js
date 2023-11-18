@@ -188,3 +188,36 @@ exports.getAuthURI = async () => {
   });
   return authUri;
 };
+
+const getAccountIdsByNames = async (accountNames) => {
+  const uniqueAccountNames = [...new Set(accountNames)]; // Remove duplicates
+  const namesList = uniqueAccountNames.map((name) => `"${name}"`).join(", "); // Format names for query
+  const query = encodeURIComponent(`select * from Account`);
+  console.log(query, namesList, accountNames);
+  const companyId = await oauthClient.getToken().realmId;
+  const environmentUrl =
+    oauthClient.environment === "sandbox"
+      ? process.env.INTUIT_APP_SANDBOX_BASE_URL
+      : OAuthClient.userinfo_endpoint_production;
+  const url = `${environmentUrl}/v3/company/${companyId}/query?query=${query}`;
+  console.log(`Fetching accounts from: ${url}`); // Debugging
+
+  try {
+    const response = await makeApiCall(url, "GET");
+    const accounts = response.getJson().QueryResponse.Account;
+
+    if (!accounts) {
+      return {};
+    }
+
+    return accounts.reduce((acc, account) => {
+      acc[account.Name] = account.Id;
+      return acc;
+    }, {});
+  } catch (error) {
+    console.error("Error fetching accounts from QuickBooks:", error);
+    throw error;
+  }
+};
+
+exports.getAccountIdsByNames = getAccountIdsByNames;

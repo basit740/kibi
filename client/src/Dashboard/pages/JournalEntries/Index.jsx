@@ -46,7 +46,7 @@ const Index = () => {
         JournalEntryLineDetail: {
           PostingType: "Credit",
           AccountRef: {
-            value: entry.expenseAccountValue, // Replace with actual Account ID
+            name: entry.expenseAccountValue, // Replace with actual Account ID
           },
         },
       };
@@ -61,7 +61,7 @@ const Index = () => {
         JournalEntryLineDetail: {
           PostingType: "Debit",
           AccountRef: {
-            value: "Prepaid Expenses", // Replace with actual Account ID
+            name: "Prepaid Expenses", // Replace with actual Account ID
           },
         },
       },
