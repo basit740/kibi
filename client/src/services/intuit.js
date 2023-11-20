@@ -162,10 +162,7 @@ export const saveTransections = async (body) => {
 };
 export const postJournalEntry = async (body) => {
   try {
-    const response = await axios.post(
-      `${API_URL}/journal-entry/post`,
-      body
-    );
+    const response = await axios.post(`${API_URL}/journal-entry/post`, body);
     return response.data;
   } catch (error) {
     console.log("error", error);
@@ -177,6 +174,21 @@ export const updateTransectionOnDb = async (body) => {
   try {
     const response = await axios.post(
       `${API_URL}/transections/update-transection`,
+      body
+    );
+    return response.data;
+  } catch (error) {
+    console.log("error", error);
+    throw error.response.data;
+  }
+};
+
+export const updateMultipleTransections = async (body) => {
+  //remaining, expensed to date, ispaid
+  console.log(body);
+  try {
+    const response = await axios.post(
+      `${API_URL}/transections/update-transections`,
       body
     );
     return response.data;

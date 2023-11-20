@@ -190,33 +190,46 @@ exports.getAuthURI = async () => {
 };
 
 const getAccountIdsByNames = async (accountNames) => {
-  const uniqueAccountNames = [...new Set(accountNames)]; // Remove duplicates
-  const namesList = uniqueAccountNames.map((name) => `"${name}"`).join(", "); // Format names for query
-  const query = encodeURIComponent(`select * from Account`);
-  console.log(query, namesList, accountNames);
-  const companyId = await oauthClient.getToken().realmId;
+  // De-duplicate and format account names for the query
+  const uniqueAccountNames = [...new Set(accountNames)];
+  if (uniqueAccountNames.length === 0) {
+    throw new Error("No account names provided");
+  }
+
+  const namesList = uniqueAccountNames.map((name) => `"${name}"`).join(", ");
+  console.log(namesList);
+  const query = `select * from Account`;
+  const encodedQuery = encodeURIComponent(query);
+
+  const companyId = oauthClient.getToken().realmId;
+  if (!companyId) {
+    throw new Error("Unable to retrieve Company ID from OAuth token");
+  }
+
   const environmentUrl =
     oauthClient.environment === "sandbox"
       ? process.env.INTUIT_APP_SANDBOX_BASE_URL
       : OAuthClient.userinfo_endpoint_production;
-  const url = `${environmentUrl}/v3/company/${companyId}/query?query=${query}`;
-  console.log(`Fetching accounts from: ${url}`); // Debugging
+  const url = `${environmentUrl}/v3/company/${companyId}/query?query=${encodedQuery}`;
+
+  // Uncomment for debugging only
+  // console.log(`Fetching accounts from: ${url}`);
 
   try {
     const response = await makeApiCall(url, "GET");
-    const accounts = response.getJson().QueryResponse.Account;
+    const accountData = response.getJson().QueryResponse.Account;
 
-    if (!accounts) {
-      return {};
+    if (!accountData) {
+      throw new Error("No accounts data received from QuickBooks");
     }
 
-    return accounts.reduce((acc, account) => {
+    return accountData.reduce((acc, account) => {
       acc[account.Name] = account.Id;
       return acc;
     }, {});
   } catch (error) {
-    console.error("Error fetching accounts from QuickBooks:", error);
-    throw error;
+    console.error("Error fetching accounts:", error.message || error);
+    throw error; // Re-throw the error for handling upstream
   }
 };
 

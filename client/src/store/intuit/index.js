@@ -8,11 +8,35 @@ function getCurrentDateFormatted() {
 
   return `${year}-${month}-${day}`;
 }
+function getMonthAbbreviation(monthNumber) {
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  return monthNumber >= 0 && monthNumber < 12
+    ? months[monthNumber]
+    : "Invalid month number";
+}
+let date = new Date();
+const monthYear = `${getMonthAbbreviation(
+  date.getMonth()
+)} ${date.getFullYear()}`;
 
 const intuitSlice = createSlice({
   name: "intuit",
   initialState: {
     periodEndDate: getCurrentDateFormatted(),
+    monthYear: monthYear,
     transections: null,
     savedTransections: [],
     journalEntries: [],
@@ -73,11 +97,25 @@ const intuitSlice = createSlice({
       state.savedTransections = [...action.payload];
       let balance = 0;
       action.payload.map((item) => {
-        balance += item.amount;
+        balance += item.remainingExpense;
       });
       state.subledgerBalance = balance;
       //line, name
-      const newJournalEntries = action.payload.map((transection, index) => {
+      let isPaid;
+      const refinedData = action.payload.filter((transection) => {
+        for (let i = 0; i < transection.totalMonths; i++) {
+          if (monthYear === transection.amortizationWaterfall[i].monthYear)
+            isPaid = transection.amortizationWaterfall[i].isPaid;
+        }
+        if (isPaid) return false;
+        return true;
+      });
+      const newJournalEntries = refinedData.map((transection, index) => {
+        for (let i = 0; i < transection.totalMonths; i++) {
+          if (monthYear === transection.amortizationWaterfall[i].monthYear)
+            isPaid = transection.amortizationWaterfall[i].isPaid;
+        }
+        if (isPaid) return;
         return {
           line: index + 1,
           name: transection.name,
@@ -91,7 +129,7 @@ const intuitSlice = createSlice({
       const newAmortizationWaterfall = action.payload.map(
         (transection, index) => {
           let newWaterfall = {};
-          for (let i = 0; i < transection.remainingMonths; i++) {
+          for (let i = 0; i < transection.totalMonths; i++) {
             const monthYearKey = transection.amortizationWaterfall[i].monthYear;
             newWaterfall[monthYearKey] =
               transection.amortizationWaterfall[i].expenseAmount;

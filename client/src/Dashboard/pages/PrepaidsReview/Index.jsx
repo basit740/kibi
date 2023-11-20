@@ -26,6 +26,7 @@ import {
   getTransectionsFromDb,
   getQuickbooksBalance,
   updateTransectionOnDb,
+  updateMultipleTransections,
 } from "services/intuit";
 
 const dates = [
@@ -291,8 +292,8 @@ const Index = () => {
         sortable: true,
       },
       {
-        field: "amount",
-        headerName: "Amount",
+        field: "remainingExpense",
+        headerName: "Remaining",
         sortable: true,
       },
       {
@@ -349,7 +350,9 @@ const Index = () => {
         field: "edit",
         headerName: "Edit",
         renderCell: (row) =>
-          row.Kibi_tid === editableSavedTransection?.Kibi_tid ? (
+          row.isEditable == false ? (
+            <></>
+          ) : row.Kibi_tid === editableSavedTransection?.Kibi_tid ? (
             <>
               <Button
                 key={row.tid}

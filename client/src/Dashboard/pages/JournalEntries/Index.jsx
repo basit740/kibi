@@ -13,8 +13,13 @@ import {
   getQuickbooksBalance,
   getTransectionsFromDb,
   postJournalEntry,
+  updateMultipleTransections,
 } from "services/intuit";
-import { setQuickbooksBalance, setSavedTransections } from "store/intuit";
+import {
+  setQuickbooksBalance,
+  setSavedTransections,
+  updateSavedTransection,
+} from "store/intuit";
 const dates = [
   {
     value: "May 31, 2023",
@@ -34,9 +39,66 @@ const items = [
 ];
 const Index = () => {
   const journalEntries = useSelector((state) => state.intuit.journalEntries);
+  const savedTransections = useSelector(
+    (state) => state.intuit.savedTransections
+  );
+  function getMonthAbbreviation(monthNumber) {
+    const months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+    return monthNumber >= 0 && monthNumber < 12
+      ? months[monthNumber]
+      : "Invalid month number";
+  }
+
+  const handleUpdateTransections = async () => {
+    const companyId = localStorage.getItem("companyId");
+    let date = new Date();
+    const monthYear = `${getMonthAbbreviation(
+      date.getMonth()
+    )} ${date.getFullYear()}`;
+
+    const newSavedTrasections = savedTransections.map((tr) => {
+      //remaining, expensed to date, ispaid
+      const newAmortizationWaterfall = tr.amortizationWaterfall.map((item) => {
+        if (item.monthYear === monthYear) {
+          return { ...item, isPaid: true };
+        }
+        return item;
+      });
+      return {
+        transactionId: tr.Kibi_tid,
+        updatedData: {
+          remainingExpense: tr.remainingExpense - tr.currentPeriodExpense,
+          expensedToDate: tr.expensedToDate + tr.currentPeriodExpense,
+          amortizationWaterfall: newAmortizationWaterfall,
+          remainingMonths: tr.remainingMonths - 1,
+          isEditable: false,
+        },
+      };
+    });
+    const body = {
+      transactionUpdates: newSavedTrasections,
+      companyId: companyId,
+    };
+    const response = await updateMultipleTransections(body);
+    console.log(response.data);
+    dispatch(setSavedTransections(response.data));
+  };
   const handlePost2QB = async (e) => {
     let amount = 0;
-    let lines = journalEntries.map((entry, index) => {
+    let lines = journalEntries?.map((entry, index) => {
       amount += entry.currentPeriodExpense;
       return {
         Id: index + 1,
@@ -44,7 +106,7 @@ const Index = () => {
         Amount: entry.currentPeriodExpense,
         DetailType: "JournalEntryLineDetail",
         JournalEntryLineDetail: {
-          PostingType: "Credit",
+          PostingType: "Debit",
           AccountRef: {
             name: entry.expenseAccountValue, // Replace with actual Account ID
           },
@@ -59,7 +121,7 @@ const Index = () => {
         Amount: amount,
         DetailType: "JournalEntryLineDetail",
         JournalEntryLineDetail: {
-          PostingType: "Debit",
+          PostingType: "Credit",
           AccountRef: {
             name: "Prepaid Expenses", // Replace with actual Account ID
           },
@@ -68,7 +130,9 @@ const Index = () => {
     ];
     const body = { Line: lines };
     const response = await postJournalEntry(body);
-    console.log(response.data);
+    const updateTransectionsResponse = await handleUpdateTransections();
+    dispatch(setSavedTransections(updateTransectionsResponse.data));
+    console.log(updateTransectionsResponse.data);
   };
   const handleDownload = (e) => {};
   const dispatch = useDispatch();

@@ -125,3 +125,69 @@ exports.updateTransaction = async (req, res) => {
     });
   }
 };
+exports.updateMultipleTransactions = async (req, res) => {
+  try {
+    const { companyId, transactionUpdates } = req.body;
+
+    // Validate company
+    const company = await Companies.findOne(
+      { Kibi_CompanyId: companyId },
+      "_id"
+    ).exec();
+    if (!company) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Company not found" });
+    }
+
+    // Validate input
+    if (!Array.isArray(transactionUpdates) || transactionUpdates.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "A non-empty array of transaction updates is required",
+      });
+    }
+
+    // Check for invalid updates in transactionUpdates
+    const invalidUpdate = transactionUpdates.find(
+      (update) => !update.transactionId || !update.updatedData
+    );
+    if (invalidUpdate) {
+      return res.status(400).json({
+        success: false,
+        message: "Each update must have a transactionId and updatedData",
+      });
+    }
+
+    // Prepare bulk update operations
+    const updateOps = transactionUpdates.map((update) => ({
+      updateOne: {
+        filter: { Kibi_tid: update.transactionId, Kibi_CompanyId: company._id },
+        update: { $set: update.updatedData },
+      },
+    }));
+
+    // Execute bulk update
+    await Transactions.bulkWrite(updateOps, {
+      ordered: false,
+      runValidators: true,
+    });
+
+    // Optionally fetch updated transactions if needed
+    const updatedTransactions = await Transactions.find({
+      Kibi_CompanyId: company._id,
+    }).exec();
+    res.status(200).json({ success: true, data: updatedTransactions });
+
+    // res
+    //   .status(200)
+    //   .json({ success: true, message: "Transactions updated successfully" });
+  } catch (error) {
+    console.error("Error updating multiple transactions:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error updating multiple transactions",
+      error: error.message,
+    });
+  }
+};

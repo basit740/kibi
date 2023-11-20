@@ -9,6 +9,10 @@ const AmortizationWaterfallSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  isPaid: {
+    type: Boolean,
+    default: false,
+  },
 });
 const TransactionsSchema = new mongoose.Schema({
   Kibi_User: {
@@ -60,7 +64,7 @@ const TransactionsSchema = new mongoose.Schema({
   expensedToDate: {
     type: Number,
   },
-  remainingEspense: {
+  remainingExpense: {
     type: Number,
   },
   currentPeriodExpense: {
@@ -74,6 +78,10 @@ const TransactionsSchema = new mongoose.Schema({
   },
   remainingMonths: {
     type: Number,
+  },
+  isEditable: {
+    type: Boolean,
+    default: true,
   },
   amortizationWaterfall: [AmortizationWaterfallSchema],
 });
