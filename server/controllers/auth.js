@@ -27,7 +27,7 @@ exports.getAuthUri = async (req, res) => {
 
 exports.authenticateUser = async (req, res) => {
   try {
-    console.log({ url: req.body });
+    console.log({ url: req.body.url });
     const authResponse = await getAuthResponse(req.body.url);
 
     const [userInfo, companyInfo, accounts] = await Promise.all([

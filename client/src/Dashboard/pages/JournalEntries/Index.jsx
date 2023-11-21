@@ -131,6 +131,7 @@ const Index = () => {
     const body = { Line: lines };
     const response = await postJournalEntry(body);
     const updateTransectionsResponse = await handleUpdateTransections();
+
     dispatch(setSavedTransections(updateTransectionsResponse.data));
     console.log(updateTransectionsResponse.data);
   };

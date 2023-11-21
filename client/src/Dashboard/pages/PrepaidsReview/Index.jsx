@@ -398,22 +398,14 @@ const Index = () => {
           />
         </Card>
       </div>
-      {rows && (
-        <Table
-          title="Prepaids Review"
-          scrollable={true}
-          tableData={tableData}
-        />
-      )}
+      <Table title="Prepaids Review" scrollable={true} tableData={tableData} />
       <div className="flex just-end mt-32">
         <Button
           title="Prepare of Journal Entry"
           onClick={handlePrepare4Jentry}
         />
       </div>{" "}
-      {savedTransections.length > 0 && (
-        <Table title="Subledger" scrollable={true} tableData={tableData2} />
-      )}
+      <Table title="Subledger" scrollable={true} tableData={tableData2} />
     </Container>
   );
 };
