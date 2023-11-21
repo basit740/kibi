@@ -237,7 +237,183 @@ a {
 .grid-41 {
   grid-template-columns: repeat(41, 1fr);
 }
-
+.grid-42 {
+  grid-template-columns: repeat(42, 1fr);
+}
+.grid-43 {
+  grid-template-columns: repeat(43, 1fr);
+}
+.grid-44 {
+  grid-template-columns: repeat(44, 1fr);
+}
+.grid-45 {
+  grid-template-columns: repeat(45, 1fr);
+}
+.grid-46 {
+  grid-template-columns: repeat(46, 1fr);
+}
+.grid-47 {
+  grid-template-columns: repeat(47, 1fr);
+}
+.grid-48 {
+  grid-template-columns: repeat(48, 1fr);
+}
+.grid-49 {
+  grid-template-columns: repeat(49, 1fr);
+}
+.grid-50 {
+  grid-template-columns: repeat(50, 1fr);
+}
+.grid-51 {
+  grid-template-columns: repeat(51, 1fr);
+}
+.grid-52 {
+  grid-template-columns: repeat(52, 1fr);
+}
+.grid-53 {
+  grid-template-columns: repeat(53, 1fr);
+}
+.grid-54 {
+  grid-template-columns: repeat(54, 1fr);
+}
+.grid-55 {
+  grid-template-columns: repeat(55, 1fr);
+}
+.grid-56 {
+  grid-template-columns: repeat(56, 1fr);
+}
+.grid-57 {
+  grid-template-columns: repeat(57, 1fr);
+}
+.grid-58 {
+  grid-template-columns: repeat(58, 1fr);
+}
+.grid-59 {
+  grid-template-columns: repeat(59, 1fr);
+}
+.grid-60 {
+  grid-template-columns: repeat(60, 1fr);
+}
+.grid-61 {
+  grid-template-columns: repeat(61, 1fr);
+}
+.grid-62 {
+  grid-template-columns: repeat(62, 1fr);
+}
+.grid-63 {
+  grid-template-columns: repeat(63, 1fr);
+}
+.grid-64 {
+  grid-template-columns: repeat(64, 1fr);
+}
+.grid-65 {
+  grid-template-columns: repeat(65, 1fr);
+}
+.grid-66 {
+  grid-template-columns: repeat(66, 1fr);
+}
+.grid-67 {
+  grid-template-columns: repeat(67, 1fr);
+}
+.grid-68 {
+  grid-template-columns: repeat(68, 1fr);
+}
+.grid-69 {
+  grid-template-columns: repeat(69, 1fr);
+}
+.grid-70 {
+  grid-template-columns: repeat(70, 1fr);
+}
+.grid-71 {
+  grid-template-columns: repeat(71, 1fr);
+}
+.grid-72 {
+  grid-template-columns: repeat(72, 1fr);
+}
+.grid-73 {
+  grid-template-columns: repeat(73, 1fr);
+}
+.grid-74 {
+  grid-template-columns: repeat(74, 1fr);
+}
+.grid-75 {
+  grid-template-columns: repeat(75, 1fr);
+}
+.grid-76 {
+  grid-template-columns: repeat(76, 1fr);
+}
+.grid-77 {
+  grid-template-columns: repeat(77, 1fr);
+}
+.grid-78 {
+  grid-template-columns: repeat(78, 1fr);
+}
+.grid-79 {
+  grid-template-columns: repeat(79, 1fr);
+}
+.grid-80 {
+  grid-template-columns: repeat(80, 1fr);
+}
+.grid-81 {
+  grid-template-columns: repeat(81, 1fr);
+}
+.grid-82 {
+  grid-template-columns: repeat(82, 1fr);
+}
+.grid-83 {
+  grid-template-columns: repeat(83, 1fr);
+}
+.grid-84 {
+  grid-template-columns: repeat(84, 1fr);
+}
+.grid-85 {
+  grid-template-columns: repeat(85, 1fr);
+}
+.grid-86 {
+  grid-template-columns: repeat(86, 1fr);
+}
+.grid-87 {
+  grid-template-columns: repeat(87, 1fr);
+}
+.grid-88 {
+  grid-template-columns: repeat(88, 1fr);
+}
+.grid-89 {
+  grid-template-columns: repeat(89, 1fr);
+}
+.grid-90 {
+  grid-template-columns: repeat(90, 1fr);
+}
+.grid-91 {
+  grid-template-columns: repeat(91, 1fr);
+}
+.grid-92 {
+  grid-template-columns: repeat(92, 1fr);
+}
+.grid-93 {
+  grid-template-columns: repeat(93, 1fr);
+}
+.grid-94 {
+  grid-template-columns: repeat(94, 1fr);
+}
+.grid-95 {
+  grid-template-columns: repeat(95, 1fr);
+}
+.grid-96 {
+  grid-template-columns: repeat(96, 1fr);
+}
+.grid-97 {
+  grid-template-columns: repeat(97, 1fr);
+}
+.grid-98 {
+  grid-template-columns: repeat(98, 1fr);
+}
+.grid-99 {
+  grid-template-columns: repeat(99, 1fr);
+}
+.grid-100 {
+  grid-template-columns: repeat(100, 1fr);
+}
 /* WIDTH */
 .w-30 {
   width: 30%;

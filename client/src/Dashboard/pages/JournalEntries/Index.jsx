@@ -215,13 +215,7 @@ const Index = () => {
           <Button title="Download" variant="fill" onClick={handleDownload} />
         </div>
       </div>
-      {journalEntries.length > 0 && (
-        <Table
-          title="Journal Entries"
-          scrollable={true}
-          tableData={tableData}
-        />
-      )}
+      <Table title="Journal Entries" scrollable={true} tableData={tableData} />
 
       <h2 className="section_heading mt-32 mb-32">
         Historical Journal Entries

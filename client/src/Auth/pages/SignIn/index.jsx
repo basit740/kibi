@@ -190,6 +190,7 @@ const Index = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          height: "100vh",
         }}
       >
         <Loader size={"lg"} />
@@ -216,7 +217,7 @@ const Index = () => {
             </div>
           </Control>
           <Control className="intuit" onClick={handleClickInuite}>
-            Sign In With Intuit -{intuitLoading && <Loader size="sm" />}
+            {intuitLoading ? <Loader size="sm" /> : "Sign In With Intuit -"}
           </Control>
 
           <Divider />

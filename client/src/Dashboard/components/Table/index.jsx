@@ -33,23 +33,29 @@ const Table = ({ tableData, title, scrollable }) => {
             ))}
           </TableRow>
         </div>
-        <div className="table__body">
-          {Rows.map((row, rowIndex) => (
-            <TableRow key={rowIndex} headingsLength={Columns.length}>
-              {Columns.map((column, cellIndex) => {
-                console.log(row?.Kibi_tid);
-                const cellContent = column.renderCell
-                  ? column.renderCell(row)
-                  : row[column?.field];
-                return (
-                  <TableCell key={`${cellIndex}${row?.Kibi_tid}`}>
-                    {cellContent}
-                  </TableCell>
-                );
-              })}
-            </TableRow>
-          ))}
-        </div>
+        {Rows?.length > 0 ? (
+          <div className="table__body">
+            {Rows.map((row, rowIndex) => (
+              <TableRow key={rowIndex} headingsLength={Columns.length}>
+                {Columns.map((column, cellIndex) => {
+                  console.log(row?.Kibi_tid);
+                  const cellContent = column.renderCell
+                    ? column.renderCell(row)
+                    : row[column?.field];
+                  return (
+                    <TableCell key={`${cellIndex}${row?.Kibi_tid}`}>
+                      {cellContent}
+                    </TableCell>
+                  );
+                })}
+              </TableRow>
+            ))}
+          </div>
+        ) : (
+          <div className="table__body">
+            <p className="table__placeholder">No data to show</p>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -148,7 +148,7 @@ const intuitSlice = createSlice({
             amortizationEndDateValue: transection.amortizationEndDateValue,
             amount: transection.amount,
             expensedToDate: transection.expensedToDate,
-            remainingExpanse: transection.remainingEspense,
+            remainingExpense: transection.remainingExpense,
             ...newWaterfall,
           };
         }

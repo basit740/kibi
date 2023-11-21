@@ -112,6 +112,53 @@ const Index = () => {
       ],
       Rows: amortizationWaterfallEntries,
     };
+  } else {
+    tableData = {
+      Columns: [
+        {
+          field: "num",
+          headerName: "Num",
+          sortable: true,
+        },
+        { field: "name", headerName: "Name", sortable: true },
+        {
+          field: "description",
+          headerName: "Memo/Description",
+          sortable: true,
+        },
+        {
+          field: "expenseAccountValue",
+          headerName: "Expense Account",
+          sortable: true,
+        },
+        {
+          field: "amortizationStartDateValue",
+          headerName: "Amortization Start Date",
+          sortable: true,
+        },
+        {
+          field: "amortizationEndDateValue",
+          headerName: "Amortization End Date",
+          sortable: true,
+        },
+        {
+          field: "amount",
+          headerName: "Orignal Amount",
+          sortable: true,
+        },
+        {
+          field: "expensedToDate",
+          headerName: "Expensed To Date",
+          sortable: true,
+        },
+        {
+          field: "remainingExpense",
+          headerName: "Remaining",
+          sortable: true,
+        },
+      ],
+      Rows: amortizationWaterfallEntries,
+    };
   }
   useEffect(() => {
     (async () => {
