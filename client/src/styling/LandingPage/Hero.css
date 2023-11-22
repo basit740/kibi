@@ -1,48 +1,63 @@
 .section-hero {
 }
 .section-hero__content {
-	max-width: 800px;
-	margin: 0 auto;
+  max-width: 800px;
+  margin: 0 auto;
 
-	color: #fff;
-	padding: 5.8rem 0;
-	text-align: center;
+  color: #fff;
+  padding: 5.8rem 0;
+  text-align: center;
 }
 .hero__title {
-	font-family: 'Gotham' !important;
-	font-size: 48px;
-	text-align: center;
-	margin-bottom: 1rem;
-	line-height: 120%;
+  font-family: "Gotham" !important;
+  font-size: 48px;
+  text-align: center;
+  margin-bottom: 1rem;
+  line-height: 120%;
 }
 .hero__description {
-	font-size: 1.6rem;
-	font-family: 'Poppins' !important;
-	text-align: center;
+  font-size: 1.6rem;
+  font-family: "Poppins" !important;
+  text-align: center;
 
-	width: 85%;
-	margin: 0 auto;
-	margin-bottom: 3rem;
+  width: 85%;
+  margin: 0 auto;
+  margin-bottom: 3rem;
 }
 .cta {
-	display: inline-block;
-	cursor: pointer;
-	text-decoration: none;
-	padding: 17px 32px;
-	background-color: #fff;
-	border-radius: 5px;
-	line-height: 120%;
-	font-size: 1.8rem;
-	font-family: 'Poppins' !important;
-	color: var(--primary-color);
-	transition: all 0.3s;
-	margin-bottom: 5.8rem;
+  display: inline-block;
+  cursor: pointer;
+  text-decoration: none;
+  padding: 17px 32px;
+  background-color: #fff;
+  border-radius: 5px;
+  line-height: 120%;
+  font-size: 1.8rem;
+  font-family: "Poppins" !important;
+  color: var(--primary-color);
+  transition: all 0.3s;
+  margin-bottom: 5.8rem;
 }
 .cta:hover {
-	background-color: transparent;
-	color: #ddd;
-	box-shadow: 0 0 0 1px #ddd;
+  background-color: transparent;
+  color: #ddd;
+  box-shadow: 0 0 0 1px #ddd;
 }
 .cta:active {
-	transform: translateY(3px);
+  transform: translateY(3px);
+}
+
+@media only screen and (min-width: 601px) and (max-width: 1024px) {
+  /* Your CSS styles for tablets */
+  .hero__title {
+    margin: 20px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  /* Your CSS styles for mobile screens */
+  .hero__title {
+    font-size: 5rem;
+    margin: 20px;
+  }
 }

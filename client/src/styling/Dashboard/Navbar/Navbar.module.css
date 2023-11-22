@@ -1,81 +1,81 @@
 .navbar {
-	padding: 1.6rem 2.4rem;
-	background-color: var(--bg-color-1);
+  padding: 1.6rem 2.4rem;
+  background-color: var(--bg-color-1);
 
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: 4rem;
-	color: var(--text-color-black--90);
-	font-family: 'Poppins' !important;
-	/* box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.005); */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4rem;
+  color: var(--text-color-black--90);
+  font-family: "Poppins" !important;
+  /* box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.005); */
 }
 .navbar__title_link {
-	color: var(--text-color-black--100);
-	text-decoration: none;
+  color: var(--text-color-black--100);
+  text-decoration: none;
 }
 .navbar__title {
-	font-size: 2rem;
-	line-height: 100%;
-	font-weight: 500;
-	color: var(--text-color-black--100);
+  font-size: 2rem;
+  line-height: 100%;
+  font-weight: 500;
+  color: var(--text-color-black--100);
 }
 .quickbooks-sync {
-	display: flex;
-	align-items: center;
-	gap: 1.6rem;
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
 }
 .quickbooks-sync__label {
-	font-style: normal;
-	font-weight: 400;
-	font-size: 14px;
-	line-height: 100%;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 100%;
 }
 .quickbooks-sync__last-time {
-	font-size: 13px;
-	font-weight: 300;
-	color: var(--text-color-black--80);
-	transition: all 0.3s ease-in-out;
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--text-color-black--80);
+  transition: all 0.3s ease-in-out;
 }
 .quicbooks-sync__button {
-	font-size: 12px;
-	padding: 10px;
-	border-radius: 5px;
-	cursor: pointer;
-	transition: all 0.4s;
-	background-color: transparent;
-	border: 1px solid var(--text-color-black-80);
-	display: flex;
-	align-items: center;
-	gap: 0.8rem;
-	padding: 8px 10px;
-	border-radius: 8px;
+  font-size: 12px;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.4s;
+  background-color: transparent;
+  border: 1px solid var(--text-color-black-80);
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 8px 10px;
+  border-radius: 8px;
 }
 
 svg {
-	transition: all 0.3s;
+  transition: all 0.3s;
 }
 
 .quicbooks-sync__button svg {
-	transition: all 0.4s;
+  transition: all 0.4s;
 }
 .syncing svg {
-	/* transform: rotate(360deg); */
+  /* transform: rotate(360deg); */
 
-	animation-name: infinite-rotate;
-	animation-duration: 2s;
-	animation-timing-function: linear;
-	animation-iteration-count: infinite;
+  animation-name: infinite-rotate;
+  animation-duration: 2s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 }
 
 .quicbooks-sync__button:active {
 }
 .navbar__user-img {
-	cursor: pointer;
-	width: 4rem;
-	height: 4rem;
-	border-radius: 50%;
-	object-fit: cover;
+  cursor: pointer;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 /* ANIMATIONS */
@@ -83,10 +83,67 @@ svg {
 /*infinite rotation*/
 
 @keyframes infinite-rotate {
-	0% {
-		transform: rotate(0deg);
-	}
-	100% {
-		transform: rotate(360deg);
-	}
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@media only screen and (min-width: 601px) and (max-width: 1024px) {
+  .navbar {
+    padding: 1.2rem 1.6rem; /* Smaller padding */
+    gap: 2rem; /* Smaller gap */
+  }
+
+  .navbar__title {
+    font-size: 1.5rem; /* Smaller font size */
+  }
+
+  .quickbooks-sync {
+    gap: 1rem; /* Smaller gap */
+  }
+
+  .quickbooks-sync__label,
+  .quickbooks-sync__last-time,
+  .quicbooks-sync__button {
+    font-size: 12px; /* Smaller font size */
+  }
+
+  .navbar__user-img {
+    width: 3rem; /* Smaller image */
+    height: 3rem; /* Smaller image */
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .navbar {
+    padding: 1rem; /* Even smaller padding */
+    flex-direction: column; /* Stack elements vertically */
+    gap: 1rem; /* Adjust gap */
+  }
+
+  .navbar__title {
+    font-size: 1.2rem; /* Even smaller font size */
+    text-align: center; /* Center title */
+  }
+
+  .quickbooks-sync {
+    flex-direction: column; /* Stack elements vertically */
+    align-items: start; /* Align to start */
+  }
+
+  .quickbooks-sync__label,
+  .quickbooks-sync__last-time,
+  .quicbooks-sync__button {
+    font-size: 11px; /* Even smaller font size */
+  }
+
+  .navbar__user-img {
+    width: 2.5rem; /* Even smaller image */
+    height: 2.5rem; /* Even smaller image */
+  }
+
+  /* You might want to hide some elements or add a hamburger menu for navigation */
 }

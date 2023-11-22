@@ -1,17 +1,25 @@
 .hero-image {
-	max-width: 1016px;
-	width: 100%;
-	margin: 0 auto;
-	position: absolute;
-	left: 50%;
-	top: 41%;
-	transform: translateX(-50%);
+  max-width: 1016px;
+  width: 100%;
+  margin: 0 auto;
+  position: absolute;
+  left: 50%;
+  top: 41%;
+  transform: translateX(-50%);
 }
 
 .hero__img-container {
 }
 .hero-image img {
-	width: 100%;
-	z-index: 1000;
-	border-radius: 5px;
+  width: 100%;
+  z-index: 1000;
+  border-radius: 5px;
+}
+
+@media only screen and (max-width: 600px) {
+  /* Your CSS styles for mobile screens */
+  .hero-image {
+    top: auto;
+    bottom: 0%;
+  }
 }
