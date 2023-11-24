@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const ClassSchema = new mongoose.Schema({
+const LocationSchema = new mongoose.Schema({
   Kibi_User: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Users",
@@ -11,11 +11,11 @@ const ClassSchema = new mongoose.Schema({
     ref: "Companies",
     required: true,
   },
-  Kibi_ClassId: {
+  Kibi_LocationId: {
     type: String,
     required: true,
   },
-  ClassName: {
+  LocationName: {
     type: String,
     required: true,
   },
@@ -29,5 +29,5 @@ const ClassSchema = new mongoose.Schema({
   },
 });
 
-const Class = mongoose.model("Class", ClassSchema);
-module.exports = Class;
+const Location = mongoose.model("Location", LocationSchema);
+module.exports = Location;

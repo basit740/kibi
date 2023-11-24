@@ -17,6 +17,7 @@ const auth = require("./routes/Auth.js");
 const classes = require("./routes/Class.js");
 const transections = require("./routes/Transections.js");
 const journalEntry = require("./routes/JournalEntry.js");
+const locations = require("./routes/Locations.js");
 dotenv.config({
   path: "./.env",
 });
@@ -46,9 +47,11 @@ app.listen(PORT, () =>
 // Mount routers
 app.use("/api/v1", accounts);
 app.use("/api/v1/auth", auth);
-app.use("/api/v1/class", classes);
 app.use("/api/v1/transections", transections);
 app.use("/api/v1/journal-entry", journalEntry);
+app.use("/api/v1/classes", classes);
+app.use("/api/v1/locations", locations);
+
 // -------------------------------- Handling HTTP Requests -----------------------
 
 app.get("/", (req, res) => {

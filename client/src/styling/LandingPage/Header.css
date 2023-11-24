@@ -79,6 +79,16 @@
 }
 @media only screen and (max-width: 600px) {
   /* Your CSS styles for mobile screens */
+  .main-nav__list {
+    gap: 1rem;
+  }
+  .brand {
+    height: auto;
+  }
+  .main-nav__link {
+    font-size: 1.6rem;
+    padding: 10px 15px;
+  }
   .header {
     min-height: 600px;
   }

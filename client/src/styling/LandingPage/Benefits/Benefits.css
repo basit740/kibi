@@ -21,6 +21,7 @@
   text-align: center;
   font-size: 1.6rem;
   line-height: 160%;
+  padding: 0 20px;
   max-width: 645px;
   margin: 0 auto;
   color: var(--text-color-black-70);

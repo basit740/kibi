@@ -90,6 +90,31 @@ exports.getClassDetails = async () => {
   return { classes: classes.getJson() };
 };
 
+// exports.getExpenseTransactionsByMonth = async (
+//   expenseAccountName = "Prepaid Expenses",
+//   year = 2023,
+//   month = 10
+// ) => {
+//   const companyID = oauthClient.getToken().realmId;
+//   const environmentUrl = getEnvironmentUrl();
+//   const { fromDate, toDate } = getTransactionDateRange(year, month);
+
+//   const url =
+//     `${environmentUrl}/v3/company/${companyID}/reports/TransactionList?` +
+//     `accountName=${encodeURIComponent(expenseAccountName)}&` +
+//     `date_macro=This%20Month&start_date=${fromDate}&end_date=${toDate}`;
+
+//   try {
+//     const transactionsResponse = await makeApiCall(url);
+//     const transactions = transactionsResponse.getJson();
+//     console.log(transactions);
+//     return { transactions: transactions?.Rows?.Row?.map(parseTransactionData) };
+//   } catch (error) {
+//     console.error("Error fetching expense transactions:", error);
+//     throw new Error("Failed to fetch transactions");
+//   }
+// };
+
 exports.getExpenseTransactionsByMonth = async (
   expenseAccountName = "Prepaid Expenses",
   year = 2023,
@@ -98,21 +123,24 @@ exports.getExpenseTransactionsByMonth = async (
   const companyID = oauthClient.getToken().realmId;
   const environmentUrl = getEnvironmentUrl();
   const { fromDate, toDate } = getTransactionDateRange(year, month);
+  const transactionTypes = ["Bill", "Invoice"];
+  let allTransactions = [];
 
-  const url =
-    `${environmentUrl}/v3/company/${companyID}/reports/TransactionList?` +
-    `accountName=${encodeURIComponent(expenseAccountName)}&` +
-    `date_macro=This%20Month&start_date=${fromDate}&end_date=${toDate}`;
+  for (const type of transactionTypes) {
+    const url = `${environmentUrl}/v3/company/${companyID}/query?query=select * from ${type} where AccountRef.Name = '${expenseAccountName}' and TxnDate >= '${fromDate}' and TxnDate < '${toDate}'`;
 
-  try {
-    const transactionsResponse = await makeApiCall(url);
-    const transactions = transactionsResponse.getJson();
-    console.log(transactions);
-    return { transactions: transactions?.Rows?.Row?.map(parseTransactionData) };
-  } catch (error) {
-    console.error("Error fetching expense transactions:", error);
-    throw new Error("Failed to fetch transactions");
+    try {
+      const transactionsResponse = await makeApiCall(url);
+      const transactions = transactionsResponse.getJson().QueryResponse[type];
+      allTransactions = allTransactions.concat(
+        transactions.map(parseTransactionData)
+      );
+    } catch (error) {
+      console.error(`Error fetching ${type} transactions:`, error);
+    }
   }
+
+  return { transactions: allTransactions };
 };
 
 function getEnvironmentUrl() {
@@ -230,6 +258,47 @@ const getAccountIdsByNames = async (accountNames) => {
   } catch (error) {
     console.error("Error fetching accounts:", error.message || error);
     throw error; // Re-throw the error for handling upstream
+  }
+};
+
+exports.getLocations = async () => {
+  const companyID = oauthClient.getToken().realmId;
+  const environmentUrl = getEnvironmentUrl();
+
+  const url = `${environmentUrl}/v3/company/${companyID}/query?query=select * from Department`;
+
+  try {
+    const response = await makeApiCall(url);
+    const locations = response.getJson().QueryResponse.Department;
+
+    return locations.map((loc) => ({
+      id: loc.Id,
+      name: loc.Name,
+      // other fields if needed
+    }));
+  } catch (error) {
+    console.error("Error fetching locations:", error);
+    throw new Error("Failed to fetch locations");
+  }
+};
+exports.getClasses = async () => {
+  const companyID = oauthClient.getToken().realmId;
+  const environmentUrl = getEnvironmentUrl();
+
+  const url = `${environmentUrl}/v3/company/${companyID}/query?query=select * from Class`;
+
+  try {
+    const response = await makeApiCall(url);
+    const classes = response.getJson().QueryResponse.Class;
+
+    return classes.map((cls) => ({
+      id: cls.Id,
+      name: cls.Name,
+      // other fields if needed
+    }));
+  } catch (error) {
+    console.error("Error fetching classes:", error);
+    throw new Error("Failed to fetch classes");
   }
 };
 

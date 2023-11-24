@@ -14,6 +14,16 @@ const AmortizationWaterfallSchema = new mongoose.Schema({
     default: false,
   },
 });
+const ClassSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  value: {
+    type: String,
+    required: true,
+  },
+});
 const TransactionsSchema = new mongoose.Schema({
   Kibi_User: {
     type: mongoose.Schema.Types.ObjectId,
@@ -61,6 +71,9 @@ const TransactionsSchema = new mongoose.Schema({
   expenseAccountValue: {
     type: String,
   },
+  classValue: {
+    type: ClassSchema,
+  },
   expensedToDate: {
     type: Number,
   },
@@ -84,6 +97,9 @@ const TransactionsSchema = new mongoose.Schema({
     default: true,
   },
   amortizationWaterfall: [AmortizationWaterfallSchema],
+  Id: {
+    type: String,
+  },
 });
 
 const Transactions = mongoose.model("Transactions", TransactionsSchema);

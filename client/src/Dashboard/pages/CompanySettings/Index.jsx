@@ -13,6 +13,7 @@ import {
   useGetAccountsQuery,
   useGetSelectAllAccountsValueQuery,
 } from "store/api/apiSlice";
+import { getClasses, getLocations } from "services/intuit";
 
 const tableData2 = {
   Columns: [
@@ -233,6 +234,13 @@ const Index = () => {
     }
   }, [accounts]);
 
+  useEffect(() => {
+    (async () => {
+      const classes = await getClasses();
+      const locations = await getLocations();
+      console.log(classes, locations);
+    })();
+  }, []);
   const tableData = {
     Columns: [
       { field: "accountNumber", headerName: "Account Number", sortable: false },

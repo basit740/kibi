@@ -11,6 +11,25 @@ const INTUIT_SERVER_URL = import.meta.env.VITE_INTUIT_SERVER_URL;
 // -d 'code=REPLACE_WITH_AUTHORIZATION_CODE' \
 // -d 'redirect_uri=REPLACE_WITH_REDIRECT_URI'
 
+const getAccounts = async (companyId) => {
+  const response = await axios.get(
+    `${API_URL}/account-details?companyId=${companyId}`
+  );
+  return response.data.map((row) =>
+    row.AccountNumber ? row : { ...row, AccountNumber: "XXXX" }
+  );
+};
+// const getSelectAllAccountsValue = async () => {
+//   const response = await axios.get(`${API_URL}/get-selectall-accounts-value`);
+//   return response.data.SelectAllValue;
+// };
+// const changeAllAccountsAvailabilityStatus = async (body) => {
+//   await axios.post(`${API_URL}/change-all-accounts-availability-status`, body);
+// };
+const updateAccountStatus = async (body) => {
+  await axios.post(`${API_URL}/change-availablility-status`, body);
+};
+
 export const getIntuitAccessToken = async (payload) => {
   const clientId = import.meta.env.VITE_INTUIT_CLIENT_ID;
   const clientSecret = import.meta.env.VITE_INTUIT_CLIENT_SECRET;
@@ -268,6 +287,7 @@ export const getTransections = async (month, year) => {
     console.error("Error:", error);
   }
 };
+
 export const getQuickbooksBalance = async () => {
   try {
     const companyId = localStorage.getItem("companyId");
@@ -280,6 +300,39 @@ export const getQuickbooksBalance = async () => {
   }
 };
 
+export const getClasses = async () => {
+  try {
+    const companyId = localStorage.getItem("companyId");
+    const response = await axios.get(
+      `${API_URL}/classes?companyId=${companyId}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching classes:", error);
+    if (error.response) {
+      throw error.response.data;
+    } else {
+      throw error.message;
+    }
+  }
+};
+
+export const getLocations = async () => {
+  try {
+    const companyId = localStorage.getItem("companyId");
+    const response = await axios.get(
+      `${API_URL}/locations?companyId=${companyId}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching locations:", error);
+    if (error.response) {
+      throw error.response.data;
+    } else {
+      throw error.message;
+    }
+  }
+};
 ///intuit-get-user-info
 
 //validate-id-token
