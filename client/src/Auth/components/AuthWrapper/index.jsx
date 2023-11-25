@@ -10,7 +10,7 @@ const Index = ({ title, children }) => {
         <div className="auth-wrapper__header">
           <img
             className="auth-wrapper__logo"
-            src="icons/color-logo-1.png"
+            src="/icons/color-logo-1.png"
             alt=""
           />
           <h2 className="auth-wrapper__title">{title}</h2>

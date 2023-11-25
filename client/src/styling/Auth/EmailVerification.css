@@ -1,0 +1,54 @@
+/* General Styling for Email Verification Page */
+.email-verification {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* height: 100vh; */
+  font-family: "Gotham" !important;
+  background-color: #f2f4f8;
+}
+
+.verification-container {
+  text-align: center;
+  background: #fff;
+  border-radius: 8px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Heading Styling */
+.verification-container h2 {
+  color: #023047;
+  font-family: "Gotham" !important;
+  font-size: 1.6rem;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+/* Paragraph Text Styling */
+.verification-container p {
+  color: #141414;
+  font-family: "Gotham" !important;
+  font-size: 1.2rem;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+/* Email Icon Styling */
+.email-icon {
+  width: 100px;
+  margin-bottom: 20px;
+}
+
+/* Styling for Links */
+.verification-container a {
+  color: #4688e8;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.verification-container a:hover {
+  text-decoration: underline;
+}

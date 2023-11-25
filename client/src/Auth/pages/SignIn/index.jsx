@@ -156,11 +156,11 @@ const Index = () => {
               companyId: data.data.companyId,
             });
 
-            localStorage.setItem("loggedIn", true);
             localStorage.setItem("intuitLoggedIn", true);
             localStorage.setItem("user", JSON.stringify(data.data.userInfo));
             localStorage.setItem("companyId", data.data.companyId);
             localStorage.setItem("userId", data.data.userInfo.email);
+            localStorage.setItem("intuitEmail", data.data.userInfo.email);
             localStorage.setItem("kibiUserName", data.data.userInfo.givenName);
 
             console.log(data.data.companyId);
@@ -168,7 +168,12 @@ const Index = () => {
               "authResponse",
               JSON.stringify(data.data.authResponse)
             );
-            navigate("/dashboard");
+            const isLoggedIn = localStorage.getItem("loggedIn");
+            if (isLoggedIn) {
+              navigate("/dashboard");
+            } else {
+              navigate("/login");
+            }
           } else {
             toast.error(data.message);
           }

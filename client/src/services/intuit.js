@@ -11,6 +11,19 @@ const INTUIT_SERVER_URL = import.meta.env.VITE_INTUIT_SERVER_URL;
 // -d 'code=REPLACE_WITH_AUTHORIZATION_CODE' \
 // -d 'redirect_uri=REPLACE_WITH_REDIRECT_URI'
 
+// AUTH REQUESTS
+export const register = async (body) => {
+  //remaining, expensed to date, ispaid
+  console.log(body);
+  try {
+    const response = await axios.post(`${API_URL}/auth/register`, body);
+    return response.data;
+  } catch (error) {
+    console.log("error", error);
+    throw error.response.data;
+  }
+};
+
 const getAccounts = async (companyId) => {
   const response = await axios.get(
     `${API_URL}/account-details?companyId=${companyId}`
